@@ -4,6 +4,7 @@ import Credentials from "next-auth/providers/credentials";
 const handler = NextAuth({
   providers: [
     Credentials({
+      credentials: {},
       async authorize(credentials) {
         return { id: "1", email: "test@test.com" };
       }
