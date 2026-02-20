@@ -156,115 +156,231 @@ export default function Navbar() {
             <Link href="/shop">Shop</Link>
             <Link href="/collections">Collections</Link>
 
-            {/* Creative - HOVER with container */}
+            {/* Creative - Enhanced Dropdown */}
             <div
-              className="relative"
+              className="relative group"
               onMouseEnter={() => setDesktopCreativeOpen(true)}
-
+              onMouseLeave={() => setDesktopCreativeOpen(false)}
             >
-              <button className="flex items-center gap-1">
+              <button className="flex items-center gap-1 py-5 hover:text-[#e6cfa7] transition-colors font-medium">
                 Creative & Handcrafted <ChevronDown size={16} />
               </button>
 
               {desktopCreativeOpen && (
-                <div className="absolute top-full mt-3 left-0 bg-white border rounded shadow-xl min-w-[260px] z-50" onMouseLeave={() => setDesktopCreativeOpen(false)}>
-                  {creativeCategories.map((cat) => (
-                    <div key={cat.slug} className="group relative">
-                      <Link
-                        href={`/${cat.slug}`}
-                        className="flex justify-between px-4 py-2 hover:bg-[#e6cfa7]/20"
-                      >
-                        {cat.label}
-                        {cat.submenu && <ChevronRight size={14} />}
-                      </Link>
+                <div className="absolute top-full left-0 bg-white border rounded-xl shadow-2xl min-w-[280px] z-50 animate-in fade-in slide-in-from-top-1 duration-200">
+                  <div className="py-2">
+                    {creativeCategories.map((cat) => (
+                      <div key={cat.slug} className="group/item relative">
+                        <Link
+                          href={`/${cat.slug}`}
+                          className="flex justify-between items-center px-6 py-3 text-sm text-gray-700 hover:bg-[#e6cfa7]/10 hover:text-black transition-colors"
+                        >
+                          <span>{cat.label}</span>
+                          {cat.submenu && <ChevronRight size={14} className="text-gray-400" />}
+                        </Link>
 
-                      {cat.submenu && (
-                        <div className="hidden group-hover:block absolute left-full top-0 ml-1 bg-white border rounded shadow-xl min-w-[220px] z-50">
-                          {cat.submenu.map((sub) => (
-                            <Link
-                              key={sub.slug}
-                              href={`/${sub.slug}`}
-                              className="block px-4 py-2 text-sm hover:bg-[#e6cfa7]/20"
-                            >
-                              {sub.label}
-                            </Link>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  ))}
+                        {cat.submenu && (
+                          <div className="hidden group-hover/item:block absolute left-full top-0 ml-0 bg-white border rounded-xl shadow-2xl min-w-[220px] z-50 overflow-hidden animate-in fade-in slide-in-from-left-1 duration-200">
+                            <div className="py-2">
+                              {cat.submenu.map((sub) => (
+                                <Link
+                                  key={sub.slug}
+                                  href={`/${sub.slug}`}
+                                  className="block px-6 py-2 text-sm text-gray-600 hover:bg-[#e6cfa7]/10 hover:text-black transition-colors"
+                                >
+                                  {sub.label}
+                                </Link>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
                 </div>
               )}
             </div>
 
-            {/* Crystals - HOVER with container */}
+            {/* Crystals - Meesho Style Mega Menu */}
             <div
-              className="relative"
+              className="relative group"
               onMouseEnter={() => setDesktopCrystalsOpen(true)}
+              onMouseLeave={() => setDesktopCrystalsOpen(false)}
             >
-              <button className="flex items-center gap-1">
+              <button className="flex items-center gap-1 py-5 hover:text-[#e6cfa7] transition-colors font-medium">
                 Crystals & Spiritual <ChevronDown size={16} />
               </button>
 
               {desktopCrystalsOpen && (
-                <div className="absolute top-full mt-3 left-0 bg-white border rounded shadow-xl min-w-[320px] z-50"
-                  onMouseLeave={() => setDesktopCrystalsOpen(false)}
-
-                >
-                  {crystalsCategories.map((cat) => (
-                    <div key={cat.slug} className="group relative">
-                      <Link
-                        href={`/${cat.slug}`}
-                        className="flex justify-between px-4 py-2 hover:bg-[#e6cfa7]/20"
-                      >
-                        {cat.label}
-                        {cat.submenu && <ChevronRight size={14} />}
-                      </Link>
-
-                      {cat.submenu && (
-                        <div className="hidden group-hover:block absolute left-full top-0 ml-1 bg-white border rounded shadow-xl min-w-[280px] max-h-[400px] overflow-y-auto z-50"
-
-                        >
-                          {cat.submenu.map((sub) => (
+                <div className="fixed left-0 right-0 top-[81px] bg-white border-b shadow-2xl z-50 animate-in fade-in slide-in-from-top-2 duration-300">
+                  <div className="max-w-7xl mx-auto px-6 py-10">
+                    <div className="grid grid-cols-4 gap-12">
+                      {/* Column 1: Core Crystals */}
+                      <div>
+                        <h3 className="text-black font-bold text-sm mb-6 border-b pb-2 border-gray-100">Crystals & Frames</h3>
+                        <div className="space-y-3">
+                          {crystalsCategories.filter(c =>
+                            ["Natural Crystals", "Crystal Frames", "Crystal Birds", "Crystal Trees", "Crystal Angles", "Crystal Balls", "Crystal Rings", "Anklets"].includes(c.label)
+                          ).map((cat) => (
                             <Link
-                              key={sub.slug}
-                              href={`/${sub.slug}`}
-                              className="block px-4 py-2 text-sm hover:bg-[#e6cfa7]/20"
+                              key={cat.slug}
+                              href={`/${cat.slug}`}
+                              className="block text-sm text-gray-500 hover:text-[#e6cfa7] transition-all"
                             >
-                              {sub.label}
+                              {cat.label}
                             </Link>
                           ))}
                         </div>
-                      )}
+                      </div>
+
+                      {/* Column 2: Decorative & Specialty Crystals */}
+                      <div>
+                        <h3 className="text-black font-bold text-sm mb-6 border-b pb-2 border-gray-100">Crystal Collection</h3>
+                        <div className="space-y-3">
+                          {crystalsCategories.filter(c =>
+                            ["Crystal Clocks", "Crystal Pyramid", "Crystal Pencils", "Crystal Box", "Crystal Idols", "Pyrite Dust Frames", "Crystal Seven Chakra Healing Frames", "Crystal Strings", "Crystal Animals"].includes(c.label)
+                          ).map((cat) => (
+                            <Link
+                              key={cat.slug}
+                              href={`/${cat.slug}`}
+                              className="block text-sm text-gray-500 hover:text-[#e6cfa7] transition-all"
+                            >
+                              {cat.label}
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Column 3: Spiritual & Pooja */}
+                      <div>
+                        <h3 className="text-black font-bold text-sm mb-6 border-b pb-2 border-gray-100">Spiritual & Pooja</h3>
+                        <div className="space-y-3">
+                          {crystalsCategories.filter(c =>
+                            ["Yantras", "Thakur Ji Dresses", "Rudraksh", "Pooja Items", "Sage"].includes(c.label)
+                          ).map((cat) => (
+                            <div key={cat.slug}>
+                              <Link
+                                href={`/${cat.slug}`}
+                                className="block text-sm text-gray-500 hover:text-[#e6cfa7] transition-all"
+                              >
+                                {cat.label}
+                              </Link>
+                              {cat.submenu && (
+                                <div className="ml-3 mt-1 space-y-1">
+                                  {cat.submenu.map(sub => (
+                                    <Link key={sub.slug} href={`/${sub.slug}`} className="block text-xs text-gray-400 hover:text-[#e6cfa7]">
+                                      {sub.label}
+                                    </Link>
+                                  ))}
+                                </div>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Column 4: Promo Space */}
+                      <div className="flex flex-col gap-4">
+                        <div className="bg-[#fcf8f1] p-6 rounded-2xl relative overflow-hidden group/promo">
+                          <div className="relative z-10">
+                            <h4 className="font-bold text-gray-900 mb-2">Crystal Healing</h4>
+                            <p className="text-xs text-gray-600 mb-4 leading-relaxed">Discover the power of natural crystals for your wellness.</p>
+                            <Link href="/shop" className="inline-block bg-black text-white px-5 py-2 text-xs font-semibold rounded-full hover:bg-gray-800 transition-colors">
+                              Explore Now
+                            </Link>
+                          </div>
+                          <div className="absolute -right-4 -bottom-4 opacity-10 group-hover/promo:scale-110 transition-transform">
+                            <Search size={120} />
+                          </div>
+                        </div>
+                        <div className="border border-gray-100 p-6 rounded-2xl">
+                          <h4 className="font-bold text-sm text-gray-900 mb-1">Expert Pick</h4>
+                          <p className="text-xs text-gray-500">Hand-selected spiritual items of the month.</p>
+                        </div>
+                      </div>
                     </div>
-                  ))}
+                  </div>
                 </div>
               )}
             </div>
 
-            {/* Remedies - HOVER with container */}
+            {/* Remedies - Meesho Style Mega Menu */}
             <div
-              className="relative"
+              className="relative group"
               onMouseEnter={() => setDesktopRemediesOpen(true)}
+              onMouseLeave={() => setDesktopRemediesOpen(false)}
             >
-              <button className="flex items-center gap-1">
+              <button className="flex items-center gap-1 py-5 hover:text-[#e6cfa7] transition-colors font-medium">
                 Remedies <ChevronDown size={16} />
               </button>
 
               {desktopRemediesOpen && (
-                <div className="absolute top-full mt-3 left-0 bg-white border rounded shadow-xl min-w-[220px] max-h-[500px] overflow-y-auto z-50"
-                  onMouseLeave={() => setDesktopRemediesOpen(false)}
+                <div className="fixed left-0 right-0 top-[81px] bg-white border-b shadow-2xl z-50 animate-in fade-in slide-in-from-top-2 duration-300">
+                  <div className="max-w-7xl mx-auto px-6 py-10">
+                    <div className="grid grid-cols-4 gap-12">
+                      {/* Column 1: Physical Well-being */}
+                      <div>
+                        <h3 className="text-black font-bold text-sm mb-6 border-b pb-2 border-gray-100">Health & Wellness</h3>
+                        <div className="space-y-3">
+                          {remediesCategories.slice(0, 5).map((item) => (
+                            <Link
+                              key={item.slug}
+                              href={`/${item.slug}`}
+                              className="block text-sm text-gray-500 hover:text-[#e6cfa7] transition-all"
+                            >
+                              {item.label}
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
 
-                >
-                  {remediesCategories.map((item) => (
-                    <Link
-                      key={item.slug}
-                      href={`/${item.slug}`}
-                      className="block px-4 py-2 hover:bg-[#e6cfa7]/20"
-                    >
-                      {item.label}
-                    </Link>
-                  ))}
+                      {/* Column 2: Emotional Well-being */}
+                      <div>
+                        <h3 className="text-black font-bold text-sm mb-6 border-b pb-2 border-gray-100">Success & Growth</h3>
+                        <div className="space-y-3">
+                          {remediesCategories.slice(5, 8).map((item) => (
+                            <Link
+                              key={item.slug}
+                              href={`/${item.slug}`}
+                              className="block text-sm text-gray-500 hover:text-[#e6cfa7] transition-all"
+                            >
+                              {item.label}
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Column 3: Chakra Balancing */}
+                      <div>
+                        <h3 className="text-black font-bold text-sm mb-6 border-b pb-2 border-gray-100">Chakra Alignment</h3>
+                        <div className="space-y-3">
+                          {remediesCategories.slice(8).map((item) => (
+                            <Link
+                              key={item.slug}
+                              href={`/${item.slug}`}
+                              className="block text-sm text-gray-500 hover:text-[#e6cfa7] transition-all"
+                            >
+                              {item.label}
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Column 4: CTA */}
+                      <div className="border-l border-gray-100 pl-12">
+                        <div className="bg-[#fff9f1] p-8 rounded-3xl text-center">
+                          <div className="w-16 h-16 bg-[#e6cfa7]/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <ShoppingCart className="text-[#e6cfa7]" size={24} />
+                          </div>
+                          <h4 className="font-bold text-gray-900 mb-2">Need a Consultation?</h4>
+                          <p className="text-xs text-gray-600 mb-6 leading-relaxed">Our specialists can guide you to the perfect remedy.</p>
+                          <Link href="/experts" className="text-sm font-bold text-[#e6cfa7] hover:underline">
+                            Request Callback
+                          </Link>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               )}
             </div>
