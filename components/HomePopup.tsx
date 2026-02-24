@@ -10,21 +10,20 @@ export default function HomePopup() {
 
   useEffect(() => {
     // Check if popup has been shown before
-    const hasSeenPopup = localStorage.getItem("hasSeenPopup");
+    // Temporarily disabled for testing so it always shows
+    // const hasSeenPopup = localStorage.getItem("hasSeenPopup");
 
-    if (!hasSeenPopup) {
-      const timer = setTimeout(() => {
-        setShow(true);
-      }, 1000);
+    const timer = setTimeout(() => {
+      setShow(true);
+    }, 1000);
 
-      return () => clearTimeout(timer);
-    }
+    return () => clearTimeout(timer);
   }, []);
 
   const closePopup = () => {
     setShow(false);
     // Mark popup as seen
-    localStorage.setItem("hasSeenPopup", "true");
+    // localStorage.setItem("hasSeenPopup", "true");
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -64,8 +63,8 @@ export default function HomePopup() {
   if (!show) return null;
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 p-4">
-      <div className="relative w-full max-w-[90vw] sm:max-w-md rounded-xl overflow-hidden shadow-2xl">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 p-4 sm:p-0">
+      <div className="relative w-full max-w-[90vw] sm:max-w-[700px] md:max-w-[800px] lg:max-w-[900px] rounded-xl overflow-hidden shadow-2xl">
         {/* Background */}
         <div
           className="absolute inset-0 bg-cover bg-center"
@@ -84,16 +83,16 @@ export default function HomePopup() {
         </button>
 
         {/* Content */}
-        <div className="relative z-10 p-5 sm:p-6 text-center">
-          <h2 className="text-xl sm:text-2xl font-bold text-black mb-2">
+        <div className="relative z-10 p-8 sm:p-12 md:p-16 text-center max-w-2xl mx-auto flex flex-col items-center justify-center min-h-[300px] sm:min-h-[400px]">
+          <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold text-black mb-4">
             10% off 54 collections
           </h2>
 
-          <p className="mt-2 text-xs sm:text-sm text-black">
+          <p className="mt-2 text-sm sm:text-lg md:text-xl text-black font-medium">
             Sign up for Special Discount Coupons
           </p>
 
-          <form onSubmit={handleSubmit} className="mt-5 sm:mt-6 space-y-3 sm:space-y-4">
+          <form onSubmit={handleSubmit} className="mt-6 sm:mt-8 space-y-4 w-full max-w-md mx-auto">
             <input
               type="email"
               placeholder="Email"
@@ -101,16 +100,16 @@ export default function HomePopup() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               disabled={loading}
-              className="w-full rounded-lg border-2 border-purple-700 px-3 sm:px-4 py-2 sm:py-3 text-sm 
-                         text-black placeholder:text-black focus:outline-none focus:border-purple-800 disabled:opacity-50"
+              className="w-full rounded-xl border-2 border-purple-700 px-4 sm:px-6 py-3 sm:py-4 text-sm sm:text-base 
+                         text-black placeholder:text-gray-600 focus:outline-none focus:border-purple-800 disabled:opacity-50"
             />
 
             <button
               type="submit"
               disabled={loading}
-              className="w-full rounded-lg bg-purple-700 py-2 sm:py-3 text-white text-sm sm:text-base font-semibold hover:bg-purple-800 transition disabled:opacity-50"
+              className="w-full rounded-xl bg-purple-700 py-3 sm:py-4 text-white text-sm sm:text-lg font-bold hover:bg-purple-800 transition disabled:opacity-50"
             >
-              {loading ? "Submitting..." : "Submit"}
+              {loading ? "Subscribing..." : "Subscribe"}
             </button>
           </form>
 
