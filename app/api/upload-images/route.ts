@@ -7,7 +7,7 @@ export async function POST(request: NextRequest) {
     const formData = await request.formData();
     const files = formData.getAll('files') as File[];
     const type = formData.get('type') as string;
-    
+
     // Support both productId and remedyId
     const productId = formData.get('productId') as string;
     const remedyId = formData.get('remedyId') as string;
@@ -20,6 +20,13 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    if (!process.env.CLOUDINARY_CLOUD_NAME || !process.env.CLOUDINARY_API_KEY || !process.env.CLOUDINARY_API_SECRET) {
+      return NextResponse.json(
+        { error: 'Cloudinary environment variables are missing on Vercel. Please add CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, and CLOUDINARY_API_SECRET to Vercel Settings.' },
+        { status: 500 }
+      );
+    }
+
     console.log(`📤 Uploading ${files.length} file(s) for ${remedyId ? 'remedy' : 'product'} ${itemId}`);
 
     const uploadPromises = files.map(async (file) => {
@@ -28,7 +35,7 @@ export async function POST(request: NextRequest) {
 
       return new Promise((resolve, reject) => {
         // Dynamic folder based on whether it's product or remedy
-        const folder = remedyId 
+        const folder = remedyId
           ? (type === 'video' ? 'remedies/videos' : 'remedies/images')
           : (type === 'video' ? 'products/videos' : 'products/images');
 

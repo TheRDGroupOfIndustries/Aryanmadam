@@ -481,9 +481,9 @@ const ProductForm = ({ id, mode = "create", product }: ProductFormProps) => {
 
       showMessage("Product created successfully!");
       setTimeout(() => router.push("/admin/shop"), 1000);
-    } catch (err) {
+    } catch (err: any) {
       console.error("❌ Error:", err);
-      showMessage("Something went wrong. Please try again.", true);
+      showMessage(err.message || "Something went wrong. Please try again.", true);
     } finally {
       setLoading(false);
     }
@@ -559,9 +559,9 @@ const ProductForm = ({ id, mode = "create", product }: ProductFormProps) => {
 
       showMessage("Product updated successfully!");
       setTimeout(() => router.push("/admin/shop"), 1000);
-    } catch (err) {
+    } catch (err: any) {
       console.error("Update error:", err);
-      showMessage("Unexpected error", true);
+      showMessage(err.message || "Unexpected error processing image upload", true);
     } finally {
       setLoading(false);
     }
