@@ -2,6 +2,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import cloudinary from '@/lib/cloudinary';
 
+// This is required to handle large file uploads on Vercel
+export const maxDuration = 60; // 60 seconds
+
 export async function POST(request: NextRequest) {
   try {
     const formData = await request.formData();
@@ -21,6 +24,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (!process.env.CLOUDINARY_CLOUD_NAME || !process.env.CLOUDINARY_API_KEY || !process.env.CLOUDINARY_API_SECRET) {
+      console.error('Cloudinary environment variables missing');
       return NextResponse.json(
         { error: 'Cloudinary environment variables are missing on Vercel. Please add CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, and CLOUDINARY_API_SECRET to Vercel Settings.' },
         { status: 500 }
@@ -70,7 +74,7 @@ export async function POST(request: NextRequest) {
   } catch (error: any) {
     console.error('❌ Upload error:', error);
     return NextResponse.json(
-      { error: 'Upload failed', details: error.message },
+      { error: error.message || 'Upload failed due to a server error' },
       { status: 500 }
     );
   }
