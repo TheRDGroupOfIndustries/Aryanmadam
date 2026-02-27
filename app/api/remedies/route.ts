@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { cookies } from 'next/headers';
 
 // GET - Fetch all remedies with filters
 export async function GET(request: NextRequest) {
@@ -47,6 +48,12 @@ export async function GET(request: NextRequest) {
 // POST - Create new remedy (SIMPLIFIED - only basic fields)
 export async function POST(request: NextRequest) {
   try {
+    const cookieStore = await cookies();
+    const isAdmin = cookieStore.get('admin_authenticated')?.value === 'true';
+    if (!isAdmin) {
+      return NextResponse.json({ error: 'Unauthorized access' }, { status: 401 });
+    }
+
     const body = await request.json();
 
     console.log('📝 Creating remedy with data:', body);

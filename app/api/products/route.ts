@@ -2,6 +2,7 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { cookies } from "next/headers";
 
 // ================== GET - Fetch Products ==================
 export async function GET(req: NextRequest) {
@@ -70,6 +71,16 @@ export async function GET(req: NextRequest) {
 // ================== POST - Create Product ==================
 export async function POST(req: NextRequest) {
   try {
+    const cookieStore = await cookies();
+    const isAdmin = cookieStore.get("admin_authenticated")?.value === "true";
+
+    if (!isAdmin) {
+      return NextResponse.json(
+        { error: "Unauthorized access" },
+        { status: 401 }
+      );
+    }
+
     const body = await req.json();
 
     console.log("📥 POST /api/products called");
@@ -85,8 +96,8 @@ export async function POST(req: NextRequest) {
     const sku = generateSKU(body.category || "PRD");
 
     // Ensure stock is a number
-    const stock = typeof body.stock === 'number' ? body.stock : 
-                  typeof body.initialStock === 'number' ? body.initialStock : 0;
+    const stock = typeof body.stock === 'number' ? body.stock :
+      typeof body.initialStock === 'number' ? body.initialStock : 0;
 
     // Create product with all fields
     const product = await prisma.product.create({
@@ -115,11 +126,11 @@ export async function POST(req: NextRequest) {
     console.log("✅ Product created:", product.id);
 
     return NextResponse.json(
-      { 
-        success: true, 
+      {
+        success: true,
         product,
         id: product.id,
-        productId: product.id 
+        productId: product.id
       },
       { status: 201 }
     );

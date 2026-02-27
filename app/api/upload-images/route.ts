@@ -1,12 +1,19 @@
 // app/api/upload-images/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import cloudinary from '@/lib/cloudinary';
+import { cookies } from 'next/headers';
 
 // This is required to handle large file uploads on Vercel
 export const maxDuration = 60; // 60 seconds
 
 export async function POST(request: NextRequest) {
   try {
+    const cookieStore = await cookies();
+    const isAdmin = cookieStore.get('admin_authenticated')?.value === 'true';
+    if (!isAdmin) {
+      return NextResponse.json({ error: 'Unauthorized access' }, { status: 401 });
+    }
+
     const formData = await request.formData();
     const files = formData.getAll('files') as File[];
     const type = formData.get('type') as string;

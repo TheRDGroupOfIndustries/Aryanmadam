@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { cookies } from 'next/headers';
 
 // GET single remedy by ID
 export async function GET(
@@ -39,6 +40,12 @@ export async function PUT(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const cookieStore = await cookies();
+    const isAdmin = cookieStore.get('admin_authenticated')?.value === 'true';
+    if (!isAdmin) {
+      return NextResponse.json({ error: 'Unauthorized access' }, { status: 401 });
+    }
+
     const { id } = await params;
     const body = await request.json();
 
@@ -78,6 +85,12 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const cookieStore = await cookies();
+    const isAdmin = cookieStore.get('admin_authenticated')?.value === 'true';
+    if (!isAdmin) {
+      return NextResponse.json({ error: 'Unauthorized access' }, { status: 401 });
+    }
+
     const { id } = await params;
 
     console.log('🗑️ Deleting remedy:', id);
