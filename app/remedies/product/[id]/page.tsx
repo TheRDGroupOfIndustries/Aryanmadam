@@ -29,7 +29,7 @@ export default function RemedyProductPage() {
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
   const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
-  
+
   const { addToCart, increaseQty, decreaseQty, items: cartItems } = useCart();
   const [quantity, setQuantity] = useState(1);
   const [selectedImage, setSelectedImage] = useState(0);
@@ -42,7 +42,7 @@ export default function RemedyProductPage() {
       setLoading(true);
       try {
         const res = await fetch(`/api/remedies/${id}`);
-        
+
         if (!res.ok) {
           throw new Error('Product not found');
         }
@@ -67,7 +67,7 @@ export default function RemedyProductPage() {
 
       try {
         const res = await fetch(`/api/remedies?category=${product.category}`);
-        
+
         if (res.ok) {
           const data = await res.json();
           // Filter out current product and take first 4
@@ -106,7 +106,7 @@ export default function RemedyProductPage() {
       // Get current website URL dynamically
       const currentUrl = typeof window !== 'undefined' ? window.location.origin : '';
       const productUrl = `${currentUrl}/remedies/product/${product.id}`;
-      
+
       const message = `Hello,%0A%0AI want to order the *${product.title}*%0A%0AProduct Link: ${productUrl}%0APrice: ₹${product.price}%0AQuantity: ${cartItem?.quantity || quantity}`;
       const whatsappUrl = `https://wa.me/919140257673?text=${message}`;
       window.open(whatsappUrl, '_blank');
@@ -148,7 +148,7 @@ export default function RemedyProductPage() {
     );
   }
 
-  const discount = product.oldPrice 
+  const discount = product.oldPrice
     ? Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100)
     : 0;
 
@@ -158,19 +158,19 @@ export default function RemedyProductPage() {
 
       <section className="relative px-6 py-12 bg-[#fdfaf6] min-h-screen">
         <div className="relative max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:items-start">
 
             {/* LEFT - Product Images */}
-            <div className="bg-white border border-gray-200 p-6 rounded-2xl shadow-sm">
-              {product.images && product.images.length > 0 ? (
-                <>
-                  <div className="bg-gray-50 rounded-xl p-4 mb-6 relative">
+            <div className="flex flex-col gap-6 lg:sticky lg:top-24 z-10">
+              <div className="bg-white border border-gray-200 py-6 px-3 rounded-2xl shadow-sm">
+                {product.images && product.images.length > 0 ? (
+                  <div className="bg-gray-50 rounded-xl p-2 sm:p-4 relative">
                     <img
                       src={product.images[selectedImage]}
-                      className="w-full max-h-[400px] object-contain"
+                      className="w-full h-[350px] sm:h-[450px] lg:h-[550px] object-contain hover:scale-105 transition-transform duration-300 cursor-zoom-in"
                       alt={product.title}
                     />
-                    
+
                     {/* Stock Badge */}
                     {product.stock === 0 && (
                       <span className="absolute top-6 right-6 bg-red-500 text-white text-xs font-bold px-3 py-2 rounded-full shadow-md">
@@ -185,24 +185,25 @@ export default function RemedyProductPage() {
                       </span>
                     )}
                   </div>
-
-                  <div className="flex gap-3 justify-center flex-wrap">
-                    {product.images.map((img, i) => (
-                      <img
-                        key={i}
-                        src={img}
-                        onClick={() => setSelectedImage(i)}
-                        className={`w-20 h-20 object-cover rounded-lg border-2 cursor-pointer hover:border-[#e6cfa7] transition ${
-                          selectedImage === i ? 'border-[#e6cfa7]' : 'border-gray-200'
-                        }`}
-                        alt={`${product.title} - view ${i + 1}`}
-                      />
-                    ))}
+                ) : (
+                  <div className="w-full h-[400px] flex items-center justify-center bg-gray-100 rounded-xl">
+                    <span className="text-gray-400">No Image Available</span>
                   </div>
-                </>
-              ) : (
-                <div className="w-full h-[400px] flex items-center justify-center bg-gray-100 rounded-xl">
-                  <span className="text-gray-400">No Image Available</span>
+                )}
+              </div>
+
+              {product.images && product.images.length > 0 && (
+                <div className="flex gap-3 justify-center flex-wrap px-2">
+                  {product.images.map((img, i) => (
+                    <img
+                      key={i}
+                      src={img}
+                      onClick={() => setSelectedImage(i)}
+                      className={`w-20 h-20 object-cover rounded-lg border-2 cursor-pointer hover:border-[#e6cfa7] transition ${selectedImage === i ? 'border-[#e6cfa7]' : 'border-gray-200'
+                        }`}
+                      alt={`${product.title} - view ${i + 1}`}
+                    />
+                  ))}
                 </div>
               )}
             </div>
@@ -280,7 +281,7 @@ export default function RemedyProductPage() {
                   <div className="flex items-center gap-4">
                     <span className="text-sm font-semibold text-black">Quantity:</span>
                     <div className="flex border-2 border-gray-300 rounded-xl overflow-hidden bg-white">
-                      <button 
+                      <button
                         onClick={() => setQuantity(Math.max(1, quantity - 1))}
                         className="px-5 py-3 hover:bg-gray-100 transition font-bold text-black text-lg"
                         disabled={product.stock === 0}
@@ -288,7 +289,7 @@ export default function RemedyProductPage() {
                         −
                       </button>
                       <span className="px-8 py-3 border-x-2 border-gray-300 font-bold min-w-[80px] text-center text-lg text-black">{quantity}</span>
-                      <button 
+                      <button
                         onClick={() => setQuantity(Math.min(product.stock, quantity + 1))}
                         className="px-5 py-3 hover:bg-gray-100 transition font-bold text-black text-lg"
                         disabled={product.stock === 0}
@@ -299,7 +300,7 @@ export default function RemedyProductPage() {
                   </div>
 
                   {/* Add to Cart Button */}
-                  <button 
+                  <button
                     onClick={handleAddToCart}
                     disabled={product.stock === 0}
                     className="w-full px-6 py-4 bg-[rgb(44_95_124)] text-white font-bold rounded-xl text-lg
@@ -311,7 +312,7 @@ export default function RemedyProductPage() {
                   </button>
 
                   {/* Order on WhatsApp Button */}
-                  <button 
+                  <button
                     onClick={handleWhatsAppOrder}
                     disabled={product.stock === 0}
                     className="w-full px-6 py-4 bg-[#25D366] text-white font-bold rounded-xl text-lg
@@ -326,14 +327,14 @@ export default function RemedyProductPage() {
                 <div className="mb-6 space-y-3">
                   {/* Cart Item Controls */}
                   <div className="flex items-center justify-between border-2 border-gray-300 rounded-xl px-6 py-4 bg-gray-50">
-                    <button 
+                    <button
                       onClick={() => decreaseQty(cartItem.id)}
                       className="text-2xl font-bold text-gray-700 hover:text-[rgb(44_95_124)] transition w-10 h-10 flex items-center justify-center hover:bg-gray-200 rounded-lg"
                     >
                       −
                     </button>
                     <span className="text-xl font-bold text-[rgb(44_95_124)]">{cartItem.quantity} in cart</span>
-                    <button 
+                    <button
                       onClick={() => increaseQty(cartItem.id)}
                       disabled={cartItem.quantity >= product.stock}
                       className="text-2xl font-bold text-gray-700 hover:text-[rgb(44_95_124)] transition disabled:opacity-50 w-10 h-10 flex items-center justify-center hover:bg-gray-200 rounded-lg"
@@ -341,13 +342,13 @@ export default function RemedyProductPage() {
                       +
                     </button>
                   </div>
-                  
+
                   <div className="text-center text-sm text-green-600 font-semibold py-2 bg-green-50 rounded-lg">
                     ✓ Added to cart successfully
                   </div>
 
                   {/* Order on WhatsApp Button (when item in cart) */}
-                  <button 
+                  <button
                     onClick={handleWhatsAppOrder}
                     className="w-full px-6 py-4 bg-[#25D366] text-white font-bold rounded-xl text-lg
                                hover:bg-[#20BA5A] transition-all flex items-center justify-center gap-3 shadow-md hover:shadow-lg"
@@ -381,7 +382,7 @@ export default function RemedyProductPage() {
 
               <div className="mt-6 text-gray-700 text-base space-y-4">
                 <p className="leading-relaxed">{product.description}</p>
-                
+
                 <div className="bg-amber-50 p-4 rounded-lg border border-amber-200">
                   <p className="font-semibold text-[rgb(44_95_124)] mb-2">✨ Benefits:</p>
                   <ul className="list-disc ml-6 space-y-1.5 text-sm">
@@ -431,7 +432,7 @@ export default function RemedyProductPage() {
                           <span className="text-gray-400 text-xs">No Image</span>
                         </div>
                       )}
-                      
+
                       {relatedProduct.stock === 0 && (
                         <span className="absolute top-2 right-2 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">
                           Out of Stock

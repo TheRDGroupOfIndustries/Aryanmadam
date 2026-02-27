@@ -159,36 +159,38 @@ export default function ProductPage() {
 
       <section className="relative px-4 sm:px-6 py-8 sm:py-12 bg-[#fdfaf6] min-h-screen">
         <div className="relative max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12 lg:items-start">
 
             {/* LEFT - Product Images */}
-            <div className="bg-white border border-gray-200 p-4 sm:p-6 rounded-xl sm:rounded-2xl shadow-sm">
-              {product.images && product.images.length > 0 ? (
-                <>
-                  <div className="bg-gray-50 rounded-lg sm:rounded-xl p-3 sm:p-4 mb-4 sm:mb-6">
+            <div className="flex flex-col gap-4 lg:sticky lg:top-24 z-10">
+              <div className="bg-white border border-gray-200 py-4 px-2 sm:py-6 sm:px-3 rounded-xl sm:rounded-2xl shadow-sm">
+                {product.images && product.images.length > 0 ? (
+                  <div className="bg-gray-50 rounded-lg sm:rounded-xl p-2 sm:p-3">
                     <img
                       src={product.images[selectedImage]}
-                      className="w-full max-h-[300px] sm:max-h-[400px] object-contain"
+                      className="w-full h-[350px] sm:h-[450px] lg:h-[550px] object-contain hover:scale-105 transition-transform duration-300 cursor-zoom-in"
                       alt={product.title}
                     />
                   </div>
-
-                  <div className="flex gap-2 sm:gap-3 justify-center overflow-x-auto pb-2">
-                    {product.images.map((img, i) => (
-                      <img
-                        key={i}
-                        src={img}
-                        onClick={() => setSelectedImage(i)}
-                        className={`w-16 h-16 sm:w-20 sm:h-20 object-cover rounded-lg border-2 cursor-pointer hover:border-[#e6cfa7] transition flex-shrink-0 ${selectedImage === i ? 'border-[#e6cfa7]' : 'border-gray-200'
-                          }`}
-                        alt={`${product.title} - view ${i + 1}`}
-                      />
-                    ))}
+                ) : (
+                  <div className="w-full h-[300px] sm:h-[400px] flex items-center justify-center bg-gray-100 rounded-xl">
+                    <span className="text-gray-400 text-sm">No Image Available</span>
                   </div>
-                </>
-              ) : (
-                <div className="w-full h-[300px] sm:h-[400px] flex items-center justify-center bg-gray-100 rounded-xl">
-                  <span className="text-gray-400 text-sm">No Image Available</span>
+                )}
+              </div>
+
+              {product.images && product.images.length > 0 && (
+                <div className="flex gap-2 sm:gap-3 justify-center overflow-x-auto pb-2 px-2">
+                  {product.images.map((img, i) => (
+                    <img
+                      key={i}
+                      src={img}
+                      onClick={() => setSelectedImage(i)}
+                      className={`w-16 h-16 sm:w-20 sm:h-20 object-cover rounded-lg border-2 cursor-pointer hover:border-[#e6cfa7] transition flex-shrink-0 ${selectedImage === i ? 'border-[#e6cfa7]' : 'border-gray-200'
+                        }`}
+                      alt={`${product.title} - view ${i + 1}`}
+                    />
+                  ))}
                 </div>
               )}
             </div>
