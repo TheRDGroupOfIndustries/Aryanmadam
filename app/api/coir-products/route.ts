@@ -9,7 +9,7 @@ const SLUG_TO_CATEGORY: Record<string, string[]> = {
     "Coir Products"
   ],
   "dry-flowers": [
-    "Creative & Handcrafted > Coir Products > Dry Flowers",
+    "Creative & Handcrafted > Dry Flowers",
     "Dry Flowers"
   ]
 };
@@ -26,17 +26,12 @@ export async function GET(req: NextRequest) {
       );
     }
 
-    console.log("🔍 Coir Products - Received category slug:", categorySlug);
-
     // Get possible category names for this slug
     const possibleCategories = SLUG_TO_CATEGORY[categorySlug];
 
     if (!possibleCategories) {
-      console.log("❌ No mapping found for slug:", categorySlug);
       return NextResponse.json([], { status: 200 }); // Return empty array
     }
-
-    console.log("✅ Searching for coir product categories:", possibleCategories);
 
     // Search for products matching any of the category variations
     const products = await prisma.product.findMany({
@@ -64,13 +59,6 @@ export async function GET(req: NextRequest) {
         createdAt: "desc",
       },
     });
-
-    console.log(`✅ Found ${products.length} coir products for slug "${categorySlug}"`);
-    
-    // Log first product's category for debugging
-    if (products.length > 0) {
-      console.log("📦 Sample coir product category:", products[0].category);
-    }
 
     return NextResponse.json(products);
   } catch (error) {

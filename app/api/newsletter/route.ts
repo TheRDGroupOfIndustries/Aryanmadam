@@ -51,7 +51,6 @@ async function sendWelcomeEmail(email: string) {
     };
 
     await transporter.sendMail(mailOptions);
-    console.log('📧 Welcome email sent successfully to:', email);
     return true;
   } catch (emailError) {
     console.error('❌ Failed to send welcome email:', emailError);
@@ -62,8 +61,6 @@ async function sendWelcomeEmail(email: string) {
 export async function POST(request: NextRequest) {
   try {
     const { email } = await request.json();
-
-    console.log('📧 Newsletter subscription request for:', email);
 
     // Validation
     if (!email) {
@@ -88,8 +85,6 @@ export async function POST(request: NextRequest) {
     });
 
     if (existingSubscriber) {
-      console.log('⚠️ Email already subscribed:', email);
-      // We send the welcome email again for testing/convenience
       await sendWelcomeEmail(email);
 
       return NextResponse.json(
@@ -105,9 +100,6 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    console.log('✅ New subscriber added:', newSubscriber.email);
-
-    // Send Welcome Email
     await sendWelcomeEmail(newSubscriber.email);
 
     return NextResponse.json(

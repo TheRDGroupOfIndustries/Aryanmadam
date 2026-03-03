@@ -38,8 +38,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    console.log(`📤 Uploading ${files.length} file(s) for ${remedyId ? 'remedy' : 'product'} ${itemId}`);
-
     const uploadPromises = files.map(async (file) => {
       const bytes = await file.arrayBuffer();
       const buffer = Buffer.from(bytes);
@@ -61,7 +59,6 @@ export async function POST(request: NextRequest) {
               console.error('❌ Cloudinary upload error:', error);
               reject(error);
             } else {
-              console.log('✅ Upload successful:', result?.secure_url);
               resolve(result?.secure_url);
             }
           }

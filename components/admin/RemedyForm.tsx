@@ -97,8 +97,6 @@ const RemedyForm = ({ id, mode = "create", remedy }: RemedyFormProps) => {
     const files = e.target.files;
     if (!files || files.length === 0) return;
 
-    console.log('📷 Files selected:', files.length);
-
     const newPreviews: PreviewImage[] = [];
 
     for (let i = 0; i < files.length; i++) {
@@ -110,8 +108,6 @@ const RemedyForm = ({ id, mode = "create", remedy }: RemedyFormProps) => {
         url: url,
         file: file,
       });
-
-      console.log('🖼️ Created preview:', url);
     }
 
     setImages(prev => [...prev, ...newPreviews]);
@@ -167,8 +163,6 @@ const RemedyForm = ({ id, mode = "create", remedy }: RemedyFormProps) => {
 
     if (newFiles.length === 0) return existingImages;
 
-    console.log(`📤 Uploading ${newFiles.length} new images`);
-
     const formData = new FormData();
     newFiles.forEach((file) => formData.append("files", file));
     formData.append("type", "remedy");
@@ -184,7 +178,6 @@ const RemedyForm = ({ id, mode = "create", remedy }: RemedyFormProps) => {
     if (res.ok && (data.urls?.length || data.url)) {
       if (data.urls?.length) uploadedUrls.push(...data.urls);
       else if (data.url) uploadedUrls.push(data.url);
-      console.log('✅ New images uploaded:', uploadedUrls);
     } else {
       throw new Error(data.error || "Image upload failed");
     }
@@ -262,8 +255,6 @@ const RemedyForm = ({ id, mode = "create", remedy }: RemedyFormProps) => {
     setLoading(true);
     try {
       if (mode === "update" && id) {
-        console.log('🔄 Updating remedy...');
-
         const allImageUrls = await uploadImages(id);
         const videoUrl = await uploadVideo(id);
 
@@ -296,8 +287,6 @@ const RemedyForm = ({ id, mode = "create", remedy }: RemedyFormProps) => {
         setTimeout(() => router.push("/admin/remedies"), 1500);
 
       } else {
-        console.log('🚀 Creating remedy...');
-
         const res = await fetch("/api/remedies", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -330,8 +319,6 @@ const RemedyForm = ({ id, mode = "create", remedy }: RemedyFormProps) => {
           setLoading(false);
           return;
         }
-
-        console.log('✅ Remedy created:', remedyId);
 
         const uploadedImageUrls = await uploadImages(remedyId);
         if (!uploadedImageUrls.length) {

@@ -50,14 +50,8 @@ export default function ProductsPage() {
           params.append('search', query);
         }
         if (categoryParam) {
-          // If slug format, convert back or pass directly if db uses slugs
-          // Note: our API matches raw category names, so if we pass "beads-&-charms",
-          // it might not match "Beads & Charms". Collections.tsx passes lowercase slug.
-          // Let's pass the raw param for now.
           params.append('category', categoryParam);
         }
-
-        console.log('🔍 Fetching with params:', params.toString());
 
         const res = await fetch(`/api/products?${params.toString()}`);
 
@@ -66,7 +60,6 @@ export default function ProductsPage() {
         }
 
         const data = await res.json();
-        console.log('📦 Products received:', data);
 
         setProducts(data);
       } catch (error) {

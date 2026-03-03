@@ -34,7 +34,7 @@ export const Products = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
-  
+
   // ✅ New state for category filtering
   const [selectedMainCategory, setSelectedMainCategory] = useState<string | null>(null);
   const [selectedSubCategory, setSelectedSubCategory] = useState<string | null>(null);
@@ -56,8 +56,6 @@ export const Products = () => {
         if (!res.ok) throw new Error(`Failed to fetch: ${res.status}`);
 
         const data = await res.json();
-        console.log("✅ Fetched products:", data);
-
         let fetchedProducts: Product[] = [];
 
         if (Array.isArray(data)) fetchedProducts = data;
@@ -115,16 +113,16 @@ export const Products = () => {
   // ✅ Get subcategories for selected main category (FIXED - filters out null values)
   const subCategories = selectedMainCategory
     ? Array.from(
-        new Set(
-          products
-            .filter((p) => p.category?.startsWith(selectedMainCategory))
-            .map((p) => {
-              const parts = p.category?.split(" > ");
-              return parts && parts.length === 2 ? parts[1] : null;
-            })
-            .filter((subCat): subCat is string => subCat !== null) // ← FIXED: Type guard to remove null values
-        )
-      ).sort()
+      new Set(
+        products
+          .filter((p) => p.category?.startsWith(selectedMainCategory))
+          .map((p) => {
+            const parts = p.category?.split(" > ");
+            return parts && parts.length === 2 ? parts[1] : null;
+          })
+          .filter((subCat): subCat is string => subCat !== null) // ← FIXED: Type guard to remove null values
+      )
+    ).sort()
     : [];
 
   const getTotalStock = (stock: number | undefined) => {
@@ -279,11 +277,10 @@ export const Products = () => {
                   setSelectedMainCategory(null);
                   setSelectedSubCategory(null);
                 }}
-                className={`px-4 py-2 text-sm font-medium rounded-lg transition ${
-                  !selectedMainCategory
+                className={`px-4 py-2 text-sm font-medium rounded-lg transition ${!selectedMainCategory
                     ? "bg-amber-600 text-white shadow-md"
                     : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                }`}
+                  }`}
               >
                 All
               </button>
@@ -292,11 +289,10 @@ export const Products = () => {
                 <button
                   key={category}
                   onClick={() => handleMainCategoryClick(category)}
-                  className={`px-4 py-2 text-sm font-medium rounded-lg transition ${
-                    selectedMainCategory === category
+                  className={`px-4 py-2 text-sm font-medium rounded-lg transition ${selectedMainCategory === category
                       ? "bg-amber-600 text-white shadow-md ring-2 ring-amber-300"
                       : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-                  }`}
+                    }`}
                 >
                   {category}
                 </button>
@@ -313,11 +309,10 @@ export const Products = () => {
               <div className="flex flex-wrap gap-2">
                 <button
                   onClick={() => setSelectedSubCategory(null)}
-                  className={`px-3 py-1.5 text-xs font-medium rounded-lg transition ${
-                    !selectedSubCategory
+                  className={`px-3 py-1.5 text-xs font-medium rounded-lg transition ${!selectedSubCategory
                       ? "bg-amber-500 text-white shadow"
                       : "bg-amber-50 text-amber-700 border border-amber-200 hover:bg-amber-100"
-                  }`}
+                    }`}
                 >
                   All {selectedMainCategory}
                 </button>
@@ -326,11 +321,10 @@ export const Products = () => {
                   <button
                     key={subCat}
                     onClick={() => handleSubCategoryClick(subCat)}
-                    className={`px-3 py-1.5 text-xs font-medium rounded-lg transition ${
-                      selectedSubCategory === subCat
+                    className={`px-3 py-1.5 text-xs font-medium rounded-lg transition ${selectedSubCategory === subCat
                         ? "bg-amber-500 text-white shadow ring-2 ring-amber-300"
                         : "bg-amber-50 text-amber-700 border border-amber-200 hover:bg-amber-100"
-                    }`}
+                      }`}
                   >
                     {subCat}
                   </button>
@@ -408,11 +402,10 @@ export const Products = () => {
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-gray-600">
                             <span
-                              className={`px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                                totalStock > 0
+                              className={`px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${totalStock > 0
                                   ? "bg-green-100 text-green-800"
                                   : "bg-red-100 text-red-800"
-                              }`}
+                                }`}
                             >
                               {totalStock}
                             </span>
@@ -504,11 +497,10 @@ export const Products = () => {
                         Stock:
                       </span>
                       <span
-                        className={`px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                          totalStock > 0
+                        className={`px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${totalStock > 0
                             ? "bg-green-100 text-green-800"
                             : "bg-red-100 text-red-800"
-                        }`}
+                          }`}
                       >
                         {totalStock}
                       </span>

@@ -49,26 +49,22 @@ const CATEGORY_STRUCTURE = {
       "Crystal Angles": [],
       "Crystal Balls": [],
       "Crystal Rings": [],
-      "Anklets": [
-        "All Anklets",
-        "Crystal Clocks",
-        "Crystal Pyramid",
-        "Crystal Pencils",
-        "Crystal Box",
-        "Crystal Idols",
-        "Pyrite Dust Frames",
-        "Seven Chakra Healing Frames",
-        "Crystal Strings",
-        "Crystal Animals"
-      ],
+      "Anklets": [],
+      "Crystal Clocks": [],
+      "Crystal Pyramid": [],
+      "Crystal Pencils": [],
+      "Crystal Box": [],
+      "Crystal Idols": [],
+      "Pyrite Dust Frames": [],
+      "Seven Chakra Healing Frames": [],
+      "Crystal Strings": [],
+      "Crystal Animals": [],
       "Yantras": [],
       "Thakur Ji Dresses": [],
       "Rudraksh": [],
       "Pooja Items": [],
-      "Sage": [
-        "All Sage",
-        "God Idols"
-      ]
+      "Sage": [],
+      "God Idols": []
     }
   },
   "Creative & Handcrafted": {
@@ -76,7 +72,8 @@ const CATEGORY_STRUCTURE = {
       "Art & Craft": [],
       "Handmade Occasion-Special Items": [],
       "Jutt Item": [],
-      "Coir Products": ["Dry Flowers"]
+      "Coir Products": [],
+      "Dry Flowers": []
     }
   },
   "Shop": {

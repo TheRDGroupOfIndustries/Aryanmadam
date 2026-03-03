@@ -41,8 +41,6 @@ export default function BestSellers() {
         const productsArray = Array.isArray(data) ? data : [];
         setProducts(productsArray);
 
-        console.log(`✅ Loaded ${productsArray.length} best sellers`);
-
       } catch (error) {
         console.error("❌ Failed to fetch products:", error);
         setProducts([]); // ✅ Set empty array on error
