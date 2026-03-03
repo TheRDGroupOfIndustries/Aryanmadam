@@ -13,7 +13,9 @@ interface Product {
     details?: string;
     description: string;
     price: number;
+    priceDisplay?: string;
     oldPrice?: number;
+    oldPriceDisplay?: string;
     exclusive?: number;
     stock: number;
     images: string[];
@@ -218,11 +220,11 @@ export default function ProductDetailView({ basePath }: ProductDetailViewProps) 
                             {/* Price */}
                             <div className="mb-6 pb-6 border-b border-gray-200">
                                 <span className="text-2xl sm:text-3xl font-bold text-[rgb(44_95_124)]">
-                                    ₹{product.price}
+                                    {product.priceDisplay ? product.priceDisplay : `₹${product.price}`}
                                 </span>
-                                {product.oldPrice && (
+                                {(product.oldPrice || product.oldPriceDisplay) && (
                                     <span className="line-through ml-2 sm:ml-3 text-lg sm:text-xl text-gray-400">
-                                        ₹{product.oldPrice}
+                                        {product.oldPriceDisplay ? product.oldPriceDisplay : `₹${product.oldPrice}`}
                                     </span>
                                 )}
                                 {product.exclusive && (
@@ -464,7 +466,7 @@ export default function ProductDetailView({ basePath }: ProductDetailViewProps) 
                                             {relatedProduct.title}
                                         </p>
                                         <p className="text-sm sm:text-base text-[rgb(44_95_124)] font-bold">
-                                            ₹{relatedProduct.price}
+                                            {relatedProduct.priceDisplay ? relatedProduct.priceDisplay : `₹${relatedProduct.price}`}
                                         </p>
                                     </a>
                                 ))}

@@ -10,7 +10,9 @@ interface Product {
   id: string;
   name: string;
   price: number;
+  priceDisplay?: string;
   oldPrice?: number;
+  oldPriceDisplay?: string;
   images: string[];
   rating: number;
   reviews: number;
@@ -28,19 +30,19 @@ export default function BestSellers() {
     const fetchProducts = async () => {
       try {
         const res = await fetch("/api/products?bestSeller=true");
-        
+
         if (!res.ok) {
           throw new Error(`HTTP error! status: ${res.status}`);
         }
-        
+
         const data = await res.json();
-        
+
         // ✅ Ensure data is always an array
         const productsArray = Array.isArray(data) ? data : [];
         setProducts(productsArray);
-        
+
         console.log(`✅ Loaded ${productsArray.length} best sellers`);
-        
+
       } catch (error) {
         console.error("❌ Failed to fetch products:", error);
         setProducts([]); // ✅ Set empty array on error
@@ -160,11 +162,11 @@ export default function BestSellers() {
 
                 <div className="mt-3 flex items-center gap-2">
                   <span className="text-2xl font-bold text-[rgb(44_95_124)]">
-                    ₹{product.price}
+                    {product.priceDisplay ? product.priceDisplay : `₹${product.price}`}
                   </span>
-                  {product.oldPrice && (
+                  {(product.oldPrice || product.oldPriceDisplay) && (
                     <span className="line-through text-gray-400">
-                      ₹{product.oldPrice}
+                      {product.oldPriceDisplay ? product.oldPriceDisplay : `₹${product.oldPrice}`}
                     </span>
                   )}
                 </div>
@@ -188,14 +190,14 @@ export default function BestSellers() {
                   </button>
                 ) : (
                   <div className="mt-5 flex justify-between items-center border rounded-lg px-4 py-2 bg-gray-50">
-                    <button 
+                    <button
                       onClick={() => decreaseQty(cartItem.id)}
                       className="text-black font-bold text-xl hover:text-[#E76F51]"
                     >
                       -
                     </button>
                     <span className="text-black font-semibold">{cartItem.quantity}</span>
-                    <button 
+                    <button
                       onClick={() => increaseQty(cartItem.id)}
                       className="text-black font-bold text-xl hover:text-[#E76F51]"
                     >

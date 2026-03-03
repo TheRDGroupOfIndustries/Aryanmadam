@@ -12,7 +12,9 @@ interface Product {
   details?: string;
   description: string;
   price: number;
+  priceDisplay?: string;
   oldPrice?: number;
+  oldPriceDisplay?: string;
   exclusive?: number;
   stock: number;
   images: string[];
@@ -179,16 +181,22 @@ export default function ProductsPage() {
                   {/* Price */}
                   <div className="mt-3 flex items-center gap-2 mb-3">
                     <span className="font-bold text-xl text-[rgb(44_95_124)]">
-                      ₹{p.price.toLocaleString()}
+                      {p.priceDisplay ? p.priceDisplay : `₹${p.price.toLocaleString()}`}
                     </span>
-                    {p.oldPrice && (
+                    {(p.oldPrice || p.oldPriceDisplay) && (
                       <>
                         <span className="text-sm text-gray-400 line-through">
-                          ₹{p.oldPrice.toLocaleString()}
+                          {p.oldPriceDisplay ? p.oldPriceDisplay : `₹${p.oldPrice?.toLocaleString()}`}
                         </span>
-                        <span className="text-xs bg-green-100 text-green-700 font-semibold px-2 py-1 rounded-md">
-                          {Math.round(((p.oldPrice - p.price) / p.oldPrice) * 100)}% OFF
-                        </span>
+                        {(p.oldPrice && p.price) && (!p.priceDisplay && !p.oldPriceDisplay) ? (
+                          <span className="text-xs bg-green-100 text-green-700 font-semibold px-2 py-1 rounded-md">
+                            {Math.round(((p.oldPrice - p.price) / p.oldPrice) * 100)}% OFF
+                          </span>
+                        ) : (
+                          <span className="text-xs bg-green-100 text-green-700 font-semibold px-2 py-1 rounded-md">
+                            SALE
+                          </span>
+                        )}
                       </>
                     )}
                   </div>

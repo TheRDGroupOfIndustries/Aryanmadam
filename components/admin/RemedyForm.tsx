@@ -25,10 +25,8 @@ const RemedyForm = ({ id, mode = "create", remedy }: RemedyFormProps) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
-  const [price, setPrice] = useState<number>(0);
-  const [priceDisplay, setPriceDisplay] = useState("");
-  const [oldPrice, setOldPrice] = useState<number | null>(null);
-  const [oldPriceDisplay, setOldPriceDisplay] = useState("");
+  const [priceInput, setPriceInput] = useState<string>("");
+  const [oldPriceInput, setOldPriceInput] = useState<string>("");
   const [stock, setStock] = useState<number>(0);
   const [images, setImages] = useState<PreviewImage[]>([]);
   const [video, setVideo] = useState<{ url: string; file?: File } | null>(null);
@@ -70,10 +68,8 @@ const RemedyForm = ({ id, mode = "create", remedy }: RemedyFormProps) => {
       setTitle(data.title || "");
       setDescription(data.description || "");
       setCategory(data.category || "");
-      setPrice(data.price || 0);
-      setPriceDisplay(data.priceDisplay || "");
-      setOldPrice(data.oldPrice || null);
-      setOldPriceDisplay(data.oldPriceDisplay || "");
+      setPriceInput(data.priceDisplay || (data.price ? data.price.toString() : ""));
+      setOldPriceInput(data.oldPriceDisplay || (data.oldPrice ? data.oldPrice.toString() : ""));
       setStock(data.stock || 0);
 
       if (data.images?.length) {
@@ -225,6 +221,14 @@ const RemedyForm = ({ id, mode = "create", remedy }: RemedyFormProps) => {
   };
 
   const handleSubmit = async () => {
+    const isPriceNumber = /^\s*\d+\s*$/.test(priceInput);
+    const finalPrice = parseInt(priceInput) || 0;
+    const finalPriceDisplay = isPriceNumber ? undefined : priceInput;
+
+    const isOldPriceNumber = /^\s*\d+\s*$/.test(oldPriceInput);
+    const finalOldPrice = parseInt(oldPriceInput) || 0;
+    const finalOldPriceDisplay = isOldPriceNumber ? undefined : oldPriceInput;
+
     if (!title.trim()) {
       toast.error("Please enter a title");
       return;
@@ -240,7 +244,7 @@ const RemedyForm = ({ id, mode = "create", remedy }: RemedyFormProps) => {
       return;
     }
 
-    if (price <= 0) {
+    if (finalPrice <= 0) {
       toast.error("Please enter a valid price");
       return;
     }
@@ -271,10 +275,10 @@ const RemedyForm = ({ id, mode = "create", remedy }: RemedyFormProps) => {
             description,
             category,
             ailment: "General Wellness", // ✅ DEFAULT VALUE
-            price,
-            priceDisplay: priceDisplay || undefined,
-            oldPrice,
-            oldPriceDisplay: oldPriceDisplay || undefined,
+            price: finalPrice,
+            priceDisplay: finalPriceDisplay || null,
+            oldPrice: finalOldPrice,
+            oldPriceDisplay: finalOldPriceDisplay || null,
             stock,
             images: allImageUrls,
             video: videoUrl,
@@ -302,10 +306,10 @@ const RemedyForm = ({ id, mode = "create", remedy }: RemedyFormProps) => {
             description,
             category,
             ailment: "General Wellness", // ✅ DEFAULT VALUE
-            price,
-            priceDisplay: priceDisplay || undefined,
-            oldPrice,
-            oldPriceDisplay: oldPriceDisplay || undefined,
+            price: finalPrice,
+            priceDisplay: finalPriceDisplay || null,
+            oldPrice: finalOldPrice,
+            oldPriceDisplay: finalOldPriceDisplay || null,
             stock,
             images: [],
             video: null,
@@ -349,8 +353,10 @@ const RemedyForm = ({ id, mode = "create", remedy }: RemedyFormProps) => {
             description,
             category,
             ailment: "General Wellness", // ✅ DEFAULT VALUE
-            price,
-            oldPrice,
+            price: finalPrice,
+            priceDisplay: finalPriceDisplay || null,
+            oldPrice: finalOldPrice,
+            oldPriceDisplay: finalOldPriceDisplay || null,
             stock,
             images: uploadedImageUrls,
             video: videoUrl,
@@ -435,27 +441,13 @@ const RemedyForm = ({ id, mode = "create", remedy }: RemedyFormProps) => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label className="block text-gray-700 font-medium mb-2">
-              Base Price (₹) <span className="text-red-500">*</span> <span className="text-xs text-gray-500">(For Cart)</span>
-            </label>
-            <input
-              type="number"
-              min="0"
-              value={price}
-              onChange={(e) => setPrice(parseInt(e.target.value) || 0)}
-              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-transparent text-black"
-              disabled={loading}
-            />
-          </div>
-
-          <div>
-            <label className="block text-gray-700 font-medium mb-2">
-              Display Price <span className="text-xs text-gray-500">(Optional, e.g. 100-200)</span>
+              Price <span className="text-red-500">*</span>
             </label>
             <input
               type="text"
-              value={priceDisplay}
-              onChange={(e) => setPriceDisplay(e.target.value)}
-              placeholder="E.g., 100-200"
+              value={priceInput}
+              onChange={(e) => setPriceInput(e.target.value)}
+              placeholder="E.g. 100 or 100-200"
               className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-transparent text-black placeholder:text-gray-400"
               disabled={loading}
             />
@@ -463,28 +455,13 @@ const RemedyForm = ({ id, mode = "create", remedy }: RemedyFormProps) => {
 
           <div>
             <label className="block text-gray-700 font-medium mb-2">
-              Base Old Price (₹) <span className="text-gray-500 text-sm">(optional)</span>
-            </label>
-            <input
-              type="number"
-              min="0"
-              value={oldPrice || ""}
-              onChange={(e) => setOldPrice(e.target.value ? parseInt(e.target.value) : null)}
-              placeholder="Original price"
-              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-transparent text-black placeholder:text-gray-400"
-              disabled={loading}
-            />
-          </div>
-
-          <div>
-            <label className="block text-gray-700 font-medium mb-2">
-              Display Old Price <span className="text-gray-500 text-sm">(optional)</span>
+              Old Price <span className="text-red-500">*</span>
             </label>
             <input
               type="text"
-              value={oldPriceDisplay}
-              onChange={(e) => setOldPriceDisplay(e.target.value)}
-              placeholder="E.g., 150-250"
+              value={oldPriceInput}
+              onChange={(e) => setOldPriceInput(e.target.value)}
+              placeholder="E.g. 150 or 150-250"
               className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-transparent text-black placeholder:text-gray-400"
               disabled={loading}
             />
