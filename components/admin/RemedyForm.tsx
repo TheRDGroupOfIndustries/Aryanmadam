@@ -20,13 +20,15 @@ interface RemedyFormProps {
 
 const RemedyForm = ({ id, mode = "create", remedy }: RemedyFormProps) => {
   const router = useRouter();
-  
+
   // Form States (NO AILMENT IN UI)
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
   const [price, setPrice] = useState<number>(0);
+  const [priceDisplay, setPriceDisplay] = useState("");
   const [oldPrice, setOldPrice] = useState<number | null>(null);
+  const [oldPriceDisplay, setOldPriceDisplay] = useState("");
   const [stock, setStock] = useState<number>(0);
   const [images, setImages] = useState<PreviewImage[]>([]);
   const [video, setVideo] = useState<{ url: string; file?: File } | null>(null);
@@ -57,21 +59,23 @@ const RemedyForm = ({ id, mode = "create", remedy }: RemedyFormProps) => {
 
   const fetchRemedyData = async () => {
     if (!id) return;
-    
+
     setLoading(true);
     try {
       const res = await fetch(`/api/remedies/${id}`);
       if (!res.ok) throw new Error("Failed to fetch remedy");
-      
+
       const data = await res.json();
-      
+
       setTitle(data.title || "");
       setDescription(data.description || "");
       setCategory(data.category || "");
       setPrice(data.price || 0);
+      setPriceDisplay(data.priceDisplay || "");
       setOldPrice(data.oldPrice || null);
+      setOldPriceDisplay(data.oldPriceDisplay || "");
       setStock(data.stock || 0);
-      
+
       if (data.images?.length) {
         const existingImages = data.images.map((url: string, index: number) => ({
           id: `existing_${index}`,
@@ -79,11 +83,11 @@ const RemedyForm = ({ id, mode = "create", remedy }: RemedyFormProps) => {
         }));
         setImages(existingImages);
       }
-      
+
       if (data.video) {
         setVideo({ url: data.video });
       }
-      
+
       toast.success("Remedy loaded successfully");
     } catch (error) {
       console.error("Error fetching remedy:", error);
@@ -96,27 +100,27 @@ const RemedyForm = ({ id, mode = "create", remedy }: RemedyFormProps) => {
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (!files || files.length === 0) return;
-    
+
     console.log('📷 Files selected:', files.length);
-    
+
     const newPreviews: PreviewImage[] = [];
-    
+
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
       const url = URL.createObjectURL(file);
-      
+
       newPreviews.push({
         id: `${Date.now()}_${i}`,
         url: url,
         file: file,
       });
-      
+
       console.log('🖼️ Created preview:', url);
     }
-    
+
     setImages(prev => [...prev, ...newPreviews]);
     toast.success(`${files.length} image(s) added`);
-    
+
     e.target.value = '';
   };
 
@@ -161,10 +165,10 @@ const RemedyForm = ({ id, mode = "create", remedy }: RemedyFormProps) => {
 
   const uploadImages = async (remedyId: string): Promise<string[]> => {
     const uploadedUrls: string[] = [];
-    
+
     const existingImages = images.filter(i => !i.file).map(i => i.url);
     const newFiles = images.filter((i) => i.file).map((i) => i.file!);
-    
+
     if (newFiles.length === 0) return existingImages;
 
     console.log(`📤 Uploading ${newFiles.length} new images`);
@@ -180,7 +184,7 @@ const RemedyForm = ({ id, mode = "create", remedy }: RemedyFormProps) => {
     });
 
     const data = await res.json();
-    
+
     if (res.ok && (data.urls?.length || data.url)) {
       if (data.urls?.length) uploadedUrls.push(...data.urls);
       else if (data.url) uploadedUrls.push(data.url);
@@ -209,7 +213,7 @@ const RemedyForm = ({ id, mode = "create", remedy }: RemedyFormProps) => {
       });
 
       const data = await res.json();
-      
+
       if (res.ok && (data.urls?.[0] || data.url)) {
         return data.urls?.[0] || data.url;
       } else {
@@ -225,27 +229,27 @@ const RemedyForm = ({ id, mode = "create", remedy }: RemedyFormProps) => {
       toast.error("Please enter a title");
       return;
     }
-    
+
     if (!description.trim()) {
       toast.error("Please enter a description");
       return;
     }
-    
+
     if (!category) {
       toast.error("Please select a category");
       return;
     }
-    
+
     if (price <= 0) {
       toast.error("Please enter a valid price");
       return;
     }
-    
+
     if (stock < 0) {
       toast.error("Stock cannot be negative");
       return;
     }
-    
+
     if (images.length === 0) {
       toast.error("Please upload at least one image");
       return;
@@ -255,10 +259,10 @@ const RemedyForm = ({ id, mode = "create", remedy }: RemedyFormProps) => {
     try {
       if (mode === "update" && id) {
         console.log('🔄 Updating remedy...');
-        
+
         const allImageUrls = await uploadImages(id);
         const videoUrl = await uploadVideo(id);
-        
+
         const res = await fetch(`/api/remedies/${id}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
@@ -268,7 +272,9 @@ const RemedyForm = ({ id, mode = "create", remedy }: RemedyFormProps) => {
             category,
             ailment: "General Wellness", // ✅ DEFAULT VALUE
             price,
+            priceDisplay: priceDisplay || undefined,
             oldPrice,
+            oldPriceDisplay: oldPriceDisplay || undefined,
             stock,
             images: allImageUrls,
             video: videoUrl,
@@ -284,10 +290,10 @@ const RemedyForm = ({ id, mode = "create", remedy }: RemedyFormProps) => {
 
         toast.success("Remedy updated successfully!");
         setTimeout(() => router.push("/admin/remedies"), 1500);
-        
+
       } else {
         console.log('🚀 Creating remedy...');
-        
+
         const res = await fetch("/api/remedies", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -297,7 +303,9 @@ const RemedyForm = ({ id, mode = "create", remedy }: RemedyFormProps) => {
             category,
             ailment: "General Wellness", // ✅ DEFAULT VALUE
             price,
+            priceDisplay: priceDisplay || undefined,
             oldPrice,
+            oldPriceDisplay: oldPriceDisplay || undefined,
             stock,
             images: [],
             video: null,
@@ -305,7 +313,7 @@ const RemedyForm = ({ id, mode = "create", remedy }: RemedyFormProps) => {
         });
 
         const data = await res.json();
-        
+
         if (!res.ok) {
           toast.error(data.error || "Failed to create remedy");
           setLoading(false);
@@ -424,10 +432,10 @@ const RemedyForm = ({ id, mode = "create", remedy }: RemedyFormProps) => {
         </div>
 
         {/* Price & Stock */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label className="block text-gray-700 font-medium mb-2">
-              Price (₹) <span className="text-red-500">*</span>
+              Base Price (₹) <span className="text-red-500">*</span> <span className="text-xs text-gray-500">(For Cart)</span>
             </label>
             <input
               type="number"
@@ -438,10 +446,24 @@ const RemedyForm = ({ id, mode = "create", remedy }: RemedyFormProps) => {
               disabled={loading}
             />
           </div>
-          
+
           <div>
             <label className="block text-gray-700 font-medium mb-2">
-              Old Price (₹) <span className="text-gray-500 text-sm">(optional)</span>
+              Display Price <span className="text-xs text-gray-500">(Optional, e.g. 100-200)</span>
+            </label>
+            <input
+              type="text"
+              value={priceDisplay}
+              onChange={(e) => setPriceDisplay(e.target.value)}
+              placeholder="E.g., 100-200"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-transparent text-black placeholder:text-gray-400"
+              disabled={loading}
+            />
+          </div>
+
+          <div>
+            <label className="block text-gray-700 font-medium mb-2">
+              Base Old Price (₹) <span className="text-gray-500 text-sm">(optional)</span>
             </label>
             <input
               type="number"
@@ -455,6 +477,20 @@ const RemedyForm = ({ id, mode = "create", remedy }: RemedyFormProps) => {
           </div>
 
           <div>
+            <label className="block text-gray-700 font-medium mb-2">
+              Display Old Price <span className="text-gray-500 text-sm">(optional)</span>
+            </label>
+            <input
+              type="text"
+              value={oldPriceDisplay}
+              onChange={(e) => setOldPriceDisplay(e.target.value)}
+              placeholder="E.g., 150-250"
+              className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-transparent text-black placeholder:text-gray-400"
+              disabled={loading}
+            />
+          </div>
+
+          <div className="md:col-span-2">
             <label className="block text-gray-700 font-medium mb-2">
               Stock <span className="text-red-500">*</span>
             </label>
@@ -475,7 +511,7 @@ const RemedyForm = ({ id, mode = "create", remedy }: RemedyFormProps) => {
             Images <span className="text-red-500">*</span>
             <span className="text-sm text-gray-500 ml-2">({images.length} uploaded)</span>
           </label>
-          
+
           <div className="flex flex-wrap gap-4">
             {images.map((img) => (
               <div key={img.id} className="relative w-32 h-32">
@@ -516,7 +552,7 @@ const RemedyForm = ({ id, mode = "create", remedy }: RemedyFormProps) => {
           <label className="block text-gray-700 font-medium mb-2">
             Video <span className="text-gray-500 text-sm">(optional)</span>
           </label>
-          
+
           {video ? (
             <div className="relative w-full max-w-md">
               <video src={video.url} controls className="w-full rounded-lg border-2 border-gray-300" />
@@ -557,10 +593,10 @@ const RemedyForm = ({ id, mode = "create", remedy }: RemedyFormProps) => {
             className="px-6 py-3 bg-amber-500 text-white rounded-lg hover:bg-amber-600 disabled:opacity-50 disabled:cursor-not-allowed transition font-medium"
             disabled={loading || uploadingVideo}
           >
-            {loading || uploadingVideo 
-              ? "Saving..." 
-              : mode === "update" 
-                ? "Update Remedy" 
+            {loading || uploadingVideo
+              ? "Saving..."
+              : mode === "update"
+                ? "Update Remedy"
                 : "Create Remedy"}
           </button>
         </div>

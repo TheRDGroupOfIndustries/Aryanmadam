@@ -118,7 +118,7 @@ export default function FeaturedCollections() {
                 </p>
 
                 <Link
-                  href="#"
+                  href={`/shop`}
                   className="inline-flex items-center gap-2
                              text-xs sm:text-sm font-semibold text-[#F4A261]
                              hover:gap-3 transition-all duration-300"

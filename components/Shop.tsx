@@ -35,6 +35,8 @@ export default function ProductsPage() {
   const { addToCart, increaseQty, decreaseQty, items: cartItems } = useCart();
   const searchParams = useSearchParams();
   const query = searchParams.get('q')?.toLowerCase() || '';
+  const collection = searchParams.get('collection');
+  const categoryParam = searchParams.get('category') || collection || '';
 
   // Fetch products from API
   useEffect(() => {
@@ -45,18 +47,25 @@ export default function ProductsPage() {
         if (query) {
           params.append('search', query);
         }
+        if (categoryParam) {
+          // If slug format, convert back or pass directly if db uses slugs
+          // Note: our API matches raw category names, so if we pass "beads-&-charms",
+          // it might not match "Beads & Charms". Collections.tsx passes lowercase slug.
+          // Let's pass the raw param for now.
+          params.append('category', categoryParam);
+        }
 
         console.log('🔍 Fetching with params:', params.toString());
 
         const res = await fetch(`/api/products?${params.toString()}`);
-        
+
         if (!res.ok) {
           throw new Error('Failed to fetch products');
         }
 
         const data = await res.json();
         console.log('📦 Products received:', data);
-        
+
         setProducts(data);
       } catch (error) {
         console.error('❌ Error fetching products:', error);
@@ -67,7 +76,7 @@ export default function ProductsPage() {
     };
 
     fetchProducts();
-  }, [query]); // removed selectedCategory dependency
+  }, [query, categoryParam]);
 
   const cartItemById = (id: string) =>
     cartItems.find((item) => item.id === id);
@@ -91,154 +100,154 @@ export default function ProductsPage() {
           )}
         </div>
 
-          {/* PRODUCTS - Full Width Now */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {loading ? (
-              <div className="col-span-full text-center py-12">
-                <div className="inline-block h-10 w-10 animate-spin rounded-full border-4 border-solid border-[#e6cfa7] border-r-transparent"></div>
-                <p className="mt-4 text-gray-600 font-medium">Loading products...</p>
-              </div>
-            ) : products.length === 0 ? (
-              <div className="col-span-full text-center py-12">
-                <p className="text-xl text-gray-600">No products found 😕</p>
-                <p className="text-sm text-gray-500 mt-2">Try adjusting your search</p>
-              </div>
-            ) : (
-              products.map((p) => {
-                const cartItem = cartItemById(p.id);
+        {/* PRODUCTS - Full Width Now */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {loading ? (
+            <div className="col-span-full text-center py-12">
+              <div className="inline-block h-10 w-10 animate-spin rounded-full border-4 border-solid border-[#e6cfa7] border-r-transparent"></div>
+              <p className="mt-4 text-gray-600 font-medium">Loading products...</p>
+            </div>
+          ) : products.length === 0 ? (
+            <div className="col-span-full text-center py-12">
+              <p className="text-xl text-gray-600">No products found 😕</p>
+              <p className="text-sm text-gray-500 mt-2">Try adjusting your search</p>
+            </div>
+          ) : (
+            products.map((p) => {
+              const cartItem = cartItemById(p.id);
 
-                return (
-                  <div
-                    key={p.id}
-                    className="bg-white border border-gray-200 text-[rgb(44_95_124)] p-5 rounded-2xl flex flex-col group shadow-sm hover:shadow-lg hover:border-gray-300 transition-all"
-                  >
-                    {/* Product Link */}
-                    <Link href={`/product/${p.id}`} className="block">
-                      {/* Image Container */}
-                      <div className="relative h-48 w-full mb-4 rounded-xl overflow-hidden bg-gray-50">
-                        {p.images && p.images.length > 0 ? (
-                          <Image
-                            src={p.images[0]}
-                            alt={p.title}
-                            fill
-                            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-                            className="object-cover transition-transform duration-500 group-hover:scale-110"
-                            priority={false}
-                            onError={(e) => {
-                              console.error('Image failed to load:', p.images[0]);
-                              (e.target as HTMLImageElement).src = '/placeholder.jpg';
-                            }}
-                          />
-                        ) : (
-                          <div className="w-full h-full flex items-center justify-center bg-gray-100">
-                            <span className="text-gray-400 text-sm">No Image</span>
-                          </div>
-                        )}
-                        
-                        {/* Badge */}
-                        {p.badge && (
-                          <div className="absolute top-3 right-3 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md">
-                            {p.badge}
-                          </div>
-                        )}
-                      </div>
-
-                      {/* Title */}
-                      <h3 className="font-bold text-[rgb(44_95_124)] group-hover:text-[#E76F51] transition min-h-[2.5rem] leading-tight">
-                        {p.title}
-                      </h3>
-                    </Link>
-
-                    {/* Details */}
-                    {p.details && (
-                      <p className="text-xs text-gray-500 mt-1 line-clamp-2">
-                        {p.details}
-                      </p>
-                    )}
-
-                    {/* Rating */}
-                    <div className="mt-2 flex items-center gap-1">
-                      <div className="flex text-amber-500 text-sm">
-                        {'★'.repeat(Math.floor(p.rating))}
-                        {'☆'.repeat(5 - Math.floor(p.rating))}
-                      </div>
-                      <span className="text-xs text-gray-500">
-                        ({p.reviews})
-                      </span>
-                    </div>
-
-                    {/* Price */}
-                    <div className="mt-3 flex items-center gap-2 mb-3">
-                      <span className="font-bold text-xl text-[rgb(44_95_124)]">
-                        ₹{p.price.toLocaleString()}
-                      </span>
-                      {p.oldPrice && (
-                        <>
-                          <span className="text-sm text-gray-400 line-through">
-                            ₹{p.oldPrice.toLocaleString()}
-                          </span>
-                          <span className="text-xs bg-green-100 text-green-700 font-semibold px-2 py-1 rounded-md">
-                            {Math.round(((p.oldPrice - p.price) / p.oldPrice) * 100)}% OFF
-                          </span>
-                        </>
-                      )}
-                    </div>
-
-                    {/* Stock Info */}
-                    <div className="text-xs mb-4">
-                      {p.stock > 0 ? (
-                        <div className="flex items-center gap-2 text-green-600">
-                          <span className="w-2 h-2 bg-green-600 rounded-full"></span>
-                          <span className="font-medium">In Stock ({p.stock})</span>
-                        </div>
+              return (
+                <div
+                  key={p.id}
+                  className="bg-white border border-gray-200 text-[rgb(44_95_124)] p-5 rounded-2xl flex flex-col group shadow-sm hover:shadow-lg hover:border-gray-300 transition-all"
+                >
+                  {/* Product Link */}
+                  <Link href={`/product/${p.id}`} className="block">
+                    {/* Image Container */}
+                    <div className="relative h-48 w-full mb-4 rounded-xl overflow-hidden bg-gray-50">
+                      {p.images && p.images.length > 0 ? (
+                        <Image
+                          src={p.images[0]}
+                          alt={p.title}
+                          fill
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+                          className="object-cover transition-transform duration-500 group-hover:scale-110"
+                          priority={false}
+                          onError={(e) => {
+                            console.error('Image failed to load:', p.images[0]);
+                            (e.target as HTMLImageElement).src = '/placeholder.jpg';
+                          }}
+                        />
                       ) : (
-                        <div className="flex items-center gap-2 text-red-600">
-                          <span className="w-2 h-2 bg-red-600 rounded-full"></span>
-                          <span className="font-semibold">Out of Stock</span>
+                        <div className="w-full h-full flex items-center justify-center bg-gray-100">
+                          <span className="text-gray-400 text-sm">No Image</span>
+                        </div>
+                      )}
+
+                      {/* Badge */}
+                      {p.badge && (
+                        <div className="absolute top-3 right-3 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md">
+                          {p.badge}
                         </div>
                       )}
                     </div>
 
-                    {/* Cart Actions */}
-                    {!cartItem ? (
-                      <button
-                        onClick={() =>
-                          addToCart({
-                            id: p.id,
-                            title: p.title,
-                            price: p.price,
-                            image: p.images[0] || '/placeholder.jpg',
-                            quantity: 1,
-                          })
-                        }
-                        className="mt-auto bg-[rgb(44_95_124)] text-white py-3 rounded-xl hover:bg-[rgb(34_85_114)] transition-all font-semibold disabled:bg-gray-300 disabled:cursor-not-allowed shadow-sm"
-                        disabled={p.stock === 0}
-                      >
-                        {p.stock === 0 ? 'Out of Stock' : 'Add to Cart'}
-                      </button>
+                    {/* Title */}
+                    <h3 className="font-bold text-[rgb(44_95_124)] group-hover:text-[#E76F51] transition min-h-[2.5rem] leading-tight">
+                      {p.title}
+                    </h3>
+                  </Link>
+
+                  {/* Details */}
+                  {p.details && (
+                    <p className="text-xs text-gray-500 mt-1 line-clamp-2">
+                      {p.details}
+                    </p>
+                  )}
+
+                  {/* Rating */}
+                  <div className="mt-2 flex items-center gap-1">
+                    <div className="flex text-amber-500 text-sm">
+                      {'★'.repeat(Math.floor(p.rating))}
+                      {'☆'.repeat(5 - Math.floor(p.rating))}
+                    </div>
+                    <span className="text-xs text-gray-500">
+                      ({p.reviews})
+                    </span>
+                  </div>
+
+                  {/* Price */}
+                  <div className="mt-3 flex items-center gap-2 mb-3">
+                    <span className="font-bold text-xl text-[rgb(44_95_124)]">
+                      ₹{p.price.toLocaleString()}
+                    </span>
+                    {p.oldPrice && (
+                      <>
+                        <span className="text-sm text-gray-400 line-through">
+                          ₹{p.oldPrice.toLocaleString()}
+                        </span>
+                        <span className="text-xs bg-green-100 text-green-700 font-semibold px-2 py-1 rounded-md">
+                          {Math.round(((p.oldPrice - p.price) / p.oldPrice) * 100)}% OFF
+                        </span>
+                      </>
+                    )}
+                  </div>
+
+                  {/* Stock Info */}
+                  <div className="text-xs mb-4">
+                    {p.stock > 0 ? (
+                      <div className="flex items-center gap-2 text-green-600">
+                        <span className="w-2 h-2 bg-green-600 rounded-full"></span>
+                        <span className="font-medium">In Stock ({p.stock})</span>
+                      </div>
                     ) : (
-                      <div className="mt-auto flex justify-between items-center border-2 border-gray-300 rounded-xl px-4 py-3 bg-gray-50">
-                        <button
-                          onClick={() => decreaseQty(cartItem.id)}
-                          className="text-xl font-bold text-[rgb(44_95_124)] w-8 h-8 flex items-center justify-center hover:bg-gray-200 rounded-lg transition"
-                        >
-                          −
-                        </button>
-                        <span className="font-bold text-[rgb(44_95_124)]">{cartItem.quantity}</span>
-                        <button
-                          onClick={() => increaseQty(cartItem.id)}
-                          className="text-xl font-bold text-[rgb(44_95_124)] w-8 h-8 flex items-center justify-center hover:bg-gray-200 rounded-lg transition disabled:opacity-50 disabled:cursor-not-allowed"
-                          disabled={cartItem.quantity >= p.stock}
-                        >
-                          +
-                        </button>
+                      <div className="flex items-center gap-2 text-red-600">
+                        <span className="w-2 h-2 bg-red-600 rounded-full"></span>
+                        <span className="font-semibold">Out of Stock</span>
                       </div>
                     )}
                   </div>
-                );
-              })
-            )}
-          </div>
+
+                  {/* Cart Actions */}
+                  {!cartItem ? (
+                    <button
+                      onClick={() =>
+                        addToCart({
+                          id: p.id,
+                          title: p.title,
+                          price: p.price,
+                          image: p.images[0] || '/placeholder.jpg',
+                          quantity: 1,
+                        })
+                      }
+                      className="mt-auto bg-[rgb(44_95_124)] text-white py-3 rounded-xl hover:bg-[rgb(34_85_114)] transition-all font-semibold disabled:bg-gray-300 disabled:cursor-not-allowed shadow-sm"
+                      disabled={p.stock === 0}
+                    >
+                      {p.stock === 0 ? 'Out of Stock' : 'Add to Cart'}
+                    </button>
+                  ) : (
+                    <div className="mt-auto flex justify-between items-center border-2 border-gray-300 rounded-xl px-4 py-3 bg-gray-50">
+                      <button
+                        onClick={() => decreaseQty(cartItem.id)}
+                        className="text-xl font-bold text-[rgb(44_95_124)] w-8 h-8 flex items-center justify-center hover:bg-gray-200 rounded-lg transition"
+                      >
+                        −
+                      </button>
+                      <span className="font-bold text-[rgb(44_95_124)]">{cartItem.quantity}</span>
+                      <button
+                        onClick={() => increaseQty(cartItem.id)}
+                        className="text-xl font-bold text-[rgb(44_95_124)] w-8 h-8 flex items-center justify-center hover:bg-gray-200 rounded-lg transition disabled:opacity-50 disabled:cursor-not-allowed"
+                        disabled={cartItem.quantity >= p.stock}
+                      >
+                        +
+                      </button>
+                    </div>
+                  )}
+                </div>
+              );
+            })
+          )}
+        </div>
         {/* </div> */}
       </div>
     </section>

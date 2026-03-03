@@ -53,8 +53,7 @@ export default function CollectionsPage() {
   const router = useRouter();
 
   const handleExplore = (title: string) => {
-    const slug = title.toLowerCase().replace(/\s+/g, '-');
-    router.push(`/shop?collection=${encodeURIComponent(slug)}`);
+    router.push(`/shop`);
   };
 
   return (
@@ -131,7 +130,7 @@ export default function CollectionsPage() {
           ))}
         </div>
 
-        
+
 
       </div>
     </section>
