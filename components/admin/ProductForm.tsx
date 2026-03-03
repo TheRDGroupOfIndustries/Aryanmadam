@@ -139,7 +139,9 @@ const ProductForm = ({ id, mode = "create", product }: ProductFormProps) => {
   const [description, setDescription] = useState("");
   const [stock, setStock] = useState<number>();
   const [price, setPrice] = useState<number>();
+  const [priceDisplay, setPriceDisplay] = useState("");
   const [oldPrice, setOldPrice] = useState<number>();
+  const [oldPriceDisplay, setOldPriceDisplay] = useState("");
   const [exclusive, setExclusive] = useState<number>();
   const [stone, setStone] = useState("");
   const [badge, setBadge] = useState("");
@@ -228,7 +230,9 @@ const ProductForm = ({ id, mode = "create", product }: ProductFormProps) => {
     setDescription(product.description || "");
     setStock(product.stock || 0);
     setPrice(product.price || 0);
+    setPriceDisplay(product.priceDisplay || "");
     setOldPrice(product.oldPrice || 0);
+    setOldPriceDisplay(product.oldPriceDisplay || "");
     setExclusive(product.exclusive || undefined);
     setStone(product.stone || "");
     setBadge(product.badge || "");
@@ -409,7 +413,9 @@ const ProductForm = ({ id, mode = "create", product }: ProductFormProps) => {
           insideBox: items.filter((i) => i.trim() !== ""),
           stock,
           price,
+          priceDisplay: priceDisplay || undefined,
           oldPrice,
+          oldPriceDisplay: oldPriceDisplay || undefined,
           exclusive: exclusive || undefined,
           colour: finalHexColours,
           video: null,
@@ -461,7 +467,9 @@ const ProductForm = ({ id, mode = "create", product }: ProductFormProps) => {
           insideBox: items.filter((i) => i.trim() !== ""),
           stock,
           price,
+          priceDisplay: priceDisplay || undefined,
           oldPrice,
+          oldPriceDisplay: oldPriceDisplay || undefined,
           exclusive,
           colour: finalHexColours,
           category: finalCategory,
@@ -531,7 +539,9 @@ const ProductForm = ({ id, mode = "create", product }: ProductFormProps) => {
         stock,
         images: allImages,
         price,
+        priceDisplay: priceDisplay || undefined,
         oldPrice,
+        oldPriceDisplay: oldPriceDisplay || undefined,
         exclusive,
         details,
         colour: finalHexColours,
@@ -747,16 +757,16 @@ const ProductForm = ({ id, mode = "create", product }: ProductFormProps) => {
         </div>
 
         {/* Pricing Section */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-3 sm:gap-4 mt-4">
           <div>
             <label className="block text-gray-700 font-medium mb-1 text-sm sm:text-base">
-              Price <span className="text-red-500">*</span>
+              Base Price (For Cart Checkout) <span className="text-red-500">*</span>
             </label>
             <input
               type="number"
               value={price || ""}
               onChange={(e) => setPrice(Number(e.target.value))}
-              placeholder="0"
+              placeholder="E.g., 100"
               className="w-full outline-none p-2.5 sm:p-3 text-sm sm:text-base text-gray-900 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-transparent bg-white"
               disabled={loading}
             />
@@ -764,13 +774,41 @@ const ProductForm = ({ id, mode = "create", product }: ProductFormProps) => {
 
           <div>
             <label className="block text-gray-700 font-medium mb-1 text-sm sm:text-base">
-              Old Price <span className="text-red-500">*</span>
+              Display Price Range (Optional)
+            </label>
+            <input
+              type="text"
+              value={priceDisplay}
+              onChange={(e) => setPriceDisplay(e.target.value)}
+              placeholder="E.g., 100-200"
+              className="w-full outline-none p-2.5 sm:p-3 text-sm sm:text-base text-gray-900 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-transparent bg-white"
+              disabled={loading}
+            />
+          </div>
+
+          <div>
+            <label className="block text-gray-700 font-medium mb-1 text-sm sm:text-base">
+              Base Old Price <span className="text-red-500">*</span>
             </label>
             <input
               type="number"
               value={oldPrice || ""}
               onChange={(e) => setOldPrice(Number(e.target.value))}
-              placeholder="0"
+              placeholder="E.g., 150"
+              className="w-full outline-none p-2.5 sm:p-3 text-sm sm:text-base text-gray-900 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-transparent bg-white"
+              disabled={loading}
+            />
+          </div>
+
+          <div>
+            <label className="block text-gray-700 font-medium mb-1 text-sm sm:text-base">
+              Display Old Price Range (Optional)
+            </label>
+            <input
+              type="text"
+              value={oldPriceDisplay}
+              onChange={(e) => setOldPriceDisplay(e.target.value)}
+              placeholder="E.g., 150-250"
               className="w-full outline-none p-2.5 sm:p-3 text-sm sm:text-base text-gray-900 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-400 focus:border-transparent bg-white"
               disabled={loading}
             />

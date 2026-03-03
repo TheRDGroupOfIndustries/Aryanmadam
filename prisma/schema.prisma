@@ -75,7 +75,9 @@ model Product {
   details     String?
   description String
   price       Int
+  priceDisplay String?
   oldPrice    Int?
+  oldPriceDisplay String?
   exclusive   Int?
   stock       Int           @default(0)
   images      String[]
@@ -108,7 +110,9 @@ model Remedy {
   category    String
   ailment     String        // ✅ REQUIRED FIELD
   price       Int
+  priceDisplay String?
   oldPrice    Int?
+  oldPriceDisplay String?
   stock       Int           @default(0)
   images      String[]
   video       String?
