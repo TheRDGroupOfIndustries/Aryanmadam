@@ -56,7 +56,6 @@ export async function POST(request: NextRequest) {
 
     const body = await request.json();
 
-    console.log('📝 Creating remedy with data:', body);
 
     // ✅ ONLY USE FIELDS THAT EXIST IN YOUR SCHEMA
     const remedy = await prisma.remedy.create({
@@ -78,7 +77,7 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    console.log('✅ Remedy created:', remedy.id);
+
     return NextResponse.json(remedy, { status: 201 });
   } catch (error) {
     console.error('❌ Error creating remedy:', error);

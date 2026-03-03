@@ -10,7 +10,6 @@ export async function GET(
   try {
     const { id } = await params;
 
-    console.log('📦 Fetching remedy with ID:', id);
 
     const remedy = await prisma.remedy.findUnique({
       where: { id },
@@ -23,7 +22,6 @@ export async function GET(
       );
     }
 
-    console.log('✅ Remedy found:', remedy.title);
     return NextResponse.json(remedy);
   } catch (error) {
     console.error('❌ Error fetching remedy:', error);
@@ -49,7 +47,6 @@ export async function PUT(
     const { id } = await params;
     const body = await request.json();
 
-    console.log('🔄 Updating remedy:', id);
 
     // ✅ ONLY UPDATE FIELDS THAT EXIST IN YOUR SCHEMA
     const updatedRemedy = await prisma.remedy.update({
@@ -70,7 +67,6 @@ export async function PUT(
       },
     });
 
-    console.log('✅ Remedy updated:', updatedRemedy.title);
     return NextResponse.json(updatedRemedy);
   } catch (error) {
     console.error('❌ Error updating remedy:', error);
@@ -95,13 +91,11 @@ export async function DELETE(
 
     const { id } = await params;
 
-    console.log('🗑️ Deleting remedy:', id);
 
     await prisma.remedy.delete({
       where: { id },
     });
 
-    console.log('✅ Remedy deleted successfully');
     return NextResponse.json({ message: 'Remedy deleted successfully' });
   } catch (error) {
     console.error('❌ Error deleting remedy:', error);

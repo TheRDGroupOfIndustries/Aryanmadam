@@ -12,8 +12,6 @@ export async function GET(req: NextRequest) {
     const maxPrice = searchParams.get("maxPrice");
     const search = searchParams.get("search");
 
-    console.log("📥 GET /api/products called");
-    console.log("Query params:", { category, maxPrice, search });
 
     // Build the where clause dynamically
     const where: any = {
@@ -46,7 +44,7 @@ export async function GET(req: NextRequest) {
       };
     }
 
-    console.log("🔍 Fetching products with filter:", where);
+
 
     // Fetch products from database
     const products = await prisma.product.findMany({
@@ -56,7 +54,7 @@ export async function GET(req: NextRequest) {
       },
     });
 
-    console.log(`✅ Found ${products.length} products`);
+
 
     return NextResponse.json(products, { status: 200 });
   } catch (error: any) {
@@ -83,8 +81,6 @@ export async function POST(req: NextRequest) {
 
     const body = await req.json();
 
-    console.log("📥 POST /api/products called");
-    console.log("Body:", body);
 
     // Generate unique SKU based on category
     const generateSKU = (category: string) => {
@@ -125,7 +121,7 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    console.log("✅ Product created:", product.id);
+
 
     return NextResponse.json(
       {

@@ -13,8 +13,6 @@ export async function GET(
     // Await params in Next.js 15+
     const { id } = await params;
 
-    console.log('📦 Fetching product with ID:', id);
-
     const product = await prisma.product.findUnique({
       where: { id },
     });
@@ -26,7 +24,6 @@ export async function GET(
       );
     }
 
-    console.log('✅ Product found:', product.title);
     return NextResponse.json(product);
   } catch (error) {
     console.error('❌ Error fetching product:', error);
@@ -52,14 +49,14 @@ export async function PUT(
     const { id } = await params;
     const body = await request.json();
 
-    console.log('🔄 Updating product:', id);
+
 
     const updatedProduct = await prisma.product.update({
       where: { id },
       data: body,
     });
 
-    console.log('✅ Product updated:', updatedProduct.title);
+
     return NextResponse.json(updatedProduct);
   } catch (error) {
     console.error('❌ Error updating product:', error);
@@ -84,13 +81,13 @@ export async function DELETE(
 
     const { id } = await params;
 
-    console.log('🗑️ Deleting product:', id);
+
 
     await prisma.product.delete({
       where: { id },
     });
 
-    console.log('✅ Product deleted successfully');
+
     return NextResponse.json({ message: 'Product deleted successfully' });
   } catch (error) {
     console.error('❌ Error deleting product:', error);
