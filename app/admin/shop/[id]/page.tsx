@@ -14,7 +14,6 @@ export default async function Page({ params }: { params: { id: string } }) {
       id: id,
     },
   })
-  // console.log("server product: ", product)
   return (
     <ProductForm id={id} mode="update" product={product} />
   );
