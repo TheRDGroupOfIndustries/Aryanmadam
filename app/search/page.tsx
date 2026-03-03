@@ -7,11 +7,9 @@ export default function Page() {
   return (
     <>
       <Navbar />
-
       <Suspense fallback={<div className="py-24 text-center">Loading search...</div>}>
         <SearchClient />
       </Suspense>
-
       <Footer />
     </>
   );
