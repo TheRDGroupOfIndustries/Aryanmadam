@@ -7,13 +7,31 @@ export default function HomePopup() {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
+  const [title, setTitle] = useState("10% off 54 collections");
+  const [isActive, setIsActive] = useState(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setShow(true);
-    }, 1000);
+    const fetchSettings = async () => {
+      try {
+        const res = await fetch("/api/popup-settings");
+        if (res.ok) {
+          const data = await res.json();
+          setTitle(data.title);
+          setIsActive(data.isActive);
+          
+          if (data.isActive) {
+            const timer = setTimeout(() => {
+              setShow(true);
+            }, 1000);
+            return () => clearTimeout(timer);
+          }
+        }
+      } catch (error) {
+        console.error("Failed to fetch popup settings:", error);
+      }
+    };
 
-    return () => clearTimeout(timer);
+    fetchSettings();
   }, []);
 
   const closePopup = () => {
@@ -77,7 +95,7 @@ export default function HomePopup() {
         {/* Content */}
         <div className="relative z-10 p-8 sm:p-12 md:p-16 text-center max-w-2xl mx-auto flex flex-col items-center justify-center min-h-[300px] sm:min-h-[400px]">
           <h2 className="text-2xl sm:text-4xl md:text-5xl font-bold text-black mb-4">
-            10% off 54 collections
+            {title}
           </h2>
 
           <p className="mt-2 text-sm sm:text-lg md:text-xl text-black font-medium">

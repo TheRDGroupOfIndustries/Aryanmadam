@@ -21,6 +21,7 @@ const Navbar: React.FC = () => {
   const navItems: NavItem[] = [
     { label: "Shop", href: "/admin/shop", icon: "📦" },
     { label: "Remedies", href: "/admin/remedies", icon: "🛒" },
+    { label: "Popup", href: "/admin/popup", icon: "✨" },
   ];
 
   const isActive = (href: string) => pathname === href;

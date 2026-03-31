@@ -200,6 +200,13 @@ model Newsletter {
   @@index([email])
 }
 
+model Popup {
+  id        String   @id @default(uuid())
+  title     String   @default("10% off 54 collections")
+  isActive  Boolean  @default(true)
+  updatedAt DateTime @updatedAt
+}
+
 model Contact {
   id        String   @id @default(uuid())
   name      String
