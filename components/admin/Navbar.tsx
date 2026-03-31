@@ -36,17 +36,14 @@ const Navbar: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <Link href="/admin/shop" className="flex items-center space-x-3">
-            <Link href="/admin/shop" className="flex items-center">
-  <Image
-    src="/assets/logo6.png"
-    alt="Arya Madam Admin"
-    width={120}
-    height={36}
-    priority
-    className="object-contain"
-  />
-</Link>
-
+            <Image
+              src="/assets/logo6.png"
+              alt="Arya Madam Admin"
+              width={120}
+              height={36}
+              priority
+              className="object-contain"
+            />
           </Link>
 
           <div className="hidden md:flex items-center space-x-1">
@@ -54,11 +51,10 @@ const Navbar: React.FC = () => {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition ${
-                  isActive(item.href)
+                className={`px-4 py-2 rounded-lg text-sm font-medium transition ${isActive(item.href)
                     ? "bg-blue-600 text-white shadow-md"
                     : "text-gray-300 hover:bg-slate-700 hover:text-white"
-                }`}
+                  }`}
               >
                 <span className="mr-2">{item.icon}</span>
                 {item.label}
@@ -79,9 +75,8 @@ const Navbar: React.FC = () => {
                   Admin
                 </span>
                 <svg
-                  className={`w-4 h-4 text-gray-300 transition-transform ${
-                    isProfileOpen ? "rotate-180" : ""
-                  }`}
+                  className={`w-4 h-4 text-gray-300 transition-transform ${isProfileOpen ? "rotate-180" : ""
+                    }`}
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -125,11 +120,10 @@ const Navbar: React.FC = () => {
                 key={item.href}
                 href={item.href}
                 onClick={() => setIsMenuOpen(false)}
-                className={`block px-3 py-2 rounded-lg text-base font-medium ${
-                  isActive(item.href)
+                className={`block px-3 py-2 rounded-lg text-base font-medium ${isActive(item.href)
                     ? "bg-blue-600 text-white"
                     : "text-gray-300 hover:bg-slate-700 hover:text-white"
-                }`}
+                  }`}
               >
                 {item.icon} {item.label}
               </Link>

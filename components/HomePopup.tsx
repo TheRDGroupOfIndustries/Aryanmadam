@@ -9,22 +9,15 @@ export default function HomePopup() {
   const [message, setMessage] = useState("");
 
   useEffect(() => {
-    // Check if popup has been shown in the current session (tab)
-    const hasSeenPopup = sessionStorage.getItem("hasSeenPopupSession");
+    const timer = setTimeout(() => {
+      setShow(true);
+    }, 1000);
 
-    if (!hasSeenPopup) {
-      const timer = setTimeout(() => {
-        setShow(true);
-      }, 1000);
-
-      return () => clearTimeout(timer);
-    }
+    return () => clearTimeout(timer);
   }, []);
 
   const closePopup = () => {
     setShow(false);
-    // Mark popup as seen for this session
-    sessionStorage.setItem("hasSeenPopupSession", "true");
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -46,8 +39,6 @@ export default function HomePopup() {
       if (response.ok) {
         setMessage("✅ Successfully subscribed!");
         setEmail("");
-        // Mark popup as seen after successful subscription
-        sessionStorage.setItem("hasSeenPopupSession", "true");
         setTimeout(() => {
           setShow(false);
         }, 2000);
