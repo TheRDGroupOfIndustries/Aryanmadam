@@ -1,14 +1,13 @@
 "use client";
 
 import Image from "next/image";
-import React, { useEffect, useState, useRef } from "react";
+import React, { useState } from "react";
 import {
   Search,
   ShoppingCart,
   Menu,
   X,
   ChevronDown,
-  ChevronRight,
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -28,11 +27,6 @@ export default function Navbar() {
   const [mobileCreativeOpen, setMobileCreativeOpen] = useState(false);
   const [mobileCrystalsOpen, setMobileCrystalsOpen] = useState(false);
   const [mobileRemediesOpen, setMobileRemediesOpen] = useState(false);
-
-  // Mobile nested submenu states
-  const [mobileCoirOpen, setMobileCoirOpen] = useState(false);
-  const [mobileAnkletsOpen, setMobileAnkletsOpen] = useState(false);
-  const [mobileSageOpen, setMobileSageOpen] = useState(false);
 
   const [query, setQuery] = useState("");
 
