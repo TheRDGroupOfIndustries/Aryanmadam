@@ -42,11 +42,14 @@ export default function AdminPopupPage() {
         body: JSON.stringify({ title, isActive }),
       });
 
-      if (!res.ok) throw new Error("Save failed");
+      if (!res.ok) {
+        const data = await res.json();
+        throw new Error(data.error || "Save failed");
+      }
       
       toast.success("Settings updated successfully!");
-    } catch (error) {
-      toast.error("Failed to save settings");
+    } catch (error: any) {
+      toast.error(error.message || "Failed to save settings");
     } finally {
       setSaving(false);
     }

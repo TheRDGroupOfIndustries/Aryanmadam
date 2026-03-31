@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 export default function HomePopup() {
   const [show, setShow] = useState(false);
@@ -129,11 +130,11 @@ export default function HomePopup() {
             </p>
           )}
 
-          <p className="mt-3 sm:mt-4 text-xs text-gray-700 leading-relaxed">
+          <p className="mt-3 sm:mt-4 text-[10px] sm:text-xs text-gray-700 leading-relaxed">
             By signing up, you agree to receive marketing emails. View our{" "}
-            <span className="underline cursor-pointer">privacy policy</span>{" "}
+            <Link href="/privacyPolicy" onClick={closePopup} className="underline cursor-pointer hover:text-purple-700 transition">privacy policy</Link>{" "}
             and{" "}
-            <span className="underline cursor-pointer">terms of service</span>.
+            <Link href="/termsOfService" onClick={closePopup} className="underline cursor-pointer hover:text-purple-700 transition">terms of service</Link>.
           </p>
         </div>
       </div>
