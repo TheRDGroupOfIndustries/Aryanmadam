@@ -221,12 +221,54 @@ export const Products = () => {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
         <h2 className="text-2xl md:text-3xl font-bold text-gray-800">Shop Management</h2>
-        <button
-          onClick={() => router.push("/admin/shop/create")}
-          className="flex items-center gap-2 px-3 md:px-4 py-2 text-sm md:text-base bg-amber-600 text-white rounded-lg hover:bg-amber-700 cursor-pointer transition duration-150 whitespace-nowrap"
-        >
-          <Plus className="w-4 h-4" /> Create Product
-        </button>
+        <div className="flex gap-2 w-full sm:w-auto">
+          {/* Bulk Product Upload (Commented out)
+          <input
+            type="file"
+            accept=".xlsx, .xls, .csv"
+            onChange={async (e) => {
+              const file = e.target.files?.[0];
+              if (!file) return;
+
+              const formData = new FormData();
+              formData.append("file", file);
+
+              const loadId = toast.loading("Uploading products...");
+              try {
+                const res = await fetch("/api/admin/products/bulk", {
+                  method: "POST",
+                  body: formData,
+                });
+
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.error || "Upload failed");
+
+                toast.success(`Successfully uploaded ${data.count} products!`, { id: loadId });
+                // Refresh product list
+                window.location.reload();
+              } catch (err: any) {
+                toast.error(err.message, { id: loadId });
+              } finally {
+                e.target.value = ""; // Clear input
+              }
+            }}
+            id="bulk-upload"
+            className="hidden"
+          />
+          <label
+            htmlFor="bulk-upload"
+            className="flex items-center gap-2 px-3 md:px-4 py-2 text-sm md:text-base bg-white border-2 border-amber-600 text-amber-600 rounded-lg hover:bg-amber-50 cursor-pointer transition duration-150 whitespace-nowrap font-semibold"
+          >
+            Bulk Product
+          </label>
+          */}
+          <button
+            onClick={() => router.push("/admin/shop/create")}
+            className="flex items-center gap-2 px-3 md:px-4 py-2 text-sm md:text-base bg-amber-600 text-white rounded-lg hover:bg-amber-700 cursor-pointer transition duration-150 whitespace-nowrap"
+          >
+            <Plus className="w-4 h-4" /> Create Product
+          </button>
+        </div>
       </div>
 
       {/* Search & Filter Bar */}

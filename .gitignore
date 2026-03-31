@@ -39,5 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+bulk_product_template.csv
 
 /lib/generated/prisma

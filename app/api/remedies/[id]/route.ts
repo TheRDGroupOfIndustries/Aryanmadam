@@ -11,18 +11,26 @@ export async function GET(
     const { id } = await params;
 
 
-    const remedy = await prisma.remedy.findUnique({
+    // Check Remedy table first
+    let item: any = await prisma.remedy.findUnique({
       where: { id },
     });
 
-    if (!remedy) {
+    // If not found, check Product table
+    if (!item) {
+      item = await prisma.product.findUnique({
+        where: { id },
+      });
+    }
+
+    if (!item) {
       return NextResponse.json(
-        { error: 'Remedy not found' },
+        { error: 'Product not found' },
         { status: 404 }
       );
     }
 
-    return NextResponse.json(remedy);
+    return NextResponse.json(item);
   } catch (error) {
     console.error('❌ Error fetching remedy:', error);
     return NextResponse.json(

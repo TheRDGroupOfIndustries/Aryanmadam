@@ -2,40 +2,79 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { cookies } from 'next/headers';
 
-// GET - Fetch all remedies with filters
+// Slug to Label mapping for Remedies
+const SLUG_TO_LABEL: Record<string, string> = {
+  "wealth": "Wealth",
+  "health": "Health",
+  "relationship": "Relationship",
+  "protection": "Protection",
+  "self-confidence": "Self-Confidence",
+  "education": "Education",
+  "crown-chakra": "Crown Chakra",
+  "third-eye-chakra": "Third Eye Chakra",
+  "throat-chakra": "Throat Chakra",
+  "heart-chakra": "Heart Chakra",
+  "solar-plexus-chakra": "Solar Plexus Chakra",
+  "sacral-chakra": "Sacral Chakra",
+  "root-chakra": "Root Chakra",
+};
+
+// GET - Fetch all remedies (including from Product table)
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
-    const category = searchParams.get('category');
+    const categorySlug = searchParams.get('category');
     const search = searchParams.get('search');
     const maxPrice = searchParams.get('maxPrice');
 
-    const where: any = {
-      status: 'ACTIVE',
-    };
+    const label = categorySlug ? SLUG_TO_LABEL[categorySlug] || categorySlug : null;
 
-    if (category && category !== 'All') {
-      where.category = category;
+    // Build the query for Remedy table
+    const remedyWhere: any = { status: 'ACTIVE' };
+    if (categorySlug && categorySlug !== 'All') {
+      remedyWhere.category = categorySlug;
     }
-
     if (search) {
-      where.OR = [
+      remedyWhere.OR = [
         { title: { contains: search, mode: 'insensitive' } },
         { description: { contains: search, mode: 'insensitive' } },
-        { ailment: { contains: search, mode: 'insensitive' } },
       ];
     }
-
     if (maxPrice) {
-      where.price = { lte: parseInt(maxPrice) };
+      remedyWhere.price = { lte: parseInt(maxPrice) };
     }
 
-    const remedies = await prisma.remedy.findMany({
-      where,
-      orderBy: { createdAt: 'desc' },
-    });
+    // Build the query for Product table (where category starts with "Remedies")
+    const productWhere: any = { 
+      status: 'ACTIVE',
+      category: { contains: 'Remedies', mode: 'insensitive' } 
+    };
+    if (label && label !== 'All') {
+      productWhere.category = { contains: label, mode: 'insensitive' };
+    }
+    if (search) {
+      productWhere.OR = [
+        { title: { contains: search, mode: 'insensitive' } },
+        { description: { contains: search, mode: 'insensitive' } },
+      ];
+    }
+    if (maxPrice) {
+      productWhere.price = { lte: parseInt(maxPrice) };
+    }
 
-    return NextResponse.json(remedies);
+    // Fetch from both tables
+    const [remedies, products] = await Promise.all([
+      prisma.remedy.findMany({ where: remedyWhere, orderBy: { createdAt: 'desc' } }),
+      prisma.product.findMany({ where: productWhere, orderBy: { createdAt: 'desc' } }),
+    ]);
+
+    // Format products to match the expected structure if necessary (though they are very similar)
+    // Merge and sort by createdAt
+    const allItems = [...remedies, ...products].sort((a, b) => 
+      new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+    );
+
+    return NextResponse.json(allItems);
   } catch (error) {
     console.error('Error fetching remedies:', error);
     return NextResponse.json(
