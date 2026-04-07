@@ -60,7 +60,7 @@ async function sendWelcomeEmail(email: string) {
 
 export async function POST(request: NextRequest) {
   try {
-    const { email } = await request.json();
+    const { email, name, phone, requirement } = await request.json();
 
     // Validation
     if (!email) {
@@ -79,24 +79,46 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Phone validation
+    const phoneRegex = /^[0-9]{10,15}$/;
+    if (phone && !phoneRegex.test(phone)) {
+      return NextResponse.json(
+        { error: 'Invalid phone number. Please enter 10-15 digits.' },
+        { status: 400 }
+      );
+    }
+
     // Check if email already exists
     const existingSubscriber = await prisma.newsletter.findUnique({
       where: { email: email.toLowerCase() },
     });
 
     if (existingSubscriber) {
+      // Update existing subscriber with new info if provided
+      await (prisma.newsletter as any).update({
+        where: { email: email.toLowerCase() },
+        data: {
+          name: name || (existingSubscriber as any).name,
+          phone: phone || (existingSubscriber as any).phone,
+          requirement: requirement || (existingSubscriber as any).requirement,
+        },
+      });
+
       await sendWelcomeEmail(email);
 
       return NextResponse.json(
-        { message: 'You are already subscribed to our newsletter!' },
+        { message: 'Your information has been updated and you are already subscribed!' },
         { status: 200 }
       );
     }
 
     // Create new subscriber
-    const newSubscriber = await prisma.newsletter.create({
+    const newSubscriber = await (prisma.newsletter as any).create({
       data: {
         email: email.toLowerCase(),
+        name,
+        phone,
+        requirement,
       },
     });
 

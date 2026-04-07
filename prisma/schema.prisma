@@ -193,9 +193,12 @@ model OrderItem {
 }
 
 model Newsletter {
-  id        String   @id @default(uuid())
-  email     String   @unique
-  createdAt DateTime @default(now())
+  id          String   @id @default(uuid())
+  email       String   @unique
+  name        String?
+  phone       String?
+  requirement String?
+  createdAt   DateTime @default(now())
 
   @@index([email])
 }
