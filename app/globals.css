@@ -295,3 +295,12 @@ img {
 .next-image-wrapper {
   max-width: 100%;
 }
+
+/* ✅ Hide scrollbar utility */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}

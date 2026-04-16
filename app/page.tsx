@@ -6,6 +6,7 @@ import Collections from "@/components/FeaturedCollections";
 import HowItWorks from "@/components/HowItWorks";
 import WhyChooseUs from "@/components/WhyChooseUs";
 import BestSellers from "@/components/BestSellers";
+import CoirProducts from "@/components/CoirProducts";
 import HomePopup from "@/components/HomePopup";
 import JoinComm from "@/components/JoinCommunity";
 import WhatsAppFloating from "@/components/FloatingWhatsApp";
@@ -18,6 +19,7 @@ export default function HomePage() {
       <Navbar />
       <HeroSection />
       <Collections />
+      <CoirProducts />
       <BestSellers />
       <WhyChooseUs />
       <HowItWorks />
