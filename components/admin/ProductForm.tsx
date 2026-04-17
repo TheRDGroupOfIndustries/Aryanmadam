@@ -81,6 +81,9 @@ const CATEGORY_STRUCTURE = {
   },
   "Collections": {
     subcategories: []
+  },
+  "School Stationary": {
+    subcategories: []
   }
 };
 
