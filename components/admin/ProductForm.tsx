@@ -84,6 +84,9 @@ const CATEGORY_STRUCTURE = {
   },
   "School Stationary": {
     subcategories: []
+  },
+  "ladu gopal": {
+    subcategories: []
   }
 };
 
