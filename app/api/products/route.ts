@@ -8,10 +8,10 @@ import { cookies } from "next/headers";
 export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
+    const bestSeller = searchParams.get("bestSeller");
     const category = searchParams.get("category");
     const maxPrice = searchParams.get("maxPrice");
     const search = searchParams.get("search");
-
 
     // Build the where clause dynamically
     const where: any = {
@@ -44,14 +44,18 @@ export async function GET(req: NextRequest) {
       };
     }
 
-
+    // Best sellers: products with rating >= 4, sorted by rating desc, capped at 8
+    if (bestSeller === "true") {
+      where.rating = { gte: 4 };
+    }
 
     // Fetch products from database
     const products = await prisma.product.findMany({
       where,
-      orderBy: {
-        createdAt: "desc", // Newest first
-      },
+      orderBy: bestSeller === "true"
+        ? { rating: "desc" }
+        : { createdAt: "desc" },
+      ...(bestSeller === "true" ? { take: 8 } : {}),
     });
 
 

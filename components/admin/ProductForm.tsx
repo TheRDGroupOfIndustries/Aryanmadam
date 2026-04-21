@@ -2,9 +2,8 @@
 
 import React, { useState, ChangeEvent, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { X, Plus, Video, ChevronDown } from "lucide-react";
+import { X, Plus, Video } from "lucide-react";
 import Image from "next/image";
-import validator from "validator";
 import { toast } from "react-hot-toast";
 
 interface PreviewImage {
@@ -76,6 +75,19 @@ const CATEGORY_STRUCTURE = {
       "Dry Flowers": []
     }
   },
+  "Crystal Jewellery": {
+    subcategories: {
+      "Necklaces": [],
+      "Bracelets": [],
+      "Earrings": [],
+      "Rings": [],
+      "Pendants": [],
+      "Anklets": [],
+      "Bangles": [],
+      "Malas": [],
+      "Crystal Sets": []
+    }
+  },
   "Shop": {
     subcategories: []
   },
@@ -85,9 +97,6 @@ const CATEGORY_STRUCTURE = {
   "School Stationary": {
     subcategories: []
   },
-  "ladu gopal": {
-    subcategories: []
-  }
 };
 
 const ProductForm = ({ id, mode = "create", product }: ProductFormProps) => {
