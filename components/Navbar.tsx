@@ -103,7 +103,9 @@ export default function Navbar() {
     { label: "Rudraksh", slug: "crystalsAndSpiritual/rudraksh" },
     { label: "Pooja Items", slug: "crystalsAndSpiritual/pooja-items" },
     { label: "Sage", slug: "crystalsAndSpiritual/sage" },
-    { label: "God Idols", slug: "crystalsAndSpiritual/god-idols" }
+    { label: "God Idols", slug: "crystalsAndSpiritual/god-idols" },
+    { label: "Crystal Tumbler Kit", slug: "crystalsAndSpiritual/crystal-tumbler-kit" },
+    { label: "Crystal Decor", slug: "crystalsAndSpiritual/crystal-decor" },
 
   ];
 
@@ -374,7 +376,7 @@ export default function Navbar() {
                         <h3 className="text-black font-bold text-sm mb-6 border-b pb-2 border-gray-100">Crystal Collection</h3>
                         <div className="space-y-3">
                           {crystalsCategories.filter(c =>
-                            ["Crystal Clocks", "Crystal Pyramid", "Crystal Pencils", "Crystal Box", "Crystal Idols", "Pyrite Dust Frames", "Crystal Seven Chakra Healing Frames", "Crystal Strings", "Crystal Animals"].includes(c.label)
+                            ["Crystal Clocks", "Crystal Pyramid", "Crystal Pencils", "Crystal Box", "Crystal Idols", "Pyrite Dust Frames", "Crystal Seven Chakra Healing Frames", "Crystal Strings", "Crystal Animals", "Crystal Tumbler Kit", "Crystal Decor"].includes(c.label)
                           ).map((cat) => (
                             <Link
                               key={cat.slug}

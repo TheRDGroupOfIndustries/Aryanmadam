@@ -63,7 +63,9 @@ const CATEGORY_STRUCTURE = {
       "Rudraksh": [],
       "Pooja Items": [],
       "Sage": [],
-      "God Idols": []
+      "God Idols": [],
+      "Crystal Tumbler Kit": [],
+      "Crystal Decor": []
     }
   },
   "Creative & Handcrafted": {
