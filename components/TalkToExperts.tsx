@@ -84,6 +84,7 @@ export default function ExpertsPage() {
         </p>
       </motion.section>
 
+       
       {/* CONTENT */}
       <section className="py-20 px-6">
         <motion.div
@@ -164,7 +165,9 @@ export default function ExpertsPage() {
               Share your query & we’ll get back with detailed guidance
             </p>
             <a
-              href="mailto:info@example.com"
+              href="https://mail.google.com/mail/?view=cm&to=aryamadamcraftsupplies@gmail.com&su=Query from Website"
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-block px-6 py-3 bg-[#E76F51] text-white rounded-xl hover:bg-[#d65a3d] transition"
             >
               Send Email
@@ -172,6 +175,18 @@ export default function ExpertsPage() {
           </motion.div>
         </motion.div>
       </section>
+
+        {/* info */}
+      <section className="py-20 px-6">
+        <div className="text-center">
+          <h3 className="text-2xl font-bold">Dr. Anju Sharma Rana</h3>
+          <p className="text-gray-700 mt-1">Reiki Grand Master</p>
+          <p className="text-gray-700">Past Life Regression (PLR) &amp; Hypnoheal Therapist</p>
+          <p className="text-gray-700">Guided Meditation, Crystals &amp; Vedic Remedies Expert</p>
+        </div>
+      </section>
+
+    
 
       {/* FORM */}
       <section className="py-24 px-6 bg-gray-50">
