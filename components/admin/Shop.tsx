@@ -18,15 +18,12 @@ interface Product {
   id: string;
   title: string;
   description: string;
-  details?: string;
   stock: number;
   images: string[];
   price: number;
   oldPrice: number;
   exclusive?: number;
   category: string;
-  stone?: string;
-  badge?: string;
 }
 
 export const Products = () => {
@@ -414,10 +411,7 @@ export const Products = () => {
                     {[
                       "Title",
                       "Description",
-                      "Details",
                       "Category",
-                      "Price",
-                      "Old Price",
                       "Stock",
                       "Images",
                       "Actions",
@@ -443,34 +437,13 @@ export const Products = () => {
                           className="hover:bg-gray-50 transition duration-100 text-sm sm:text-base"
                         >
                           <td className="px-6 py-4 whitespace-nowrap font-medium text-gray-900">
-                            <div>{product.title}</div>
-                            <div className="flex gap-1 mt-1">
-                              {product.stone && (
-                                <span className="text-[10px] text-gray-400 font-normal">
-                                  {product.stone}
-                                </span>
-                              )}
-                              {product.badge && (
-                                <span className="px-1.5 py-0.5 bg-blue-50 text-blue-600 rounded text-[9px] font-bold uppercase">
-                                  {product.badge}
-                                </span>
-                              )}
-                            </div>
+                            {product.title}
                           </td>
                           <td className="px-6 py-4 text-gray-600 max-w-xs truncate">
                             {product.description}
                           </td>
-                          <td className="px-6 py-4 text-gray-500 max-w-xs truncate italic">
-                            {product.details || "-"}
-                          </td>
                           <td className="px-6 py-4 whitespace-nowrap">
                             {getCategoryDisplay(product.category || "N/A")}
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap font-medium text-gray-900">
-                            ₹{product.price}
-                          </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-gray-400 line-through">
-                            {product.oldPrice ? `₹${product.oldPrice}` : "-"}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-gray-600">
                             <span
@@ -558,48 +531,6 @@ export const Products = () => {
                         {product.description}
                       </span>
                     </div>
-                    {product.details && (
-                      <div className="flex justify-between mb-2">
-                        <span className="font-semibold text-gray-800">
-                          Details:
-                        </span>
-                        <span className="text-sm text-gray-500 italic truncate max-w-[180px]">
-                          {product.details}
-                        </span>
-                      </div>
-                    )}
-                    {product.stone && (
-                      <div className="flex justify-between mb-2">
-                        <span className="font-semibold text-gray-800">
-                          Stone:
-                        </span>
-                        <span className="text-sm text-gray-600">{product.stone}</span>
-                      </div>
-                    )}
-                    {product.badge && (
-                      <div className="flex justify-between mb-2">
-                        <span className="font-semibold text-gray-800">
-                          Badge:
-                        </span>
-                        <span className="px-2 py-0.5 bg-blue-100 text-blue-700 rounded text-[10px] font-bold uppercase">
-                          {product.badge}
-                        </span>
-                      </div>
-                    )}
-                    <div className="flex justify-between mb-2">
-                      <span className="font-semibold text-gray-800">
-                        Price:
-                      </span>
-                      <span className="text-sm font-bold text-gray-900">₹{product.price}</span>
-                    </div>
-                    {product.oldPrice && (
-                      <div className="flex justify-between mb-2">
-                        <span className="font-semibold text-gray-800">
-                          Old Price:
-                        </span>
-                        <span className="text-sm text-gray-400 line-through">₹{product.oldPrice}</span>
-                      </div>
-                    )}
                     <div className="flex justify-between mb-2 items-center">
                       <span className="font-semibold text-gray-800">
                         Category:
