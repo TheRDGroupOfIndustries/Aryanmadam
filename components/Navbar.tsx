@@ -142,11 +142,17 @@ export default function Navbar() {
         {/* ── DESKTOP NAV: 3-column layout ── */}
         <nav className="hidden lg:flex items-center justify-between max-w-screen-xl mx-auto px-8 py-4">
 
-          {/* LEFT: Logo only */}
-          <div className="flex items-center flex-shrink-0">
+          {/* LEFT: Logo + Search */}
+          <div className="flex items-center gap-4 flex-shrink-0">
             <Link href="/">
               <Image src="/assets/logo6.png" alt="Logo" width={120} height={34} />
             </Link>
+            <div className="relative flex items-center">
+              <Search className="w-5 h-5 text-gray-500 cursor-pointer hover:text-black transition-colors" onClick={handleSearchClick} />
+              {searchOpen && (
+                <input type="text" value={query} onChange={(e) => setQuery(e.target.value)} onKeyDown={handleSearchKey} placeholder="Search products..." className="absolute left-7 top-1/2 -translate-y-1/2 w-56 px-3 py-1.5 text-sm rounded-lg border border-gray-200 bg-white shadow-md text-black placeholder:text-gray-400 caret-black z-50" autoFocus />
+              )}
+            </div>
           </div>
 
           {/* CENTRE: Nav links */}
