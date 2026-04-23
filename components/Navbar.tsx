@@ -110,15 +110,13 @@ export default function Navbar() {
   ];
 
   const jewelleryCategories = [
-    { label: "Necklaces", slug: "crystalJewellery/necklaces" },
-    { label: "Bracelets", slug: "crystalJewellery/bracelets" },
-    { label: "Earrings", slug: "crystalJewellery/earrings" },
-    { label: "Rings", slug: "crystalJewellery/rings" },
-    { label: "Pendants", slug: "crystalJewellery/pendants" },
-    { label: "Anklets", slug: "crystalJewellery/anklets" },
-    { label: "Bangles", slug: "crystalJewellery/bangles" },
-    { label: "Malas", slug: "crystalJewellery/malas" },
-    { label: "Crystal Sets", slug: "crystalJewellery/crystal-sets" },
+    { label: "Crystal Beads Set", slug: "crystalAccessories/crystal-beads-set" },
+    { label: "Crystal Chips Mala Set", slug: "crystalAccessories/crystal-chips-mala-set" },
+    { label: "Crystal Beads Bracelets", slug: "crystalAccessories/crystal-beads-bracelets" },
+    { label: "Crystal Chips Bracelets", slug: "crystalAccessories/crystal-chips-bracelets" },
+    { label: "Crystal Pendents", slug: "crystalAccessories/crystal-pendents" },
+    { label: "Crystal Anklets", slug: "crystalAccessories/crystal-anklets" },
+    { label: "Crystal Bangles", slug: "crystalAccessories/crystal-bangles" },
   ];
 
   const remediesCategories = [
@@ -159,7 +157,7 @@ export default function Navbar() {
             <Link href="/shop">Shop</Link>
             <Link href="/collections">Collections</Link>
 
-            {/* Creative - Meesho Style Mega Menu */}
+            {/* 1. Creative & Handicraft - Mega Menu */}
             <div
               className="relative group"
               onMouseEnter={() => setDesktopCreativeOpen(true)}
@@ -250,96 +248,7 @@ export default function Navbar() {
               )}
             </div>
 
-            {/* Crystal Jewellery - Mega Menu */}
-            <div
-              className="relative group"
-              onMouseEnter={() => setDesktopJewelleryOpen(true)}
-              onMouseLeave={() => setDesktopJewelleryOpen(false)}
-            >
-              <button className="flex items-center gap-1 py-5 hover:text-[#e6cfa7] transition-colors font-medium">
-                Crystal Jewellery <ChevronDown size={16} className="transition-transform duration-300 group-hover:rotate-180" />
-              </button>
-
-              {desktopJewelleryOpen && (
-                <div className="fixed left-0 right-0 top-[81px] bg-white border-b shadow-2xl z-50 animate-in fade-in slide-in-from-top-2 duration-300">
-                  <div className="max-w-7xl mx-auto px-6 py-10">
-                    <div className="grid grid-cols-4 gap-12">
-                      {/* Column 1: Wearable Jewellery */}
-                      <div>
-                        <h3 className="text-black font-bold text-sm mb-6 border-b pb-2 border-gray-100">Wearable Jewellery</h3>
-                        <div className="space-y-3">
-                          {jewelleryCategories.filter(c =>
-                            ["Necklaces", "Bracelets", "Earrings", "Rings"].includes(c.label)
-                          ).map((cat) => (
-                            <Link
-                              key={cat.slug}
-                              href={`/${cat.slug}`}
-                              className="block text-sm text-gray-500 hover:text-[#e6cfa7] transition-all"
-                            >
-                              {cat.label}
-                            </Link>
-                          ))}
-                        </div>
-                      </div>
-
-                      {/* Column 2: Accessories */}
-                      <div>
-                        <h3 className="text-black font-bold text-sm mb-6 border-b pb-2 border-gray-100">Accessories</h3>
-                        <div className="space-y-3">
-                          {jewelleryCategories.filter(c =>
-                            ["Pendants", "Anklets", "Bangles"].includes(c.label)
-                          ).map((cat) => (
-                            <Link
-                              key={cat.slug}
-                              href={`/${cat.slug}`}
-                              className="block text-sm text-gray-500 hover:text-[#e6cfa7] transition-all"
-                            >
-                              {cat.label}
-                            </Link>
-                          ))}
-                        </div>
-                      </div>
-
-                      {/* Column 3: Spiritual */}
-                      <div>
-                        <h3 className="text-black font-bold text-sm mb-6 border-b pb-2 border-gray-100">Spiritual Collections</h3>
-                        <div className="space-y-3">
-                          {jewelleryCategories.filter(c =>
-                            ["Malas", "Crystal Sets"].includes(c.label)
-                          ).map((cat) => (
-                            <Link
-                              key={cat.slug}
-                              href={`/${cat.slug}`}
-                              className="block text-sm text-gray-500 hover:text-[#e6cfa7] transition-all"
-                            >
-                              {cat.label}
-                            </Link>
-                          ))}
-                        </div>
-                      </div>
-
-                      {/* Column 4: Promo */}
-                      <div className="flex flex-col gap-4">
-                        <div className="bg-[#fdf4fb] p-6 rounded-2xl relative overflow-hidden group/promo">
-                          <div className="relative z-10">
-                            <h4 className="font-bold text-gray-900 mb-2">Crystal Jewellery</h4>
-                            <p className="text-xs text-gray-600 mb-4 leading-relaxed">Handcrafted jewellery infused with healing crystal energy.</p>
-                            <Link href="/shop" className="inline-block bg-black text-white px-5 py-2 text-xs font-semibold rounded-full hover:bg-gray-800 transition-colors">
-                              Shop Now
-                            </Link>
-                          </div>
-                          <div className="absolute -right-4 -bottom-4 opacity-10 group-hover/promo:scale-110 transition-transform">
-                            <ShoppingCart size={120} />
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* Crystals - Meesho Style Mega Menu */}
+            {/* 2. Crystal & Spirituality - Mega Menu */}
             <div
               className="relative group"
               onMouseEnter={() => setDesktopCrystalsOpen(true)}
@@ -433,7 +342,89 @@ export default function Navbar() {
               )}
             </div>
 
-            {/* Remedies - Meesho Style Mega Menu */}
+            {/* 3. Crystal Accessories - Mega Menu */}
+            <div
+              className="relative group"
+              onMouseEnter={() => setDesktopJewelleryOpen(true)}
+              onMouseLeave={() => setDesktopJewelleryOpen(false)}
+            >
+              <button className="flex items-center gap-1 py-5 hover:text-[#e6cfa7] transition-colors font-medium">
+                Crystal Accessories <ChevronDown size={16} className="transition-transform duration-300 group-hover:rotate-180" />
+              </button>
+
+              {desktopJewelleryOpen && (
+                <div className="fixed left-0 right-0 top-[81px] bg-white border-b shadow-2xl z-50 animate-in fade-in slide-in-from-top-2 duration-300">
+                  <div className="max-w-7xl mx-auto px-6 py-10">
+                    <div className="grid grid-cols-4 gap-12">
+                      {/* Column 1: Beads & Malas */}
+                      <div>
+                        <h3 className="text-black font-bold text-sm mb-6 border-b pb-2 border-gray-100">Beads &amp; Malas</h3>
+                        <div className="space-y-3">
+                          {jewelleryCategories.filter(c =>
+                            ["Crystal Beads Set", "Crystal Chips Mala Set"].includes(c.label)
+                          ).map((cat) => (
+                            <Link key={cat.slug} href={`/${cat.slug}`} className="block text-sm text-gray-500 hover:text-[#e6cfa7] transition-all">
+                              {cat.label}
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Column 2: Bracelets */}
+                      <div>
+                        <h3 className="text-black font-bold text-sm mb-6 border-b pb-2 border-gray-100">Bracelets</h3>
+                        <div className="space-y-3">
+                          {jewelleryCategories.filter(c =>
+                            ["Crystal Beads Bracelets", "Crystal Chips Bracelets"].includes(c.label)
+                          ).map((cat) => (
+                            <Link key={cat.slug} href={`/${cat.slug}`} className="block text-sm text-gray-500 hover:text-[#e6cfa7] transition-all">
+                              {cat.label}
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Column 3: Other Accessories */}
+                      <div>
+                        <h3 className="text-black font-bold text-sm mb-6 border-b pb-2 border-gray-100">More Accessories</h3>
+                        <div className="space-y-3">
+                          {jewelleryCategories.filter(c =>
+                            ["Crystal Pendents", "Crystal Anklets", "Crystal Bangles"].includes(c.label)
+                          ).map((cat) => (
+                            <Link key={cat.slug} href={`/${cat.slug}`} className="block text-sm text-gray-500 hover:text-[#e6cfa7] transition-all">
+                              {cat.label}
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Column 4: Promo */}
+                      <div className="flex flex-col gap-4">
+                        <div className="bg-[#fdf4fb] p-6 rounded-2xl relative overflow-hidden group/promo">
+                          <div className="relative z-10">
+                            <h4 className="font-bold text-gray-900 mb-2">Crystal Accessories</h4>
+                            <p className="text-xs text-gray-600 mb-4 leading-relaxed">Handcrafted crystal accessories infused with healing energy.</p>
+                            <Link href="/shop" className="inline-block bg-black text-white px-5 py-2 text-xs font-semibold rounded-full hover:bg-gray-800 transition-colors">
+                              Shop Now
+                            </Link>
+                          </div>
+                          <div className="absolute -right-4 -bottom-4 opacity-10 group-hover/promo:scale-110 transition-transform">
+                            <ShoppingCart size={120} />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* 4. School Stationary - Link */}
+            <Link href="/shop?category=School+Stationary" className="flex items-center gap-1 py-5 hover:text-[#e6cfa7] transition-colors font-medium">
+              School Stationary
+            </Link>
+
+            {/* Remedies - Mega Menu */}
             <div
               className="relative group"
               onMouseEnter={() => setDesktopRemediesOpen(true)}
@@ -590,36 +581,7 @@ export default function Navbar() {
                 Collections
               </Link>
 
-              {/* Mobile Crystal Jewellery */}
-              <div>
-                <button
-                  onClick={() => setMobileJewelleryOpen((p) => !p)}
-                  className="w-full flex items-center justify-between py-2 text-black"
-                >
-                  <span>Crystal Jewellery</span>
-                  <ChevronDown
-                    size={16}
-                    className={`transition-transform ${mobileJewelleryOpen ? "rotate-180" : ""}`}
-                  />
-                </button>
-                {mobileJewelleryOpen && (
-                  <div className="ml-4 mt-2 space-y-2">
-                    {jewelleryCategories.map((cat) => (
-                      <div key={cat.slug}>
-                        <Link
-                          href={`/${cat.slug}`}
-                          className="block py-1 text-sm text-black hover:text-[#e6cfa7]"
-                          onClick={() => setMenuOpen(false)}
-                        >
-                          {cat.label}
-                        </Link>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-
-              {/* Mobile Creative */}
+              {/* 1. Mobile Creative & Handicraft */}
               <div>
                 <button
                   onClick={() => setMobileCreativeOpen((p) => !p)}
@@ -649,13 +611,13 @@ export default function Navbar() {
                 )}
               </div>
 
-              {/* Mobile Crystals */}
+              {/* 2. Mobile Crystal & Spirituality */}
               <div>
                 <button
                   onClick={() => setMobileCrystalsOpen((p) => !p)}
                   className="w-full flex items-center justify-between py-2 text-black"
                 >
-                  <span>Crystals & Spiritual</span>
+                  <span>Crystal &amp; Spirituality</span>
                   <ChevronDown
                     size={16}
                     className={`transition-transform ${mobileCrystalsOpen ? "rotate-180" : ""
@@ -678,6 +640,44 @@ export default function Navbar() {
                   </div>
                 )}
               </div>
+
+              {/* 3. Mobile Crystal Accessories */}
+              <div>
+                <button
+                  onClick={() => setMobileJewelleryOpen((p) => !p)}
+                  className="w-full flex items-center justify-between py-2 text-black"
+                >
+                  <span>Crystal Accessories</span>
+                  <ChevronDown
+                    size={16}
+                    className={`transition-transform ${mobileJewelleryOpen ? "rotate-180" : ""}`}
+                  />
+                </button>
+                {mobileJewelleryOpen && (
+                  <div className="ml-4 mt-2 space-y-2">
+                    {jewelleryCategories.map((cat) => (
+                      <div key={cat.slug}>
+                        <Link
+                          href={`/${cat.slug}`}
+                          className="block py-1 text-sm text-black hover:text-[#e6cfa7]"
+                          onClick={() => setMenuOpen(false)}
+                        >
+                          {cat.label}
+                        </Link>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* 4. Mobile School Stationary */}
+              <Link
+                href="/shop?category=School+Stationary"
+                className="block py-2 text-black hover:text-[#e6cfa7]"
+                onClick={() => setMenuOpen(false)}
+              >
+                School Stationary
+              </Link>
 
               {/* Mobile Remedies */}
               <div>

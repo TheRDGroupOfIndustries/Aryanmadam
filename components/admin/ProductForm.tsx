@@ -77,17 +77,15 @@ const CATEGORY_STRUCTURE = {
       "Dry Flowers": []
     }
   },
-  "Crystal Jewellery": {
+  "Crystal Accessories": {
     subcategories: {
-      "Necklaces": [],
-      "Bracelets": [],
-      "Earrings": [],
-      "Rings": [],
-      "Pendants": [],
-      "Anklets": [],
-      "Bangles": [],
-      "Malas": [],
-      "Crystal Sets": []
+      "Crystal Beads Set": [],
+      "Crystal Chips Mala Set": [],
+      "Crystal Beads Bracelets": [],
+      "Crystal Chips Bracelets": [],
+      "Crystal Pendents": [],
+      "Crystal Anklets": [],
+      "Crystal Bangles": []
     }
   },
   "Shop": {
