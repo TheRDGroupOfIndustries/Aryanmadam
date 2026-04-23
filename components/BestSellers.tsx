@@ -96,7 +96,7 @@ export default function BestSellers() {
       <div className="mx-auto max-w-7xl">
 
         {/* Heading */}
-        <div className="mb-14">
+        <div className="mb-14 text-center">
           <h2 className="text-5xl font-bold text-[rgb(44_95_124)]">
             Best Sellers
           </h2>
@@ -107,7 +107,7 @@ export default function BestSellers() {
 
         {/* Grid */}
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
-          {products.map((product) => {
+          {products.slice(0, 12).map((product) => {
             const cartItem = getCartItem(product.id);
 
             return (
@@ -207,6 +207,20 @@ export default function BestSellers() {
             );
           })}
         </div>
+
+        {/* View All Button */}
+        {products.length > 12 && (
+          <div className="mt-16 text-center">
+            <Link
+              href="/shop"
+              className="inline-block rounded-full bg-[rgb(44_95_124)] px-10 py-4
+                         text-sm font-bold text-white transition
+                         hover:bg-[rgb(34_85_114)] hover:shadow-lg"
+            >
+              View All Products
+            </Link>
+          </div>
+        )}
       </div>
     </section>
   );
