@@ -44,10 +44,9 @@ export async function GET(req: NextRequest) {
       };
     }
 
-    // Best sellers: products with rating >= 4, sorted by rating desc, capped at 8
-    if (bestSeller === "true") {
-      where.rating = { gte: 4 };
-    }
+    // Best sellers: all active products sorted by rating desc, capped at 8
+    // (rating filter removed so products with any rating are shown)
+
 
     // Fetch products from database
     const products = await prisma.product.findMany({
@@ -55,12 +54,24 @@ export async function GET(req: NextRequest) {
       orderBy: bestSeller === "true"
         ? { rating: "desc" }
         : { createdAt: "desc" },
-      ...(bestSeller === "true" ? { take: 8 } : {}),
     });
 
+    // Map Prisma fields to the shape expected by the frontend
+    const mapped = products.map((p) => ({
+      id: p.id,
+      name: p.title,
+      price: p.price,
+      priceDisplay: p.priceDisplay ?? undefined,
+      oldPrice: p.oldPrice ?? undefined,
+      oldPriceDisplay: p.oldPriceDisplay ?? undefined,
+      images: p.images ?? [],
+      rating: p.rating ?? 0,
+      reviews: p.reviews ?? 0,
+      badge: p.badge ?? undefined,
+    }));
 
+    return NextResponse.json(mapped, { status: 200 });
 
-    return NextResponse.json(products, { status: 200 });
   } catch (error: any) {
     console.error("❌ Error fetching products:", error);
     return NextResponse.json(

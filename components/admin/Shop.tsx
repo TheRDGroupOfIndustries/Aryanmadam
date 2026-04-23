@@ -48,12 +48,9 @@ export const Products = () => {
       setLoading(true);
       try {
         const controller = new AbortController();
-        const timeout = setTimeout(() => controller.abort(), 30000);
+        const timeout = setTimeout(() => controller.abort(), 10000);
 
-        const res = await fetch("/api/products?includeInactive=true", {
-          signal: controller.signal,
-          credentials: "include",
-        });
+        const res = await fetch("/api/products", { signal: controller.signal });
         clearTimeout(timeout);
 
         if (!res.ok) throw new Error(`Failed to fetch: ${res.status}`);

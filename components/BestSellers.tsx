@@ -8,7 +8,7 @@ import { useCart } from "@/app/providers/CartProvider";
 
 interface Product {
   id: string;
-  title: string;
+  name: string;
   price: number;
   priceDisplay?: string;
   oldPrice?: number;
@@ -150,7 +150,7 @@ export default function BestSellers() {
                   </div>
 
                   <h3 className="text-sm font-semibold">
-                    {product.title}
+                    {product.name}
                   </h3>
                 </Link>
 
@@ -174,7 +174,7 @@ export default function BestSellers() {
                     onClick={() =>
                       addToCart({
                         id: product.id,
-                        title: product.title,
+                        title: product.name,
                         price: product.price,
                         image: product.images?.[0] || '/placeholder.jpg',
                         quantity: 1,
