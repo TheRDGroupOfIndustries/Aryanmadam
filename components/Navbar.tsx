@@ -139,36 +139,36 @@ export default function Navbar() {
   return (
     <>
       <header className="sticky top-0 z-50 bg-white border-b isolate">
-        <nav className="max-w-7xl mx-auto flex items-center justify-between px-6 py-5">
-          {/* LOGO */}
-          <Link href="/">
-            <Image src="/assets/logo6.png" alt="Logo" width={150} height={40} />
-          </Link>
+        {/* ── DESKTOP NAV: 3-column layout ── */}
+        <nav className="hidden lg:flex items-center justify-between max-w-screen-xl mx-auto px-8 py-4">
 
-          {/* ---------------- DESKTOP NAV ---------------- */}
-          <div className="hidden lg:flex items-center gap-5 text-black">
-            <Link
-              href="/"
-              onClick={(e) => handleNavClick(e, "Home")}
-            >
-              Home
+          {/* LEFT: Logo + Search */}
+          <div className="flex items-center gap-4 flex-shrink-0">
+            <Link href="/">
+              <Image src="/assets/logo6.png" alt="Logo" width={120} height={34} />
             </Link>
-            <Link href="/about">About</Link>
-            <Link href="/shop">Shop</Link>
-            <Link href="/collections">Collections</Link>
+            <div className="relative flex items-center">
+              <Search className="w-5 h-5 text-gray-500 cursor-pointer hover:text-black transition-colors" onClick={handleSearchClick} />
+              {searchOpen && (
+                <input type="text" value={query} onChange={(e) => setQuery(e.target.value)} onKeyDown={handleSearchKey} placeholder="Search products..." className="absolute left-7 top-1/2 -translate-y-1/2 w-56 px-3 py-1.5 text-sm rounded-lg border border-gray-200 bg-white shadow-md text-black placeholder:text-gray-400 caret-black z-50" autoFocus />
+              )}
+            </div>
+          </div>
 
-            {/* 1. Creative & Handicraft - Mega Menu */}
-            <div
-              className="relative group"
-              onMouseEnter={() => setDesktopCreativeOpen(true)}
-              onMouseLeave={() => setDesktopCreativeOpen(false)}
-            >
-              <button className="flex items-center gap-1 py-5 hover:text-[#e6cfa7] transition-colors font-medium">
-                Creative & Handcrafted <ChevronDown size={16} className="transition-transform duration-300 group-hover:rotate-180" />
+          {/* CENTRE: Nav links */}
+          <div className="flex items-center gap-5 text-sm font-medium text-gray-700 px-10">
+            <Link href="/" onClick={(e) => handleNavClick(e, "Home")} className="hover:text-[#e6cfa7] transition-colors whitespace-nowrap">Home</Link>
+            <Link href="/about" className="hover:text-[#e6cfa7] transition-colors whitespace-nowrap">About</Link>
+            <Link href="/shop" className="hover:text-[#e6cfa7] transition-colors whitespace-nowrap">Shop</Link>
+            <Link href="/collections" className="hover:text-[#e6cfa7] transition-colors whitespace-nowrap">Collections</Link>
+
+            {/* 1. Creative & Handcrafted */}
+            <div className="relative group" onMouseEnter={() => setDesktopCreativeOpen(true)} onMouseLeave={() => setDesktopCreativeOpen(false)}>
+              <button className="flex items-center gap-1 hover:text-[#e6cfa7] transition-colors whitespace-nowrap">
+                Creative & Handcrafted <ChevronDown size={13} className="transition-transform duration-300 group-hover:rotate-180" />
               </button>
-
               {desktopCreativeOpen && (
-                <div className="fixed left-0 right-0 top-[81px] bg-white border-b shadow-2xl z-50 animate-in fade-in slide-in-from-top-2 duration-300">
+                <div className="fixed left-0 right-0 top-[73px] bg-white border-b shadow-2xl z-50 animate-in fade-in slide-in-from-top-2 duration-300">
                   <div className="max-w-7xl mx-auto px-6 py-10">
                     <div className="grid grid-cols-4 gap-12">
                       {/* Column 1: Arts & Crafts */}
@@ -248,18 +248,13 @@ export default function Navbar() {
               )}
             </div>
 
-            {/* 2. Crystal & Spirituality - Mega Menu */}
-            <div
-              className="relative group"
-              onMouseEnter={() => setDesktopCrystalsOpen(true)}
-              onMouseLeave={() => setDesktopCrystalsOpen(false)}
-            >
-              <button className="flex items-center gap-1 py-5 hover:text-[#e6cfa7] transition-colors font-medium">
-                Crystals & Spiritual <ChevronDown size={16} className="transition-transform duration-300 group-hover:rotate-180" />
+            {/* 2. Crystals & Spiritual */}
+            <div className="relative group" onMouseEnter={() => setDesktopCrystalsOpen(true)} onMouseLeave={() => setDesktopCrystalsOpen(false)}>
+              <button className="flex items-center gap-1 hover:text-[#e6cfa7] transition-colors whitespace-nowrap">
+                Crystals & Spiritual <ChevronDown size={13} className="transition-transform duration-300 group-hover:rotate-180" />
               </button>
-
               {desktopCrystalsOpen && (
-                <div className="fixed left-0 right-0 top-[81px] bg-white border-b shadow-2xl z-50 animate-in fade-in slide-in-from-top-2 duration-300">
+                <div className="fixed left-0 right-0 top-[73px] bg-white border-b shadow-2xl z-50 animate-in fade-in slide-in-from-top-2 duration-300">
                   <div className="max-w-7xl mx-auto px-6 py-10">
                     <div className="grid grid-cols-4 gap-12">
                       {/* Column 1: Core Crystals */}
@@ -342,18 +337,13 @@ export default function Navbar() {
               )}
             </div>
 
-            {/* 3. Crystal Accessories - Mega Menu */}
-            <div
-              className="relative group"
-              onMouseEnter={() => setDesktopJewelleryOpen(true)}
-              onMouseLeave={() => setDesktopJewelleryOpen(false)}
-            >
-              <button className="flex items-center gap-1 py-5 hover:text-[#e6cfa7] transition-colors font-medium">
-                Crystal Accessories <ChevronDown size={16} className="transition-transform duration-300 group-hover:rotate-180" />
+            {/* 3. Crystal Accessories */}
+            <div className="relative group" onMouseEnter={() => setDesktopJewelleryOpen(true)} onMouseLeave={() => setDesktopJewelleryOpen(false)}>
+              <button className="flex items-center gap-1 hover:text-[#e6cfa7] transition-colors whitespace-nowrap">
+                Crystal Accessories <ChevronDown size={13} className="transition-transform duration-300 group-hover:rotate-180" />
               </button>
-
               {desktopJewelleryOpen && (
-                <div className="fixed left-0 right-0 top-[81px] bg-white border-b shadow-2xl z-50 animate-in fade-in slide-in-from-top-2 duration-300">
+                <div className="fixed left-0 right-0 top-[73px] bg-white border-b shadow-2xl z-50 animate-in fade-in slide-in-from-top-2 duration-300">
                   <div className="max-w-7xl mx-auto px-6 py-10">
                     <div className="grid grid-cols-4 gap-12">
                       {/* Column 1: Beads & Malas */}
@@ -419,135 +409,41 @@ export default function Navbar() {
               )}
             </div>
 
-            {/* 4. School Stationary - Link */}
-            <Link href="/shop?category=School+Stationary" className="flex items-center gap-1 py-5 hover:text-[#e6cfa7] transition-colors font-medium">
+            {/* 4. School Stationary */}
+            <Link href="/shop?category=School+Stationary" className="hover:text-[#e6cfa7] transition-colors whitespace-nowrap">
               School Stationary
             </Link>
-
-            {/* Remedies - Mega Menu */}
-            <div
-              className="relative group"
-              onMouseEnter={() => setDesktopRemediesOpen(true)}
-              onMouseLeave={() => setDesktopRemediesOpen(false)}
-            >
-              <button className="flex items-center gap-1 py-5 hover:text-[#e6cfa7] transition-colors font-medium">
-                Remedies <ChevronDown size={16} className="transition-transform duration-300 group-hover:rotate-180" />
-              </button>
-
-              {desktopRemediesOpen && (
-                <div className="fixed left-0 right-0 top-[81px] bg-white border-b shadow-2xl z-50 animate-in fade-in slide-in-from-top-2 duration-300">
-                  <div className="max-w-7xl mx-auto px-6 py-10">
-                    <div className="grid grid-cols-4 gap-12">
-                      {/* Column 1: Physical Well-being */}
-                      <div>
-                        <h3 className="text-black font-bold text-sm mb-6 border-b pb-2 border-gray-100">Health & Wellness</h3>
-                        <div className="space-y-3">
-                          {remediesCategories.slice(0, 5).map((item) => (
-                            <Link
-                              key={item.slug}
-                              href={`/${item.slug}`}
-                              className="block text-sm text-gray-500 hover:text-[#e6cfa7] transition-all"
-                            >
-                              {item.label}
-                            </Link>
-                          ))}
-                        </div>
-                      </div>
-
-                      {/* Column 2: Emotional Well-being */}
-                      <div>
-                        <h3 className="text-black font-bold text-sm mb-6 border-b pb-2 border-gray-100">Success & Growth</h3>
-                        <div className="space-y-3">
-                          {remediesCategories.slice(5, 8).map((item) => (
-                            <Link
-                              key={item.slug}
-                              href={`/${item.slug}`}
-                              className="block text-sm text-gray-500 hover:text-[#e6cfa7] transition-all"
-                            >
-                              {item.label}
-                            </Link>
-                          ))}
-                        </div>
-                      </div>
-
-                      {/* Column 3: Chakra Balancing */}
-                      <div>
-                        <h3 className="text-black font-bold text-sm mb-6 border-b pb-2 border-gray-100">Chakra Alignment</h3>
-                        <div className="space-y-3">
-                          {remediesCategories.slice(8).map((item) => (
-                            <Link
-                              key={item.slug}
-                              href={`/${item.slug}`}
-                              className="block text-sm text-gray-500 hover:text-[#e6cfa7] transition-all"
-                            >
-                              {item.label}
-                            </Link>
-                          ))}
-                        </div>
-                      </div>
-
-                      {/* Column 4: CTA */}
-                      <div className="border-l border-gray-100 pl-12">
-                        <div className="bg-[#fff9f1] p-8 rounded-3xl text-center">
-                          <div className="w-16 h-16 bg-[#e6cfa7]/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <ShoppingCart className="text-[#e6cfa7]" size={24} />
-                          </div>
-                          <h4 className="font-bold text-gray-900 mb-2">Need a Consultation?</h4>
-                          <p className="text-xs text-gray-600 mb-6 leading-relaxed">Our specialists can guide you to the perfect remedy.</p>
-                          <Link href="/experts" className="text-sm font-bold text-[#e6cfa7] hover:underline">
-                            Request Callback
-                          </Link>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
-
-            <Link href="/experts">Talk to Us</Link>
           </div>
 
-          {/* ---------------- RIGHT ICONS ---------------- */}
-          <div className="flex items-center gap-4 relative">
-            <Search
-              className="w-6 h-6 text-black cursor-pointer"
-              onClick={handleSearchClick}
-            />
-
-            {searchOpen && (
-              <input
-                type="text"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                onKeyDown={handleSearchKey}
-                placeholder="Search products..."
-                className="absolute top-10 right-0 w-64 px-3 py-2 rounded border 
-                bg-white shadow 
-                text-black placeholder:text-gray-500 caret-black"
-                autoFocus
-              />
-            )}
-
+          {/* RIGHT: Cart + Talk to Us */}
+          <div className="flex items-center gap-5 flex-shrink-0">
             <button onClick={() => setCartOpen(true)} className="relative">
-              <ShoppingCart className="w-6 h-6 text-black" />
-              {totalItems > 0 && (
-                <span className="absolute -top-2 -right-2 bg-[#e6cfa7] h-5 w-5 rounded-full text-xs flex items-center justify-center">
-                  {totalItems}
-                </span>
-              )}
+              <ShoppingCart className="w-5 h-5 text-gray-600 hover:text-black transition-colors" />
+              {totalItems > 0 && <span className="absolute -top-2 -right-2 bg-[#e6cfa7] h-5 w-5 rounded-full text-xs flex items-center justify-center">{totalItems}</span>}
             </button>
-
-            <button
-              className="lg:hidden text-black"
-              onClick={() => setMenuOpen((p) => !p)}
-            >
-              {menuOpen ? <X /> : <Menu />}
-            </button>
+            <Link href="/experts" className="text-sm font-medium text-gray-700 hover:text-[#e6cfa7] transition-colors">Talk to Us</Link>
           </div>
         </nav>
 
-        {/* ---------------- MOBILE MENU ---------------- */}
+        {/* ── MOBILE TOP BAR ── */}
+        <div className="lg:hidden flex items-center justify-between px-4 py-3">
+          <Link href="/">
+            <Image src="/assets/logo6.png" alt="Logo" width={130} height={36} />
+          </Link>
+          <div className="flex items-center gap-4 relative">
+            <Search className="w-5 h-5 text-black cursor-pointer" onClick={handleSearchClick} />
+            {searchOpen && (
+              <input type="text" value={query} onChange={(e) => setQuery(e.target.value)} onKeyDown={handleSearchKey} placeholder="Search products..." className="absolute top-8 right-0 w-56 px-3 py-2 text-sm rounded-lg border bg-white shadow text-black placeholder:text-gray-400 caret-black z-50" autoFocus />
+            )}
+            <button onClick={() => setCartOpen(true)} className="relative">
+              <ShoppingCart className="w-5 h-5 text-black" />
+              {totalItems > 0 && <span className="absolute -top-2 -right-2 bg-[#e6cfa7] h-4 w-4 rounded-full text-[10px] flex items-center justify-center">{totalItems}</span>}
+            </button>
+            <button className="text-black" onClick={() => setMenuOpen((p) => !p)}>{menuOpen ? <X /> : <Menu />}</button>
+          </div>
+        </div>
+
+
         {menuOpen && (
           <div className="lg:hidden bg-white border-t max-h-[80vh] overflow-y-auto">
             <div className="px-6 py-4 space-y-3">
