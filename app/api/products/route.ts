@@ -58,9 +58,8 @@ export async function GET(req: NextRequest) {
 
     // Map Prisma fields to the shape expected by the frontend
     const mapped = products.map((p) => ({
-      id: p.id,
-      name: p.title,
-      price: p.price,
+      ...p,
+      name: p.title, // Backward compatibility for components using .name
       priceDisplay: p.priceDisplay ?? undefined,
       oldPrice: p.oldPrice ?? undefined,
       oldPriceDisplay: p.oldPriceDisplay ?? undefined,
