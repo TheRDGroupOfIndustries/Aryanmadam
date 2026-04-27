@@ -63,11 +63,7 @@ const CATEGORY_STRUCTURE = {
   "Crystal Accessories": {
     subcategories: {
       "Crystal Beads Set": [],
-      "Crystal Chips Mala Set": [],
-      "Crystal Beads Bracelets": [],
-      "Crystal Chips Bracelets": [],
-      "Crystal Pendents": [],
-      "Crystal Bangles": []
+      "Crystal Beads Bracelets": []
     }
   },
   "Shop": {

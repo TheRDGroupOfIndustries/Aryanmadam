@@ -109,11 +109,7 @@ export default function Navbar() {
 
   const jewelleryCategories = [
     { label: "Crystal Beads Set", slug: "crystalAccessories/crystal-beads-set" },
-    { label: "Crystal Chips Mala Set", slug: "crystalAccessories/crystal-chips-mala-set" },
     { label: "Crystal Beads Bracelets", slug: "crystalAccessories/crystal-beads-bracelets" },
-    { label: "Crystal Chips Bracelets", slug: "crystalAccessories/crystal-chips-bracelets" },
-    { label: "Crystal Pendents", slug: "crystalAccessories/crystal-pendents" },
-    { label: "Crystal Bangles", slug: "crystalAccessories/crystal-bangles" },
   ];
 
   const remediesCategories = [
