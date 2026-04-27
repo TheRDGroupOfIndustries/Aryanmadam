@@ -48,7 +48,8 @@ const CATEGORY_STRUCTURE = {
       "Crystal Angles": [],
       "Crystal Balls": [],
       "Crystal Rings": [],
-      "Anklets": [],
+      "Crystal Anklets": [],
+      "Crystal Rakhi": [],
       "Crystal Clocks": [],
       "Crystal Pyramid": [],
       "Crystal Pencils": [],
@@ -84,7 +85,6 @@ const CATEGORY_STRUCTURE = {
       "Crystal Beads Bracelets": [],
       "Crystal Chips Bracelets": [],
       "Crystal Pendents": [],
-      "Crystal Anklets": [],
       "Crystal Bangles": []
     }
   },

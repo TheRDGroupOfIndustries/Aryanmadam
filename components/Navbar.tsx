@@ -86,7 +86,8 @@ export default function Navbar() {
     { label: "Crystal Angles", slug: "crystalsAndSpiritual/crystal-angles" },
     { label: "Crystal Balls", slug: "crystalsAndSpiritual/crystal-balls" },
     { label: "Crystal Rings", slug: "crystalsAndSpiritual/crystal-rings" },
-    { label: "Anklets", slug: "crystalsAndSpiritual/anklets" },
+    { label: "Crystal Anklets", slug: "crystalsAndSpiritual/crystal-anklets" },
+    { label: "Crystal Rakhi", slug: "crystalsAndSpiritual/crystal-rakhi" },
     { label: "Crystal Clocks", slug: "crystalsAndSpiritual/crystal-clocks" },
     { label: "Crystal Pyramid", slug: "crystalsAndSpiritual/crystal-pyramid" },
     { label: "Crystal Pencils", slug: "crystalsAndSpiritual/crystal-pencils" },
@@ -112,7 +113,6 @@ export default function Navbar() {
     { label: "Crystal Beads Bracelets", slug: "crystalAccessories/crystal-beads-bracelets" },
     { label: "Crystal Chips Bracelets", slug: "crystalAccessories/crystal-chips-bracelets" },
     { label: "Crystal Pendents", slug: "crystalAccessories/crystal-pendents" },
-    { label: "Crystal Anklets", slug: "crystalAccessories/crystal-anklets" },
     { label: "Crystal Bangles", slug: "crystalAccessories/crystal-bangles" },
   ];
 

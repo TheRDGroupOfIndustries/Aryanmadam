@@ -58,10 +58,10 @@ const Footer: FC = () => {
             </p>
 
             <div className="flex gap-4">
-              <a href="https://facebook.com" target="_blank">
+              <a href="https://www.facebook.com/share/1DFnhjVBjb/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer">
                 <Facebook className="text-[#2c5f7c]" />
               </a>
-              <a href="https://instagram.com" target="_blank">
+              <a href="https://www.instagram.com/aryamadamcrafsupplies?igsh=MXlzODBqdmQ3Mmk2&utm_source=qr" target="_blank" rel="noopener noreferrer">
                 <Instagram className="text-[#2c5f7c]" />
               </a>
               <a href="https://linkedin.com" target="_blank">

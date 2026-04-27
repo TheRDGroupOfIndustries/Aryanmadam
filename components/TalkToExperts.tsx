@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { MessageCircle, PhoneCall, Mail, Sparkles } from "lucide-react";
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 export default function ExpertsPage() {
 
@@ -179,6 +180,15 @@ export default function ExpertsPage() {
         {/* info */}
       <section className="py-20 px-6">
         <div className="text-center">
+          <div className="flex justify-center mb-6">
+            <Image
+              src="/assets/contactpage.jpeg"
+              alt="Dr. Anju Sharma Rana"
+              width={800}
+              height={800}
+              className="rounded-xl object-cover shadow-lg border-4 border-[#e6cfa7] w-[440px] h-[440px] md:w-[650px] md:h-[650px] lg:w-[800px] lg:h-[800px]"
+            />
+          </div>
           <h3 className="text-2xl font-bold">Dr. Anju Sharma Rana</h3>
           <p className="text-gray-700 mt-1">Reiki Grand Master</p>
           <p className="text-gray-700">Past Life Regression (PLR) &amp; Hypnoheal Therapist</p>
