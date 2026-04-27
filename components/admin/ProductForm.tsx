@@ -21,24 +21,6 @@ interface ProductFormProps {
 
 // ✅ UPDATED 3-Level Nested Category Structure - Rudraksh & Pooja Items SEPARATED
 const CATEGORY_STRUCTURE = {
-  "Remedies": {
-    subcategories: [
-      "Wealth",
-      "Health",
-      "Relationship",
-      "Protection",
-      "Self-Confidence",
-      "Education",
-      "Crown Chakra",
-      "Third Eye Chakra",
-      "Throat Chakra",
-      "Heart Chakra",
-      "Solar Plexus Chakra",
-      "Sacral Chakra",
-      "Root Chakra",
-      "Vastu"
-    ]
-  },
   "Crystals & Spiritual": {
     subcategories: {
       "Natural Crystals": [],
