@@ -169,14 +169,24 @@ export default function ExpertsPage() {
       {/* DR. ANJU INFO */}
       <section className="py-20 px-6">
         <div className="text-center">
-          <div className="flex justify-center mb-6">
-            <Image
-              src="/assets/contactpage.jpeg"
-              alt="Dr. Anju Sharma Rana"
-              width={800}
-              height={800}
-              className="rounded-xl object-cover shadow-lg border-4 border-[#e6cfa7] w-[440px] h-[440px] md:w-[650px] md:h-[650px] lg:w-[800px] lg:h-[800px]"
-            />
+          {/* Images row — both forced to same fixed size */}
+          <div className="flex flex-col md:flex-row justify-center items-center gap-6 mb-8">
+            <div className="relative w-[440px] h-[440px] md:w-[500px] md:h-[500px] lg:w-[600px] lg:h-[600px] flex-shrink-0">
+              <Image
+                src="/assets/contactus2.jpeg"
+                alt="Contact Us"
+                fill
+                className="rounded-xl object-cover shadow-lg border-4 border-[#e6cfa7]"
+              />
+            </div>
+            <div className="relative w-[440px] h-[440px] md:w-[500px] md:h-[500px] lg:w-[600px] lg:h-[600px] flex-shrink-0">
+              <Image
+                src="/assets/contactpage.jpeg"
+                alt="Dr. Anju Sharma Rana"
+                fill
+                className="rounded-xl object-cover shadow-lg border-4 border-[#e6cfa7]"
+              />
+            </div>
           </div>
           <h3 className="text-2xl font-bold">Dr. Anju Sharma Rana</h3>
           <p className="text-gray-700 mt-1">Reiki Grand Master</p>

@@ -23,6 +23,19 @@ export default function Navbar() {
   const [desktopCrystalsOpen, setDesktopCrystalsOpen] = useState(false);
   const [desktopJewelleryOpen, setDesktopJewelleryOpen] = useState(false);
 
+  // Timers for delayed close — prevents menu closing when mouse moves from button to dropdown
+  const creativeTimer = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+  const crystalsTimer = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+  const jewelleryTimer = React.useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const openMenu = (setter: (v: boolean) => void, timer: React.MutableRefObject<ReturnType<typeof setTimeout> | null>) => {
+    if (timer.current) clearTimeout(timer.current);
+    setter(true);
+  };
+  const closeMenu = (setter: (v: boolean) => void, timer: React.MutableRefObject<ReturnType<typeof setTimeout> | null>) => {
+    timer.current = setTimeout(() => setter(false), 180);
+  };
+
   // Mobile submenu states
   const [mobileCreativeOpen, setMobileCreativeOpen] = useState(false);
   const [mobileCrystalsOpen, setMobileCrystalsOpen] = useState(false);
@@ -149,12 +162,16 @@ export default function Navbar() {
             <Link href="/collections" className="hover:text-[#e6cfa7] transition-colors whitespace-nowrap">Collections</Link>
 
             {/* Creative Mega Menu */}
-            <div className="relative group" onMouseEnter={() => setDesktopCreativeOpen(true)} onMouseLeave={() => setDesktopCreativeOpen(false)}>
+            <div className="relative group" onMouseEnter={() => openMenu(setDesktopCreativeOpen, creativeTimer)} onMouseLeave={() => closeMenu(setDesktopCreativeOpen, creativeTimer)}>
               <button className="flex items-center gap-1 hover:text-[#e6cfa7] transition-colors whitespace-nowrap">
                 Creative & Handcrafted <ChevronDown size={14} className="transition-transform duration-300 group-hover:rotate-180" />
               </button>
               {desktopCreativeOpen && (
-                <div className="fixed left-0 right-0 top-[78px] bg-white border-b shadow-2xl z-50 animate-in fade-in slide-in-from-top-2 duration-300">
+                <div
+                  className="fixed left-0 right-0 top-[78px] bg-white border-b shadow-2xl z-50 animate-in fade-in slide-in-from-top-2 duration-300"
+                  onMouseEnter={() => openMenu(setDesktopCreativeOpen, creativeTimer)}
+                  onMouseLeave={() => closeMenu(setDesktopCreativeOpen, creativeTimer)}
+                >
                   <div className="max-w-7xl mx-auto px-10 py-10 text-left">
                     <div className="grid grid-cols-4 gap-12">
                       <div>
@@ -187,12 +204,16 @@ export default function Navbar() {
             </div>
 
             {/* Crystals Mega Menu */}
-            <div className="relative group" onMouseEnter={() => setDesktopCrystalsOpen(true)} onMouseLeave={() => setDesktopCrystalsOpen(false)}>
+            <div className="relative group" onMouseEnter={() => openMenu(setDesktopCrystalsOpen, crystalsTimer)} onMouseLeave={() => closeMenu(setDesktopCrystalsOpen, crystalsTimer)}>
               <button className="flex items-center gap-1 hover:text-[#e6cfa7] transition-colors whitespace-nowrap">
                 Crystals & Spiritual <ChevronDown size={14} className="transition-transform duration-300 group-hover:rotate-180" />
               </button>
               {desktopCrystalsOpen && (
-                <div className="fixed left-0 right-0 top-[78px] bg-white border-b shadow-2xl z-50 animate-in fade-in slide-in-from-top-2 duration-300">
+                <div
+                  className="fixed left-0 right-0 top-[78px] bg-white border-b shadow-2xl z-50 animate-in fade-in slide-in-from-top-2 duration-300"
+                  onMouseEnter={() => openMenu(setDesktopCrystalsOpen, crystalsTimer)}
+                  onMouseLeave={() => closeMenu(setDesktopCrystalsOpen, crystalsTimer)}
+                >
                   <div className="max-w-7xl mx-auto px-10 py-10 text-left">
                     <div className="grid grid-cols-4 gap-12">
                       <div>
@@ -233,12 +254,16 @@ export default function Navbar() {
             </div>
 
             {/* Accessories Mega Menu */}
-            <div className="relative group" onMouseEnter={() => setDesktopJewelleryOpen(true)} onMouseLeave={() => setDesktopJewelleryOpen(false)}>
+            <div className="relative group" onMouseEnter={() => openMenu(setDesktopJewelleryOpen, jewelleryTimer)} onMouseLeave={() => closeMenu(setDesktopJewelleryOpen, jewelleryTimer)}>
               <button className="flex items-center gap-1 hover:text-[#e6cfa7] transition-colors whitespace-nowrap">
                 Crystal Accessories <ChevronDown size={14} className="transition-transform duration-300 group-hover:rotate-180" />
               </button>
               {desktopJewelleryOpen && (
-                <div className="fixed left-0 right-0 top-[78px] bg-white border-b shadow-2xl z-50 animate-in fade-in slide-in-from-top-2 duration-300">
+                <div
+                  className="fixed left-0 right-0 top-[78px] bg-white border-b shadow-2xl z-50 animate-in fade-in slide-in-from-top-2 duration-300"
+                  onMouseEnter={() => openMenu(setDesktopJewelleryOpen, jewelleryTimer)}
+                  onMouseLeave={() => closeMenu(setDesktopJewelleryOpen, jewelleryTimer)}
+                >
                   <div className="max-w-7xl mx-auto px-10 py-10 text-left">
                     <div className="grid grid-cols-4 gap-12">
                       <div>
