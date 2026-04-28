@@ -44,16 +44,24 @@ export default function ExpertsPage() {
     setSuccess(false);
 
     try {
-      const res = await fetch("/api/contact", {
+      const res = await fetch("https://api.web3forms.com/submit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          access_key: "1daec5c1-6c76-4595-a1f5-f2905595d65f",
+          subject: `New Contact Form: ${formData.subject}`,
+          from_name: formData.name,
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone || "Not provided",
+          message: formData.message,
+        }),
       });
 
       const data = await res.json();
 
-      if (!res.ok) {
-        setError(data.error || "Something went wrong. Please try again.");
+      if (!data.success) {
+        setError(data.message || "Something went wrong. Please try again.");
         return;
       }
 

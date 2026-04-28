@@ -12,16 +12,33 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    // Gmail App Passwords must have NO spaces — strip them just in case
+    const emailUser = process.env.EMAIL_USER?.trim();
+    const emailPass = process.env.EMAIL_PASS?.replace(/\s/g, "").trim();
+
+    if (!emailUser || !emailPass) {
+      console.error("❌ Missing EMAIL_USER or EMAIL_PASS in environment variables");
+      return NextResponse.json(
+        { error: "Email configuration missing. Please contact support." },
+        { status: 500 }
+      );
+    }
+
     const transporter = nodemailer.createTransport({
-      service: "gmail",
+      host: "smtp.gmail.com",
+      port: 465,
+      secure: true, // use SSL
       auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
+        user: emailUser,
+        pass: emailPass,
       },
     });
 
+    // Verify connection before sending
+    await transporter.verify();
+
     await transporter.sendMail({
-      from: `"Arya Madam Website" <${process.env.EMAIL_USER}>`,
+      from: `"Arya Madam Website" <${emailUser}>`,
       to: "aryamadamcraftsupplies@gmail.com",
       replyTo: email,
       subject: `New Contact Form Message: ${subject}`,
@@ -60,8 +77,8 @@ export async function POST(req: NextRequest) {
     });
 
     return NextResponse.json({ success: true });
-  } catch (error) {
-    console.error("Contact form error:", error);
+  } catch (error: any) {
+    console.error("❌ Contact form error:", error?.message || error);
     return NextResponse.json(
       { error: "Failed to send email. Please try again." },
       { status: 500 }

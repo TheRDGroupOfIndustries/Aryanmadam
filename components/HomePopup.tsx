@@ -22,16 +22,18 @@ export default function HomePopup() {
           const data = await res.json();
           setTitle(data.title);
           setIsActive(data.isActive);
-          
+
           if (data.isActive) {
-            const timer = setTimeout(() => {
-              setShow(true);
-            }, 1000);
-            return () => clearTimeout(timer);
+            setTimeout(() => setShow(true), 1000);
           }
+        } else {
+          // API failed (e.g. DB down) — show popup anyway with defaults
+          setTimeout(() => setShow(true), 1000);
         }
       } catch (error) {
         console.error("Failed to fetch popup settings:", error);
+        // Network error — show popup anyway with defaults
+        setTimeout(() => setShow(true), 1000);
       }
     };
 
@@ -67,6 +69,7 @@ export default function HomePopup() {
     }
 
     try {
+      // Save to database via newsletter API (may fail if DB is down)
       const response = await fetch("/api/newsletter", {
         method: "POST",
         headers: {
@@ -75,9 +78,26 @@ export default function HomePopup() {
         body: JSON.stringify({ name, phone, email, requirement }),
       });
 
-      const data = await response.json();
+      // Also send email to admin via Web3Forms
+      const web3Res = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          access_key: "1daec5c1-6c76-4595-a1f5-f2905595d65f",
+          subject: `New Popup Subscriber: ${name || email}`,
+          from_name: name,
+          name: name,
+          email: email,
+          phone: phone || "Not provided",
+          requirement: requirement || "Not provided",
+        }),
+      });
 
-      if (response.ok) {
+      const web3Data = await web3Res.json();
+
+      // We prioritize showing success if Web3Forms worked, 
+      // even if the database save (response.ok) failed.
+      if (web3Data.success) {
         setMessage("✅ Successfully submitted!");
         setName("");
         setPhone("");
@@ -87,9 +107,12 @@ export default function HomePopup() {
           setShow(false);
         }, 2000);
       } else {
-        setMessage(data.error || "❌ Something went wrong");
+        // If even Web3Forms fails, show the error
+        const data = response.ok ? {} : await response.json().catch(() => ({}));
+        setMessage(web3Data.message || data.error || "❌ Something went wrong");
       }
     } catch (error) {
+      console.error("Popup submission error:", error);
       setMessage("❌ Failed to submit");
     } finally {
       setLoading(false);

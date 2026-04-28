@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useRef, useCallback } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { ChevronLeft, ChevronRight, Leaf } from "lucide-react";
 
 const COIR_IMAGES = [
@@ -206,6 +207,26 @@ export default function CoirProducts() {
               }`}
             />
           ))}
+        </div>
+
+        {/* ── View All Buttons ── */}
+        <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mt-12">
+          <Link
+            href="/creativeAndHandcrafted/coir-products/all-coir"
+            className="px-8 py-3 bg-[#2C5F7C] text-white font-semibold rounded-xl 
+                       shadow-lg hover:bg-[#1A4A5E] transition-all duration-300 
+                       hover:scale-105 active:scale-95"
+          >
+            Show All Coir Products
+          </Link>
+          <Link
+            href="/creativeAndHandcrafted/dry-flowers/all-dry-flowers"
+            className="px-8 py-3 border-2 border-[#2C5F7C] text-[#2C5F7C] font-semibold 
+                       rounded-xl hover:bg-[#2C5F7C] hover:text-white 
+                       transition-all duration-300 hover:scale-105 active:scale-95"
+          >
+            Show All Dry Flowers
+          </Link>
         </div>
 
       </div>
