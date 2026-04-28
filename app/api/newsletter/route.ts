@@ -58,6 +58,57 @@ async function sendWelcomeEmail(email: string) {
   }
 }
 
+async function sendAdminNotification(name: string, email: string, phone: string, requirement: string) {
+  try {
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      },
+    });
+
+    await transporter.sendMail({
+      from: `"Arya Madam Website" <${process.env.EMAIL_USER}>`,
+      to: 'aryamadamcraftsupplies@gmail.com',
+      replyTo: email,
+      subject: `New Popup Subscriber: ${name || email}`,
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 24px; border: 1px solid #e6cfa7; border-radius: 12px;">
+          <h2 style="color: #2c5f7c; border-bottom: 2px solid #e6cfa7; padding-bottom: 10px;">
+            New Discount Popup Submission
+          </h2>
+          <table style="width: 100%; border-collapse: collapse; margin-top: 16px;">
+            <tr>
+              <td style="padding: 10px; font-weight: bold; color: #555; width: 130px;">Name:</td>
+              <td style="padding: 10px; color: #111;">${name || 'Not provided'}</td>
+            </tr>
+            <tr style="background: #fdfaf6;">
+              <td style="padding: 10px; font-weight: bold; color: #555;">Email:</td>
+              <td style="padding: 10px; color: #111;">${email}</td>
+            </tr>
+            <tr>
+              <td style="padding: 10px; font-weight: bold; color: #555;">Phone:</td>
+              <td style="padding: 10px; color: #111;">${phone || 'Not provided'}</td>
+            </tr>
+            <tr style="background: #fdfaf6;">
+              <td style="padding: 10px; font-weight: bold; color: #555; vertical-align: top;">Requirement:</td>
+              <td style="padding: 10px; color: #111; white-space: pre-wrap;">${requirement || 'Not provided'}</td>
+            </tr>
+          </table>
+          <p style="margin-top: 24px; font-size: 12px; color: #999; text-align: center;">
+            Submitted via discount popup on aryamadamcraftsupplies.com
+          </p>
+        </div>
+      `,
+    });
+    return true;
+  } catch (err) {
+    console.error('❌ Failed to send admin notification:', err);
+    return false;
+  }
+}
+
 export async function POST(request: NextRequest) {
   try {
     const { email, name, phone, requirement } = await request.json();
@@ -105,6 +156,7 @@ export async function POST(request: NextRequest) {
       });
 
       await sendWelcomeEmail(email);
+      await sendAdminNotification(name, email, phone, requirement);
 
       return NextResponse.json(
         { message: 'Your information has been updated and you are already subscribed!' },
@@ -123,6 +175,7 @@ export async function POST(request: NextRequest) {
     });
 
     await sendWelcomeEmail(newSubscriber.email);
+    await sendAdminNotification(name, newSubscriber.email, phone, requirement);
 
     return NextResponse.json(
       {
