@@ -212,16 +212,7 @@ export default function RemedyProductPage() {
                 {product.title}
               </h1>
 
-              {/* Rating */}
-              <div className="mb-4 flex items-center gap-2">
-                <div className="flex text-amber-500 text-lg">
-                  {'★'.repeat(Math.floor(product.rating))}
-                  {'☆'.repeat(5 - Math.floor(product.rating))}
-                </div>
-                <span className="text-sm text-gray-600 font-medium">
-                  {product.rating.toFixed(1)} Rating
-                </span>
-              </div>
+
 
               {/* Price */}
               <div className="mb-6 pb-6 border-b border-gray-200">
@@ -442,16 +433,7 @@ export default function RemedyProductPage() {
                       {relatedProduct.title}
                     </p>
 
-                    {/* Rating */}
-                    <div className="mb-2 flex items-center gap-1">
-                      <div className="flex text-amber-500 text-xs">
-                        {'★'.repeat(Math.floor(relatedProduct.rating))}
-                        {'☆'.repeat(5 - Math.floor(relatedProduct.rating))}
-                      </div>
-                      <span className="text-xs text-gray-500">
-                        ({relatedProduct.rating.toFixed(1)})
-                      </span>
-                    </div>
+
 
                     <div className="flex items-center gap-2">
                       <p className="text-[rgb(44_95_124)] font-bold text-lg">

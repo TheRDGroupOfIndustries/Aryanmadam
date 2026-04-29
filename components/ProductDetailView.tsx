@@ -206,16 +206,7 @@ export default function ProductDetailView({ basePath }: ProductDetailViewProps) 
                                 <p className="text-sm sm:text-base text-gray-600 mb-3">{product.details}</p>
                             )}
 
-                            {/* Rating */}
-                            <div className="mb-4 flex items-center gap-2">
-                                <div className="flex text-amber-500 text-sm sm:text-base">
-                                    {'★'.repeat(Math.floor(product.rating))}
-                                    {'☆'.repeat(5 - Math.floor(product.rating))}
-                                </div>
-                                <span className="text-xs sm:text-sm text-gray-600">
-                                    {product.rating} ({product.reviews} reviews)
-                                </span>
-                            </div>
+
 
                             {/* Price */}
                             <div className="mb-6 pb-6 border-b border-gray-200">

@@ -44,6 +44,9 @@ export async function POST(req: NextRequest) {
       subject: `New Contact Form Message: ${subject}`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 24px; border: 1px solid #e6cfa7; border-radius: 12px;">
+          <div style="text-align: center; margin-bottom: 20px;">
+            <img src="https://raw.githubusercontent.com/TheRDGroupOfIndustries/Aryanmadam/main/public/assets/logo6.png" alt="Arya Madam Craft Supplies" style="max-height: 80px; width: auto; object-fit: contain;">
+          </div>
           <h2 style="color: #2c5f7c; border-bottom: 2px solid #e6cfa7; padding-bottom: 10px;">
             New Contact Form Submission
           </h2>

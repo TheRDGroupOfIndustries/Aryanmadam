@@ -154,9 +154,7 @@ export default function BestSellers() {
                   </h3>
                 </Link>
 
-                <div className="mt-2 text-xs text-[#8a6a44]">
-                  ★ {product.rating} ({product.reviews})
-                </div>
+
 
                 <div className="mt-3 flex items-center gap-2">
                   <span className="text-2xl font-bold text-[rgb(44_95_124)]">
