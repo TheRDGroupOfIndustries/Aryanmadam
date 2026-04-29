@@ -48,6 +48,11 @@ const AnimatedCounter = ({ value }: { value: string }) => {
 
 /* ================= Gallery Images ================= */
 const galleryImages: string[] = [
+  '/gallery/g15.jpeg',
+  '/gallery/g16.jpeg',
+  '/gallery/g17.jpeg',
+  '/gallery/g18.jpeg',
+  '/gallery/g19.jpeg',
   '/gallery/g1.jpeg',
   '/gallery/g2.jpeg',
   '/gallery/g3.jpeg',
@@ -62,11 +67,6 @@ const galleryImages: string[] = [
   '/gallery/g12.jpeg',
   '/gallery/g13.jpeg',
   '/gallery/g14.jpeg',
-  '/gallery/g15.jpeg',
-  '/gallery/g16.jpeg',
-  '/gallery/g17.jpeg',
-  '/gallery/g18.jpeg',
-  '/gallery/g19.jpeg',
 ];
 
 /* ================= PAGE ================= */
