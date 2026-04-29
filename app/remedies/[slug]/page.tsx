@@ -129,16 +129,7 @@ export default function RemedyProductsPage() {
                       </h3>
                     </Link>
 
-                    {/* RATING */}
-                    <div className="mt-2 flex items-center gap-1">
-                      <div className="flex text-amber-500 text-sm">
-                        {'★'.repeat(Math.floor(p.rating))}
-                        {'☆'.repeat(5 - Math.floor(p.rating))}
-                      </div>
-                      <span className="text-xs text-gray-500">
-                        ({p.rating.toFixed(1)})
-                      </span>
-                    </div>
+
 
                     {/* PRICE */}
                     <div className="mt-3 flex items-center gap-2 mb-3">
