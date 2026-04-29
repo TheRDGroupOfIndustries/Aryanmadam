@@ -116,7 +116,7 @@ export default function ProductDetailView({ basePath }: ProductDetailViewProps) 
             const productUrl = `${window.location.origin}${basePath}/${product.id}`;
             const qty = cartItem?.quantity || quantity;
             const message = `Hello,%0A%0AI want to order the *${product.title}*%0A%0AProduct Link: ${productUrl}%0APrice: ₹${product.price}%0AQuantity: ${qty}`;
-            const whatsappUrl = `https://wa.me/919140257673?text=${message}`;
+            const whatsappUrl = `https://wa.me/919560535717?text=${message}`;
             window.open(whatsappUrl, '_blank');
         }
     };

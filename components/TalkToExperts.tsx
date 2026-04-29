@@ -122,7 +122,7 @@ export default function ExpertsPage() {
               Chat directly with our spiritual experts for quick guidance
             </p>
             <a
-              href="https://wa.me/919306662709"
+              href="https://wa.me/919560535717"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Chat on WhatsApp"

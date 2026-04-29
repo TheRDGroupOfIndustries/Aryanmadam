@@ -14,7 +14,7 @@ export default function FloatingWhatsApp() {
 
       {/* Main Button */}
       <motion.a
-        href="https://wa.me/919306662709" // apna number yahan daalo
+        href="https://wa.me/919560535717" // apna number yahan daalo
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Chat on WhatsApp"

@@ -31,7 +31,7 @@ ${productText}
 Please confirm my order and share delivery details.
     `.trim();
 
-    const whatsappNumber = '919140257673'; // ✅ Updated number
+    const whatsappNumber = '919560535717'; // ✅ Updated number
     window.open(
       `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`,
       '_blank'
