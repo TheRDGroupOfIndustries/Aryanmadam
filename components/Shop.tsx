@@ -160,16 +160,7 @@ export default function ProductsPage() {
                     </p>
                   )}
 
-                  {/* Rating */}
-                  <div className="mt-2 flex items-center gap-1">
-                    <div className="flex text-amber-500 text-sm">
-                      {'★'.repeat(Math.floor(p.rating))}
-                      {'☆'.repeat(5 - Math.floor(p.rating))}
-                    </div>
-                    <span className="text-xs text-gray-500">
-                      ({p.reviews})
-                    </span>
-                  </div>
+
 
                   {/* Price */}
                   <div className="mt-3 flex items-center gap-2 mb-3">
