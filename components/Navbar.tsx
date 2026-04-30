@@ -86,7 +86,7 @@ export default function Navbar() {
   const creativeCategories = [
     { label: "Art & Craft", slug: "creativeAndHandcrafted/art-craft" },
     { label: "Handmade Occasion-Special Items", slug: "creativeAndHandcrafted/handmade-special" },
-    { label: "Jutt Item", slug: "creativeAndHandcrafted/jutt-item" },
+    { label: "Cotton Jute Item", slug: "creativeAndHandcrafted/jutt-item" },
     { label: "Coir Products", slug: "creativeAndHandcrafted/coir-products" },
     { label: "Dry Flowers", slug: "creativeAndHandcrafted/dry-flowers" },
   ];
@@ -177,7 +177,7 @@ export default function Navbar() {
                       <div>
                         <h3 className="text-black font-bold text-sm mb-6 border-b pb-2 border-gray-100 uppercase tracking-wider">Creative Arts</h3>
                         <div className="space-y-3">
-                          {creativeCategories.filter(c => ["Art & Craft", "Jutt Item"].includes(c.label)).map((cat) => (
+                          {creativeCategories.filter(c => ["Art & Craft", "Cotton Jute Item"].includes(c.label)).map((cat) => (
                             <Link key={cat.slug} href={`/${cat.slug}`} className="block text-sm text-gray-500 hover:text-[#e6cfa7] transition-all">{cat.label}</Link>
                           ))}
                         </div>
