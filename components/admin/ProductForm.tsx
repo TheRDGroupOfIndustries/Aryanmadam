@@ -48,7 +48,8 @@ const CATEGORY_STRUCTURE = {
       "Sage": [],
       "God Idols": [],
       "Crystal Tumbler Kit": [],
-      "Crystal Decor": []
+      "Crystal Decor": [],
+      "Crystal Pendants": []
     }
   },
   "Creative & Handcrafted": {

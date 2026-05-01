@@ -118,6 +118,7 @@ export default function Navbar() {
     { label: "God Idols", slug: "crystalsAndSpiritual/god-idols" },
     { label: "Crystal Tumbler Kit", slug: "crystalsAndSpiritual/crystal-tumbler-kit" },
     { label: "Crystal Decor", slug: "crystalsAndSpiritual/crystal-decor" },
+    { label: "Crystal Pendants", slug: "crystalsAndSpiritual/crystal-pendants" },
   ];
 
   const jewelleryCategories = [
