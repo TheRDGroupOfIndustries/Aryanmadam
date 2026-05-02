@@ -27,6 +27,7 @@ export async function GET(req: NextRequest) {
           contains: categoryName,
           mode: "insensitive",
         },
+        status: "ACTIVE",
       },
       orderBy: {
         createdAt: "desc",
