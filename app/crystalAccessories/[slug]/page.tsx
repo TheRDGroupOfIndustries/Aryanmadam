@@ -13,11 +13,14 @@ interface Product {
   title: string;
   description: string;
   price: number;
+  priceDisplay?: string | null;
   oldPrice?: number | null;
+  oldPriceDisplay?: string | null;
   images: string[];
   rating: number;
   stock: number;
   category: string;
+  badge?: string | null;
 }
 
 export default function CrystalAccessoriesCategoryPage() {
@@ -28,20 +31,17 @@ export default function CrystalAccessoriesCategoryPage() {
 
   const { addToCart, increaseQty, decreaseQty, items } = useCart();
 
-  const cartItemById = (id: string) =>
-    items.find((item) => item.id === id);
+  const cartItemById = (id: string) => items.find((item) => item.id === id);
 
   useEffect(() => {
     const fetchProducts = async () => {
       if (!slug) return;
-
       setLoading(true);
       setError(null);
 
       try {
         const res = await fetch(`/api/crystal-accessories?category=${slug}`);
         if (!res.ok) throw new Error("Failed to fetch products");
-
         const data = await res.json();
         setProducts(data);
       } catch (err) {
@@ -55,6 +55,11 @@ export default function CrystalAccessoriesCategoryPage() {
     fetchProducts();
   }, [slug]);
 
+  const pageTitle = slug
+    ?.toString()
+    .replace(/-/g, " ")
+    .replace(/\b\w/g, (c) => c.toUpperCase());
+
   return (
     <>
       <Navbar />
@@ -63,21 +68,23 @@ export default function CrystalAccessoriesCategoryPage() {
         <div className="max-w-7xl mx-auto">
           {/* HEADER */}
           <div className="text-center mb-16">
-            <h1 className="text-4xl md:text-5xl font-bold text-[rgb(44_95_124)] capitalize">
-              {slug?.toString().replace(/-/g, " ")}
+            <span className="text-sm font-semibold uppercase tracking-widest text-[#e6cfa7] mb-3 block">
+              Crystal Accessories
+            </span>
+            <h1 className="text-4xl md:text-5xl font-bold text-[rgb(44_95_124)]">
+              {pageTitle}
             </h1>
-            <p className="mt-4 text-lg text-gray-700">
-              Discover our crystal accessories collection
+            <p className="mt-4 text-lg text-gray-600 max-w-xl mx-auto">
+              Beautiful crystal accessories to enhance your space and energy.
             </p>
+            <div className="mt-6 w-16 h-1 bg-[#e6cfa7] rounded mx-auto" />
           </div>
 
           {/* CONTENT */}
           {loading ? (
             <div className="text-center py-20">
-              <div className="inline-block h-10 w-10 animate-spin rounded-full border-4 border-[#e6cfa7] border-r-transparent"></div>
-              <p className="mt-4 text-gray-600 font-medium">
-                Loading products...
-              </p>
+              <div className="inline-block h-10 w-10 animate-spin rounded-full border-4 border-[#e6cfa7] border-r-transparent" />
+              <p className="mt-4 text-gray-600 font-medium">Loading products...</p>
             </div>
           ) : error ? (
             <div className="text-center py-20">
@@ -86,12 +93,15 @@ export default function CrystalAccessoriesCategoryPage() {
             </div>
           ) : products.length === 0 ? (
             <div className="text-center py-20">
-              <div className="text-gray-600 text-xl font-medium">
-                No products available yet
-              </div>
-              <p className="text-gray-500 mt-2">
-                New items coming soon ✨
-              </p>
+              <div className="text-5xl mb-4">✨</div>
+              <div className="text-gray-600 text-xl font-medium">No products available yet</div>
+              <p className="text-gray-500 mt-2">New items coming soon ✨</p>
+              <Link
+                href="/shop"
+                className="mt-6 inline-block bg-[rgb(44_95_124)] text-white px-8 py-3 rounded-full font-semibold hover:opacity-90 transition"
+              >
+                Browse All Products
+              </Link>
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -120,6 +130,11 @@ export default function CrystalAccessoriesCategoryPage() {
                           </div>
                         )}
 
+                        {p.badge && (
+                          <span className="absolute top-3 left-3 bg-[#e6cfa7] text-white text-xs font-bold px-3 py-1 rounded-full">
+                            {p.badge}
+                          </span>
+                        )}
                         {p.stock === 0 && (
                           <span className="absolute top-3 right-3 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full">
                             Out of Stock
@@ -149,18 +164,15 @@ export default function CrystalAccessoriesCategoryPage() {
                     {/* PRICE */}
                     <div className="mt-3 flex items-center gap-2 mb-3">
                       <span className="font-bold text-xl">
-                        ₹{p.price.toLocaleString()}
+                        {p.priceDisplay ? p.priceDisplay : `₹${p.price.toLocaleString()}`}
                       </span>
                       {p.oldPrice && (
                         <>
                           <span className="text-sm line-through text-gray-400">
-                            ₹{p.oldPrice.toLocaleString()}
+                            {p.oldPriceDisplay ? p.oldPriceDisplay : `₹${p.oldPrice.toLocaleString()}`}
                           </span>
                           <span className="text-xs bg-green-100 text-green-700 font-semibold px-2 py-1 rounded-md">
-                            {Math.round(
-                              ((p.oldPrice - p.price) / p.oldPrice) * 100
-                            )}
-                            % OFF
+                            {Math.round(((p.oldPrice - p.price) / p.oldPrice) * 100)}% OFF
                           </span>
                         </>
                       )}
@@ -169,13 +181,9 @@ export default function CrystalAccessoriesCategoryPage() {
                     {/* STOCK */}
                     <div className="text-xs mb-4">
                       {p.stock > 0 ? (
-                        <span className="text-green-600 font-medium">
-                          In Stock ({p.stock})
-                        </span>
+                        <span className="text-green-600 font-medium">In Stock ({p.stock})</span>
                       ) : (
-                        <span className="text-red-600 font-semibold">
-                          Out of Stock
-                        </span>
+                        <span className="text-red-600 font-semibold">Out of Stock</span>
                       )}
                     </div>
 
@@ -192,7 +200,7 @@ export default function CrystalAccessoriesCategoryPage() {
                           })
                         }
                         disabled={p.stock === 0}
-                        className="mt-auto bg-[rgb(44_95_124)] text-white py-3 rounded-xl font-semibold hover:bg-[#1a120a] disabled:bg-gray-300"
+                        className="mt-auto bg-[rgb(44_95_124)] text-white py-3 rounded-xl font-semibold hover:bg-[#1a120a] disabled:bg-gray-300 transition-colors"
                       >
                         Add to Cart
                       </button>
@@ -204,9 +212,7 @@ export default function CrystalAccessoriesCategoryPage() {
                         >
                           −
                         </button>
-                        <span className="font-bold">
-                          {cartItem.quantity}
-                        </span>
+                        <span className="font-bold">{cartItem.quantity}</span>
                         <button
                           onClick={() => increaseQty(cartItem.id)}
                           disabled={cartItem.quantity >= p.stock}

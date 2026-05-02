@@ -8,40 +8,30 @@ export async function GET(req: NextRequest) {
 
     if (!category) {
       return NextResponse.json(
-        { error: "Category parameter is required" },
+        { error: "Category is required" },
         { status: 400 }
       );
     }
 
-    // Map slug → full DB category string
-    const categoryMap: Record<string, string> = {
-      "crystal-beads-set": "Crystal Accessories > Crystal Beads Set",
-      "crystal-beads-bracelets": "Crystal Accessories > Crystal Beads Bracelets",
-    };
+    // Convert slug to proper category name
+    // e.g., "crystal-beads-set" → "Crystal Beads Set"
+    const categoryName = category
+      .split("-")
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
 
-    const fullCategory = categoryMap[category];
-
-    if (!fullCategory) {
-      // Fallback: search by the slug loosely
-      const products = await prisma.product.findMany({
-        where: {
-          category: {
-            contains: "Crystal Accessories",
-            mode: "insensitive",
-          },
-          status: "ACTIVE",
-        },
-        orderBy: { createdAt: "desc" },
-      });
-      return NextResponse.json(products);
-    }
-
+    // Search for products where category contains this subcategory
     const products = await prisma.product.findMany({
       where: {
-        category: fullCategory,
+        category: {
+          contains: categoryName,
+          mode: "insensitive",
+        },
         status: "ACTIVE",
       },
-      orderBy: { createdAt: "desc" },
+      orderBy: {
+        createdAt: "desc",
+      },
     });
 
     return NextResponse.json(products);
