@@ -7,6 +7,7 @@ import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useCart } from "@/app/providers/CartProvider";
+import ContactBanner from "@/components/ContactBanner";
 
 interface Product {
   id: string;
@@ -74,9 +75,6 @@ export default function CrystalAccessoriesCategoryPage() {
             <h1 className="text-4xl md:text-5xl font-bold text-[rgb(44_95_124)]">
               {pageTitle}
             </h1>
-            <p className="mt-4 text-lg text-gray-600 max-w-xl mx-auto">
-              Beautiful crystal accessories to enhance your space and energy.
-            </p>
             <div className="mt-6 w-16 h-1 bg-[#e6cfa7] rounded mx-auto" />
           </div>
 
@@ -230,6 +228,7 @@ export default function CrystalAccessoriesCategoryPage() {
         </div>
       </section>
 
+      <ContactBanner />
       <Footer />
     </>
   );

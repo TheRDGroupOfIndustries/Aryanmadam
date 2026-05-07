@@ -7,6 +7,7 @@ import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useCart } from "@/app/providers/CartProvider";
+import ContactBanner from "@/components/ContactBanner";
 
 interface Product {
   id: string;
@@ -66,9 +67,6 @@ export default function RemedyProductsPage() {
             <h1 className="text-4xl md:text-5xl font-bold text-[rgb(44_95_124)] capitalize">
               {slug?.toString().replace(/-/g, " ")}
             </h1>
-            <p className="mt-4 text-lg text-gray-700">
-              Carefully curated spiritual products aligned with your energy
-            </p>
           </div>
 
           {/* CONTENT */}
@@ -222,6 +220,7 @@ export default function RemedyProductsPage() {
         </div>
       </section>
 
+      <ContactBanner />
       <Footer />
     </>
   );

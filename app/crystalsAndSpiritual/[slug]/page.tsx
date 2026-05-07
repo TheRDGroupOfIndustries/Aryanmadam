@@ -7,6 +7,7 @@ import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useCart } from "@/app/providers/CartProvider";
+import ContactBanner from "@/components/ContactBanner";
 
 interface Product {
   id: string;
@@ -66,9 +67,7 @@ export default function CrystalsCategoryPage() {
             <h1 className="text-4xl md:text-5xl font-bold text-[rgb(44_95_124)] capitalize">
               {slug?.toString().replace(/-/g, " ")}
             </h1>
-            <p className="mt-4 text-lg text-gray-700">
-              Discover our crystal & spiritual collection
-            </p>
+            <div className="mt-6 w-16 h-1 bg-[#e6cfa7] rounded mx-auto" />
           </div>
 
           {/* CONTENT */}
@@ -227,6 +226,7 @@ export default function CrystalsCategoryPage() {
         </div>
       </section>
 
+      <ContactBanner />
       <Footer />
     </>
   );

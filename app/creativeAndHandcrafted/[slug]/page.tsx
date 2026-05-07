@@ -7,6 +7,7 @@ import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useCart } from "@/app/providers/CartProvider";
+import ContactBanner from "@/components/ContactBanner";
 
 interface Product {
   id: string;
@@ -77,9 +78,6 @@ export default function CreativeCategoryPage() {
             <h1 className="text-4xl md:text-5xl font-bold text-[rgb(44_95_124)]">
               {pageTitle}
             </h1>
-            <p className="mt-4 text-lg text-gray-700">
-              Handpicked creative &amp; handcrafted items
-            </p>
             <div className="mt-6 w-16 h-1 bg-[#e6cfa7] rounded mx-auto" />
           </div>
 
@@ -224,6 +222,7 @@ export default function CreativeCategoryPage() {
         </div>
       </section>
 
+      <ContactBanner />
       <Footer />
     </>
   );
