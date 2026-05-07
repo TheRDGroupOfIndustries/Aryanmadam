@@ -86,12 +86,15 @@ export default function CrystalsCategoryPage() {
             </div>
           ) : products.length === 0 ? (
             <div className="text-center py-20">
-              <div className="text-gray-600 text-xl font-medium">
-                No products available yet
-              </div>
-              <p className="text-gray-500 mt-2">
-                New items coming soon ✨
-              </p>
+              <div className="text-5xl mb-4">✨</div>
+              <div className="text-gray-600 text-xl font-medium">No products available yet</div>
+              <p className="text-gray-500 mt-2">New items coming soon ✨</p>
+              <Link
+                href="/shop"
+                className="mt-6 inline-block bg-[rgb(44_95_124)] text-white px-8 py-3 rounded-full font-semibold hover:opacity-90 transition"
+              >
+                Browse All Products
+              </Link>
             </div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">

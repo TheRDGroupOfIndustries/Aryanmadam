@@ -84,9 +84,13 @@ export const Products = () => {
     const category = product.category || "";
     const [mainCat, subCat] = category.split(" > ");
 
-    // Search term filter
-    if (searchTerm && !category.toLowerCase().includes(searchTerm.toLowerCase())) {
-      return false;
+    // Search term filter — search by title, description, and category
+    if (searchTerm) {
+      const q = searchTerm.toLowerCase();
+      const matchesTitle = product.title?.toLowerCase().includes(q);
+      const matchesDescription = product.description?.toLowerCase().includes(q);
+      const matchesCategory = category.toLowerCase().includes(q);
+      if (!matchesTitle && !matchesDescription && !matchesCategory) return false;
     }
 
     // If no category selected, show all
@@ -278,7 +282,7 @@ export const Products = () => {
           <Search size={20} className="text-gray-500" />
           <input
             type="text"
-            placeholder="Search by category..."
+            placeholder="Search by name, description, or category..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="flex-1 bg-transparent outline-none ml-3 text-sm"

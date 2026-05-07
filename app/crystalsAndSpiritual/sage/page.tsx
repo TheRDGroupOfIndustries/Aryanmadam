@@ -1,167 +1,171 @@
 "use client";
 
-import React from "react";
+import { useEffect, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { motion, type Variants } from "framer-motion";
-import ThreeDCard from "@/components/ThreeDCard";
-import { Heart, Mail, ShoppingBag, Leaf, Church } from "lucide-react";
+import { useCart } from "@/app/providers/CartProvider";
 
-interface Category {
-  id: number;
+interface Product {
+  id: string;
   title: string;
-  slug: string;
-  icon: React.ReactNode;
-  color: string;
-  bgColor: string;
   description: string;
+  price: number;
+  oldPrice?: number | null;
+  images: string[];
+  rating: number;
+  stock: number;
+  category: string;
 }
 
-const cardVariants: Variants = {
-  hidden: {
-    opacity: 0,
-    scale: 0.9,
-    filter: "blur(8px)",
-  },
-  visible: {
-    opacity: 1,
-    scale: 1,
-    filter: "blur(0px)",
-    transition: {
-      duration: 0.9,
-      ease: [0.16, 1, 0.3, 1],
-    },
-  },
-};
-
 export default function SagePage() {
-  const categories: Category[] = [
-    {
-      id: 1,
-      title: "All Sage Products",
-      slug: "all-sage",
-      icon: <Leaf className="w-12 h-12" />,
-      color: "text-green-700",
-      bgColor: "bg-gradient-to-br from-green-50 to-emerald-100",
-      description: "Browse our complete collection of sage and spiritual cleansing items",
-    },
-    {
-      id: 2,
-      title: "God Idols",
-      slug: "god-idols",
-      icon: <Church className="w-12 h-12" />,
-      color: "text-amber-700",
-      bgColor: "bg-gradient-to-br from-amber-50 to-yellow-100",
-      description: "Divine idols for your home altar and spiritual practice",
-    },
-  ];
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  const { addToCart, increaseQty, decreaseQty, items } = useCart();
+  const cartItemById = (id: string) => items.find((item) => item.id === id);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const res = await fetch(`/api/crystals?category=sage`);
+        if (!res.ok) throw new Error("Failed to fetch products");
+        const data = await res.json();
+        setProducts(data);
+      } catch (err) {
+        console.error(err);
+        setError("Failed to load products");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
 
   return (
     <>
       <Navbar />
 
-      <div className="min-h-screen bg-white">
-        {/* Hero */}
-        <section className="relative py-20 px-6 bg-gradient-to-br from-[#fdfaf6] via-[#f5f1e8] to-[#eadbc4]/40">
-          <div className="max-w-7xl mx-auto text-center">
-            <h1 className="text-5xl md:text-6xl font-bold text-[rgb(44_95_124)] mb-6">
-              Sage & Sacred Items
+      <section className="min-h-screen px-6 py-24 bg-[#fdfaf6]">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <span className="text-sm font-semibold uppercase tracking-widest text-[#e6cfa7] mb-3 block">
+              Crystals &amp; Spiritual
+            </span>
+            <h1 className="text-4xl md:text-5xl font-bold text-[rgb(44_95_124)]">
+              Sage &amp; Sacred Items
             </h1>
-            <p className="text-xl text-gray-800 max-w-3xl mx-auto leading-relaxed">
-              Discover our collection of sage, smudging supplies, and divine idols for spiritual cleansing
+            <p className="mt-4 text-lg text-gray-700">
+              Sage, smudging supplies, and divine sacred items for spiritual cleansing
             </p>
+            <div className="mt-6 w-16 h-1 bg-[#e6cfa7] rounded mx-auto" />
           </div>
-        </section>
 
-        {/* Cards */}
-        <section className="py-16 px-6 bg-[#fdfaf6]">
-          <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {categories.map((category) => (
-              <Link key={category.id} href={`/crystalsAndSpiritual/sage/${category.slug}`}>
-                <motion.div
-                  variants={cardVariants}
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: false, amount: 0.3 }}
-                  whileHover={{ rotateX: 6, rotateY: -6, scale: 1.03 }}
-                  transition={{ type: "spring", stiffness: 120 }}
-                  className={`relative h-full p-8 rounded-2xl ${category.bgColor}
-                  border-2 border-gray-200 hover:border-[rgb(44_95_124)]/40
-                  transition-all duration-300 hover:shadow-2xl cursor-pointer`}
-                >
-                  <div className={`${category.color} mb-6`}>
-                    {category.icon}
-                  </div>
-
-                  <h3 className="text-2xl font-bold text-gray-900 mb-3">
-                    {category.title}
-                  </h3>
-
-                  <p className="text-gray-800 leading-relaxed">
-                    {category.description}
-                  </p>
-
-                  <div className="mt-6 font-semibold text-[rgb(44_95_124)]">
-                    Explore →
-                  </div>
-
-                  <div className="absolute top-4 right-4 text-6xl font-bold text-gray-900/5">
-                    {category.id}
-                  </div>
-                </motion.div>
-              </Link>
-            ))}
-          </div>
-        </section>
-
-        {/* CTA */}
-        <section className="py-16 md:py-28 px-4 sm:px-6 bg-gray-50 overflow-hidden">
-          <div className="max-w-7xl mx-auto">
-            <ThreeDCard>
-              <motion.div
-                className="max-w-4xl mx-auto text-center bg-[rgb(44_95_124)] p-8 md:p-12 lg:p-16 rounded-3xl border border-[#e6cfa7]/40 relative overflow-hidden"
-                initial={{ opacity: 0, y: 20, scale: 0.95 }}
-                whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                viewport={{ once: false }}
-                transition={{ duration: 0.8, ease: "easeOut" }}
+          {loading ? (
+            <div className="text-center py-20">
+              <div className="inline-block h-10 w-10 animate-spin rounded-full border-4 border-[#e6cfa7] border-r-transparent" />
+              <p className="mt-4 text-gray-600 font-medium">Loading products...</p>
+            </div>
+          ) : error ? (
+            <div className="text-center py-20">
+              <div className="text-red-600 text-lg font-medium">{error}</div>
+              <p className="text-gray-500 mt-2">Please try again later</p>
+            </div>
+          ) : products.length === 0 ? (
+            <div className="text-center py-20">
+              <div className="text-5xl mb-4">✨</div>
+              <div className="text-gray-600 text-xl font-medium">No products available yet</div>
+              <p className="text-gray-500 mt-2">New items coming soon</p>
+              <Link
+                href="/shop"
+                className="mt-6 inline-block bg-[rgb(44_95_124)] text-white px-8 py-3 rounded-full font-semibold hover:opacity-90 transition"
               >
-                <Heart className="mx-auto mb-6 text-white" size={48} />
-                <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 sm:mb-6 text-white">
-                  Join Our Creative Community
-                </h2>
-                <p className="text-white text-sm sm:text-base mb-8 sm:mb-10">
-                  Be part of a growing community of creators.
-                </p>
-
-                <form className="flex flex-col sm:flex-row justify-center gap-4 mb-6 w-full max-w-md mx-auto px-2 sm:px-0">
-                  <input
-                    type="email"
-                    placeholder="Enter your email"
-                    className="px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#e76f51] w-full sm:flex-1"
-                    required
-                  />
-                  <button
-                    type="submit"
-                    className="px-6 py-3 bg-[#E76F51] text-white rounded-lg hover:bg-[#d65a3d] transition w-full sm:w-auto flex items-center justify-center"
+                Browse All Products
+              </Link>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              {products.map((p) => {
+                const cartItem = cartItemById(p.id);
+                return (
+                  <div
+                    key={p.id}
+                    className="bg-white border border-gray-200 text-[rgb(44_95_124)] p-5 rounded-2xl flex flex-col shadow-sm hover:shadow-lg hover:border-gray-300 transition-all"
                   >
-                    <Mail className="inline mr-2" size={20} /> Subscribe
-                  </button>
-                </form>
+                    <Link href={`/product/${p.id}`} className="block">
+                      <div className="relative h-48 w-full mb-4 rounded-xl overflow-hidden bg-gray-50">
+                        {p.images?.length > 0 ? (
+                          <Image
+                            src={p.images[0]}
+                            alt={p.title}
+                            fill
+                            sizes="(max-width: 768px) 100vw, 33vw"
+                            className="object-cover transition-transform duration-500 hover:scale-110"
+                          />
+                        ) : (
+                          <div className="h-full flex items-center justify-center text-gray-400 text-sm">No Image</div>
+                        )}
+                        {p.stock === 0 && (
+                          <span className="absolute top-3 right-3 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full">
+                            Out of Stock
+                          </span>
+                        )}
+                      </div>
+                    </Link>
 
-                <div className="flex flex-col sm:flex-row justify-center gap-4 sm:gap-6 w-full max-w-md mx-auto px-2 sm:px-0">
-                  <Link
-                    href="/shop"
-                    className="px-6 py-3 bg-[#E76F51] text-white rounded-lg inline-flex items-center justify-center hover:bg-[#d65a3d] transition w-full sm:w-auto"
-                  >
-                    <ShoppingBag className="inline mr-2" size={20} /> Start Shopping
-                  </Link>
-                </div>
-              </motion.div>
-            </ThreeDCard>
-          </div>
-        </section>
-      </div>
+                    <Link href={`/product/${p.id}`}>
+                      <h3 className="font-bold min-h-[2.5rem] line-clamp-2 hover:text-[#e6cfa7] transition-colors">
+                        {p.title}
+                      </h3>
+                    </Link>
+
+                    <div className="mt-3 flex items-center gap-2 mb-3">
+                      <span className="font-bold text-xl">₹{p.price.toLocaleString()}</span>
+                      {p.oldPrice && (
+                        <>
+                          <span className="text-sm line-through text-gray-400">₹{p.oldPrice.toLocaleString()}</span>
+                          <span className="text-xs bg-green-100 text-green-700 font-semibold px-2 py-1 rounded-md">
+                            {Math.round(((p.oldPrice - p.price) / p.oldPrice) * 100)}% OFF
+                          </span>
+                        </>
+                      )}
+                    </div>
+
+                    <div className="text-xs mb-4">
+                      {p.stock > 0 ? (
+                        <span className="text-green-600 font-medium">In Stock ({p.stock})</span>
+                      ) : (
+                        <span className="text-red-600 font-semibold">Out of Stock</span>
+                      )}
+                    </div>
+
+                    {!cartItem ? (
+                      <button
+                        onClick={() => addToCart({ id: p.id, title: p.title, price: p.price, image: p.images[0] || "/placeholder.jpg", quantity: 1 })}
+                        disabled={p.stock === 0}
+                        className="mt-auto bg-[rgb(44_95_124)] text-white py-3 rounded-xl font-semibold hover:bg-[#1a120a] disabled:bg-gray-300 transition-colors"
+                      >
+                        Add to Cart
+                      </button>
+                    ) : (
+                      <div className="mt-auto flex justify-between items-center border rounded-xl px-4 py-3 bg-gray-50">
+                        <button onClick={() => decreaseQty(cartItem.id)} className="text-xl font-bold">−</button>
+                        <span className="font-bold">{cartItem.quantity}</span>
+                        <button onClick={() => increaseQty(cartItem.id)} disabled={cartItem.quantity >= p.stock} className="text-xl font-bold disabled:opacity-50">+</button>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
+      </section>
 
       <Footer />
     </>
