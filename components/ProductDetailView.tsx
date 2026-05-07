@@ -471,3 +471,4 @@ export default function ProductDetailView({ basePath }: ProductDetailViewProps) 
         </>
     );
 }
+

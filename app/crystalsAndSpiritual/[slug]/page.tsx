@@ -132,7 +132,7 @@ export default function CrystalsCategoryPage() {
 
                     {/* TITLE */}
                     <Link href={`/product/${p.id}`}>
-                      <h3 className="font-bold min-h-[2.5rem] line-clamp-2 hover:text-[#e6cfa7] transition-colors">
+                      <h3 className="font-bold capitalize min-h-[2.5rem] line-clamp-2 hover:text-[#e6cfa7] transition-colors">
                         {p.title}
                       </h3>
                     </Link>

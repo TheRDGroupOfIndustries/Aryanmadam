@@ -125,7 +125,7 @@ export default function SageCategoryPage() {
 
                     {/* TITLE - Clickable */}
                     <Link href={`/crystalsAndSpiritual/sage/product/${p.id}`}>
-                      <h3 className="font-bold text-[rgb(44_95_124)] min-h-[2.5rem] line-clamp-2 leading-tight hover:text-[#e6cfa7] transition-colors cursor-pointer">
+                      <h3 className="font-bold capitalize text-[rgb(44_95_124)] min-h-[2.5rem] line-clamp-2 leading-tight hover:text-[#e6cfa7] transition-colors cursor-pointer">
                         {p.title}
                       </h3>
                     </Link>

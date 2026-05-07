@@ -148,7 +148,7 @@ export default function ProductsPage() {
                     </div>
 
                     {/* Title */}
-                    <h3 className="font-bold text-[rgb(44_95_124)] group-hover:text-[#E76F51] transition min-h-[2.5rem] leading-tight">
+                    <h3 className="font-bold capitalize text-[rgb(44_95_124)] group-hover:text-[#E76F51] transition min-h-[2.5rem] leading-tight">
                       {p.title}
                     </h3>
                   </Link>
