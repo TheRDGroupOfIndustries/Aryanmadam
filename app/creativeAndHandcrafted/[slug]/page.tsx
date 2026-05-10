@@ -59,10 +59,20 @@ export default function CreativeCategoryPage() {
     fetchProducts();
   }, [slug]);
 
-  const pageTitle = slug
-    ?.toString()
-    .replace(/-/g, " ")
-    .replace(/\b\w/g, (c) => c.toUpperCase());
+  const isCottonJute = slug?.toString() === "jutt-item";
+  const isHandmadeOccasion = slug?.toString() === "handmade-special";
+  const isDryFlowers = slug?.toString() === "dry-flowers";
+  const pageTitle = isHandmadeOccasion
+    ? "Handmade Occasion Special Items"
+    : slug
+      ?.toString()
+      .replace(/-/g, " ")
+      .replace(/\b\w/g, (c) => c.toUpperCase());
+  const handmadeOccasionItems = [
+    "Anniversary cards",
+    "Resin work for wedding gifts and gifting",
+    "Magnet stickers for Teachers' Day and Friendship Day",
+  ];
 
   return (
     <>
@@ -80,6 +90,26 @@ export default function CreativeCategoryPage() {
             </h1>
             <div className="mt-6 w-16 h-1 bg-[#e6cfa7] rounded mx-auto" />
           </div>
+
+          {isHandmadeOccasion && (
+            <div className="mb-12 space-y-2 text-center text-base md:text-lg text-gray-600">
+              <p>Handmade Occasion Special Items</p>
+              {handmadeOccasionItems.map((item) => (
+                <p key={item}>{item}</p>
+              ))}
+              <p>
+                For more products details and customized bulk orders please Contact{" "}
+                <a
+                  href="https://wa.me/919560535717"
+                  className="underline underline-offset-4 hover:text-[rgb(44_95_124)] transition-colors"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  +91-95605-35717
+                </a>
+              </p>
+            </div>
+          )}
 
           {/* CONTENT */}
           {loading ? (
@@ -222,7 +252,16 @@ export default function CreativeCategoryPage() {
         </div>
       </section>
 
-      <ContactBanner />
+      <ContactBanner
+        message={
+          isCottonJute
+            ? "For more designs and customised bulk orders as per occasions please WhatsApp us"
+            : isDryFlowers
+              ? "For semi-decorative or full decorative products bulk orders as per occasions please WhatsApp us"
+            : undefined
+        }
+        phoneLabel={isCottonJute || isDryFlowers ? "9560535717" : undefined}
+      />
       <Footer />
     </>
   );
