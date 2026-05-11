@@ -374,7 +374,7 @@ export default function AboutUs() {
       <section className="py-10 px-6">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-center text-4xl font-bold text-[rgb(44_95_124)] mb-4">
-            Our Gallery
+            Gallery of Glory &amp; Glimpse Of Journey
           </h2>
 
           <p className="text-center text-black text-lg mb-16">
