@@ -285,7 +285,7 @@ export const Products = () => {
             placeholder="Search by name, description, or category..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="flex-1 bg-transparent outline-none ml-3 text-sm"
+            className="flex-1 bg-transparent outline-none ml-3 text-sm text-black placeholder:text-gray-500"
           />
           {searchTerm && (
             <button
